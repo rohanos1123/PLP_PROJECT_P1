@@ -1,0 +1,15 @@
+package Interpreter;
+
+import java.util.HashMap;
+
+public class DelphiObject {
+
+    String type;
+    HashMap<String, Value> attributeMap = new HashMap<>();
+
+    DelphiObject(String type){
+        this.type = type;
+    }
+}
+
+
