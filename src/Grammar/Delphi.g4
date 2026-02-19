@@ -5,7 +5,7 @@ options {
 }
 
 program
-    : programHeading (INTERFACE)? block DOT EOF
+    : programHeading (INTERFACE)? topLevelBlock DOT EOF
     ;
 
 programHeading
@@ -17,17 +17,88 @@ identifier
     : IDENT
     ;
 
-block
+topLevelBlock
     : (
         labelDeclarationPart
         | constantDefinitionPart
-        | typeDefinitionPart
+        | expandedTypeDefinitionPart
         | variableDeclarationPart
         | procedureAndFunctionDeclarationPart
         | usesUnitsPart
         | IMPLEMENTATION
     )* compoundStatement
     ;
+
+expandedTypeDefinitionPart
+    : TYPE (expandedTypeDefinition SEMI)+
+    ;
+
+expandedTypeDefinition
+    : identifier EQUAL (classType | interfaceType | functionType | procedureType | type_)
+    ;
+
+classType
+    : CLASS (ABSTRACT | SEALED)? (anscestor | (anscestor)? classDefinition)
+    ;
+
+anscestor
+    : LPAREN identifier RPAREN
+    ;
+
+classDefinition
+    : (primaryFieldDeclarationPart)* (typeDefinitionPart | constantDefinitionPart | memberListPart)* END
+    ;
+
+primaryFieldDeclarationPart // fields with omitted var
+    : variableDeclaration (SEMI variableDeclaration)* SEMI
+    ;
+
+memberListPart
+    : accessSpecifier (primaryFieldDeclarationPart)*
+    | methodPrototype
+    | variableDeclarationPart
+    | classFieldDeclarationPart
+    ;
+
+accessSpecifier
+    : PRIVATE | PROTECTED | PUBLIC | PUBLISHED
+    ;
+
+methodPrototype
+    : (procedurePrototype | constructorPrototype | destructorPrototype | functionPrototype) SEMI
+    ;
+
+procedurePrototype
+    : PROCEDURE identifier (formalParameterList)?
+    ;
+
+constructorPrototype
+    : CONSTRUCTOR identifier (formalParameterList)?
+    ;
+
+destructorPrototype
+    : DESTRUCTOR identifier (formalParameterList)?
+    ;
+
+functionPrototype
+    : FUNCTION identifier (formalParameterList)? COLON resultType
+    ;
+
+classFieldDeclarationPart
+    : CLASS VAR variableDeclaration (SEMI variableDeclaration)* SEMI
+    ;
+
+// class rules end
+
+interfaceType
+    : INTERFACE (anscestor)? (interfaceGuid)? ((procedurePrototype | functionPrototype)* END)? SEMI
+    ;
+
+interfaceGuid
+    : LBRACK STRING_LITERAL RBRACK
+    ;
+
+// interface rules end
 
 usesUnitsPart
     : USES identifierList SEMI
@@ -94,58 +165,7 @@ typeDefinitionPart
     ;
 
 typeDefinition
-    : identifier EQUAL (classType | functionType | procedureType | type_)
-    ;
-
-classType
-    : CLASS (ABSTRACT | SEALED)? (anscestorClass | (anscestorClass)? classDefinition)
-    ;
-
-anscestorClass
-    : LPAREN identifier RPAREN
-    ;
-
-classDefinition
-    : (primaryFieldDeclarationPart)* (typeDefinitionPart | constantDefinitionPart | memberListPart)* END
-    ;
-
-primaryFieldDeclarationPart // fields with omitted var
-    : variableDeclaration (SEMI variableDeclaration)* SEMI
-    ;
-
-memberListPart
-    : accessSpecifier (primaryFieldDeclarationPart)*
-    | methodPrototype
-    | variableDeclarationPart
-    | classFieldDeclarationPart
-    ;
-
-accessSpecifier
-    : PRIVATE | PROTECTED | PUBLIC | PUBLISHED
-    ;
-
-methodPrototype
-    : (procedurePrototype | constructorPrototype | destructorPrototype | functionPrototype) SEMI
-    ;
-
-procedurePrototype
-    : PROCEDURE identifier (formalParameterList)?
-    ;
-
-constructorPrototype
-    : CONSTRUCTOR identifier (formalParameterList)?
-    ;
-
-destructorPrototype
-    : DESTRUCTOR identifier (formalParameterList)?
-    ;
-
-functionPrototype
-    : FUNCTION identifier (formalParameterList)? COLON resultType
-    ;
-
-classFieldDeclarationPart
-    : CLASS VAR variableDeclaration (SEMI variableDeclaration)* SEMI
+    : identifier EQUAL (functionType | procedureType | type_)
     ;
 
 functionType
@@ -280,6 +300,18 @@ procedureOrFunctionDeclaration
     | methodDeclaration
     | constructorDeclaration
     | destructorDeclaration
+    ;
+
+block
+    : (
+        labelDeclarationPart
+        | constantDefinitionPart
+        | typeDefinitionPart
+        | variableDeclarationPart
+        | procedureAndFunctionDeclarationPart
+        | usesUnitsPart
+        | IMPLEMENTATION
+    )* compoundStatement
     ;
 
 procedureDeclaration
