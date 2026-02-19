@@ -1,4 +1,4 @@
-// Generated from /home/rrao/IdeaProjects/Delphi/src/Grammar/Delphi.g4 by ANTLR 4.13.2
+// Generated from /home/tr446/Code/grad/COP5556/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
 package Grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -77,13 +77,13 @@ public class DelphiBaseListener implements DelphiListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx) { }
+	@Override public void enterAccessSpecifier(DelphiParser.AccessSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx) { }
+	@Override public void exitAccessSpecifier(DelphiParser.AccessSpecifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -125,13 +125,25 @@ public class DelphiBaseListener implements DelphiListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAccessSpecifier(DelphiParser.AccessSpecifierContext ctx) { }
+	@Override public void enterConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAccessSpecifier(DelphiParser.AccessSpecifierContext ctx) { }
+	@Override public void exitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

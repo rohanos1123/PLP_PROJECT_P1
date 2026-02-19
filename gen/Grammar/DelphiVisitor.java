@@ -1,4 +1,4 @@
-// Generated from /home/rrao/IdeaProjects/Delphi/src/Grammar/Delphi.g4 by ANTLR 4.13.2
+// Generated from /home/tr446/Code/grad/COP5556/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
 package Grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -41,11 +41,11 @@ public interface DelphiVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassdefStatements(DelphiParser.ClassdefStatementsContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link DelphiParser#constructorPrototype}.
+	 * Visit a parse tree produced by {@link DelphiParser#accessSpecifier}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx);
+	T visitAccessSpecifier(DelphiParser.AccessSpecifierContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DelphiParser#procedurePrototype}.
 	 * @param ctx the parse tree
@@ -65,11 +65,17 @@ public interface DelphiVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitMemberDeclaration(DelphiParser.MemberDeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link DelphiParser#accessSpecifier}.
+	 * Visit a parse tree produced by {@link DelphiParser#constructorPrototype}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitAccessSpecifier(DelphiParser.AccessSpecifierContext ctx);
+	T visitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DelphiParser#destructorPrototype}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DelphiParser#block}.
 	 * @param ctx the parse tree

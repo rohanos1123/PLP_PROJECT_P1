@@ -1,4 +1,4 @@
-// Generated from /home/rrao/IdeaProjects/Delphi/src/Grammar/Delphi.g4 by ANTLR 4.13.2
+// Generated from /home/tr446/Code/grad/COP5556/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
 package Grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -58,15 +58,15 @@ public interface DelphiListener extends ParseTreeListener {
 	 */
 	void exitClassdefStatements(DelphiParser.ClassdefStatementsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link DelphiParser#constructorPrototype}.
+	 * Enter a parse tree produced by {@link DelphiParser#accessSpecifier}.
 	 * @param ctx the parse tree
 	 */
-	void enterConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx);
+	void enterAccessSpecifier(DelphiParser.AccessSpecifierContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link DelphiParser#constructorPrototype}.
+	 * Exit a parse tree produced by {@link DelphiParser#accessSpecifier}.
 	 * @param ctx the parse tree
 	 */
-	void exitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx);
+	void exitAccessSpecifier(DelphiParser.AccessSpecifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DelphiParser#procedurePrototype}.
 	 * @param ctx the parse tree
@@ -98,15 +98,25 @@ public interface DelphiListener extends ParseTreeListener {
 	 */
 	void exitMemberDeclaration(DelphiParser.MemberDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link DelphiParser#accessSpecifier}.
+	 * Enter a parse tree produced by {@link DelphiParser#constructorPrototype}.
 	 * @param ctx the parse tree
 	 */
-	void enterAccessSpecifier(DelphiParser.AccessSpecifierContext ctx);
+	void enterConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link DelphiParser#accessSpecifier}.
+	 * Exit a parse tree produced by {@link DelphiParser#constructorPrototype}.
 	 * @param ctx the parse tree
 	 */
-	void exitAccessSpecifier(DelphiParser.AccessSpecifierContext ctx);
+	void exitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DelphiParser#destructorPrototype}.
+	 * @param ctx the parse tree
+	 */
+	void enterDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DelphiParser#destructorPrototype}.
+	 * @param ctx the parse tree
+	 */
+	void exitDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DelphiParser#block}.
 	 * @param ctx the parse tree

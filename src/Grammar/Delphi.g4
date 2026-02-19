@@ -17,39 +17,42 @@ identifier
     : IDENT
     ;
 
-classDefinition:
-    TYPE identifier
-    EQUAL CLASS
-    (classdefStatements)*
-    END SEMI
+classDefinition
+    : TYPE identifier EQUAL CLASS (classdefStatements)* END SEMI
     ;
 
-classdefStatements:
-    accessSpecifier|((functionPrototype|
-    procedurePrototype|memberDeclaration|
-    constructorPrototype)SEMI)
-    ;
-
-constructorPrototype:
-    CONSTRUCTOR identifier(formalParameterList)?
-    ;
-
-procedurePrototype:
-    PROCEDURE identifier(formalParameterList)?
-    ;
-
-functionPrototype:
-    FUNCTION identifier(formalParameterList)? COLON type_
-    ;
-
-memberDeclaration:
-    identifier COLON (type_|identifier)
+classdefStatements
+    : accessSpecifier
+    | functionPrototype 
+    | procedurePrototype
+    | memberDeclaration
+    | constructorPrototype
+    | destructorPrototype
     ;
 
 accessSpecifier:
     PRIVATE|PUBLIC
     ;
 
+procedurePrototype:
+    PROCEDURE identifier (formalParameterList)? SEMI
+    ;
+
+functionPrototype:
+    FUNCTION identifier (formalParameterList)? COLON type_ SEMI
+    ;
+
+memberDeclaration:
+    identifier COLON (type_ | identifier) SEMI
+    ;
+
+constructorPrototype:
+    CONSTRUCTOR identifier (formalParameterList)? SEMI
+    ;
+
+destructorPrototype:
+    DESTRUCTOR identifier (formalParameterList)? SEMI
+    ;
 
 block
     : (
@@ -560,6 +563,10 @@ CONSTRUCTOR
 
 CLASS
     : 'CLASS'
+    ;
+
+DESTRUCTOR
+    : 'DESTRUCTOR'
     ;
 
 DIV
