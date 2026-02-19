@@ -17,47 +17,62 @@ identifier
     : IDENT
     ;
 
+classDeclaration
+    : TYPE identifier EQUAL CLASS classDefinition END SEMI
+    ;
+
 classDefinition
-    : TYPE identifier EQUAL CLASS (classdefStatements)* END SEMI
+    : (primaryFieldPart)* (methodOrAdditionalFieldPart)*
     ;
 
-classdefStatements
+primaryFieldPart
     : accessSpecifier
-    | functionPrototype 
-    | procedurePrototype
-    | memberDeclaration
-    | constructorPrototype
-    | destructorPrototype
+    | primaryFieldDeclarationPart
     ;
 
-accessSpecifier:
-    PRIVATE | PROTECTED | PUBLIC | PUBLISHED
+methodOrAdditionalFieldPart
+    : accessSpecifier
+    | methodPrototype
+    | variableDeclarationPart
+    | classFieldDeclarationPart
     ;
 
-procedurePrototype:
-    PROCEDURE identifier (formalParameterList)? SEMI
+accessSpecifier
+    : PRIVATE | PROTECTED | PUBLIC | PUBLISHED
     ;
 
-functionPrototype:
-    FUNCTION identifier (formalParameterList)? COLON type_ SEMI
+primaryFieldDeclarationPart
+    : (VAR)? variableDeclaration (SEMI variableDeclaration)* SEMI
     ;
 
-memberDeclaration:
-    identifier COLON (type_ | identifier) SEMI
+methodPrototype
+    : (procedurePrototype | functionPrototype | constructorPrototype | destructorPrototype) SEMI
     ;
 
-constructorPrototype:
-    CONSTRUCTOR identifier (formalParameterList)? SEMI
+procedurePrototype
+    : PROCEDURE identifier (formalParameterList)? SEMI
     ;
 
-destructorPrototype:
-    DESTRUCTOR identifier (formalParameterList)? SEMI
+functionPrototype
+    : FUNCTION identifier (formalParameterList)? COLON resultType SEMI
+    ;
+
+constructorPrototype
+    : CONSTRUCTOR identifier (formalParameterList)? SEMI
+    ;
+
+destructorPrototype
+    : DESTRUCTOR identifier (formalParameterList)? SEMI
+    ;
+
+classFieldDeclarationPart
+    : CLASS VAR variableDeclaration (SEMI variableDeclaration)* SEMI
     ;
 
 block
     : (
         labelDeclarationPart
-        | classDefinition
+        | classDeclaration
         | constantDefinitionPart
         | typeDefinitionPart
         | variableDeclarationPart
@@ -266,6 +281,7 @@ procedureOrFunctionDeclaration
     | functionDeclaration
     | methodDeclaration
     | constructorDeclaration
+    | destructorDeclaration
     ;
 
 procedureDeclaration
@@ -278,6 +294,10 @@ methodDeclaration
 
 constructorDeclaration
     : CONSTRUCTOR access (formalParameterList)? SEMI block
+    ;
+
+destructorDeclaration
+    : DESTRUCTOR access (formalParameterList)? SEMI block
     ;
 
 formalParameterList

@@ -53,6 +53,18 @@ public class DelphiBaseListener implements DelphiListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterClassDeclaration(DelphiParser.ClassDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassDeclaration(DelphiParser.ClassDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterClassDefinition(DelphiParser.ClassDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -65,13 +77,25 @@ public class DelphiBaseListener implements DelphiListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterClassdefStatements(DelphiParser.ClassdefStatementsContext ctx) { }
+	@Override public void enterPrimaryFieldPart(DelphiParser.PrimaryFieldPartContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitClassdefStatements(DelphiParser.ClassdefStatementsContext ctx) { }
+	@Override public void exitPrimaryFieldPart(DelphiParser.PrimaryFieldPartContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMethodOrAdditionalFieldPart(DelphiParser.MethodOrAdditionalFieldPartContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMethodOrAdditionalFieldPart(DelphiParser.MethodOrAdditionalFieldPartContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -84,6 +108,30 @@ public class DelphiBaseListener implements DelphiListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAccessSpecifier(DelphiParser.AccessSpecifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrimaryFieldDeclarationPart(DelphiParser.PrimaryFieldDeclarationPartContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrimaryFieldDeclarationPart(DelphiParser.PrimaryFieldDeclarationPartContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMethodPrototype(DelphiParser.MethodPrototypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMethodPrototype(DelphiParser.MethodPrototypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -113,18 +161,6 @@ public class DelphiBaseListener implements DelphiListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMemberDeclaration(DelphiParser.MemberDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitMemberDeclaration(DelphiParser.MemberDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -144,6 +180,18 @@ public class DelphiBaseListener implements DelphiListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterClassFieldDeclarationPart(DelphiParser.ClassFieldDeclarationPartContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitClassFieldDeclarationPart(DelphiParser.ClassFieldDeclarationPartContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -720,6 +768,18 @@ public class DelphiBaseListener implements DelphiListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitConstructorDeclaration(DelphiParser.ConstructorDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDestructorDeclaration(DelphiParser.DestructorDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDestructorDeclaration(DelphiParser.DestructorDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
