@@ -31,7 +31,7 @@ classdefStatements
     ;
 
 accessSpecifier:
-    PRIVATE|PUBLIC
+    PRIVATE | PROTECTED | PUBLIC | PUBLISHED
     ;
 
 procedurePrototype:
@@ -657,8 +657,16 @@ PRIVATE
     : 'PRIVATE'
     ;
 
+PROTECTED
+    : 'PROTECTED'
+    ;
+
 PUBLIC
     : 'PUBLIC'
+    ;
+
+PUBLISHED
+    : 'PUBLISHED'
     ;
 
 REAL
