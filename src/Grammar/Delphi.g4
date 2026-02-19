@@ -17,62 +17,9 @@ identifier
     : IDENT
     ;
 
-classDeclaration
-    : TYPE identifier EQUAL CLASS classDefinition END SEMI
-    ;
-
-classDefinition
-    : (primaryFieldPart)* (methodOrAdditionalFieldPart)*
-    ;
-
-primaryFieldPart
-    : accessSpecifier
-    | primaryFieldDeclarationPart
-    ;
-
-methodOrAdditionalFieldPart
-    : accessSpecifier
-    | methodPrototype
-    | variableDeclarationPart
-    | classFieldDeclarationPart
-    ;
-
-accessSpecifier
-    : PRIVATE | PROTECTED | PUBLIC | PUBLISHED
-    ;
-
-primaryFieldDeclarationPart
-    : (VAR)? variableDeclaration (SEMI variableDeclaration)* SEMI
-    ;
-
-methodPrototype
-    : (procedurePrototype | functionPrototype | constructorPrototype | destructorPrototype) SEMI
-    ;
-
-procedurePrototype
-    : PROCEDURE identifier (formalParameterList)? SEMI
-    ;
-
-functionPrototype
-    : FUNCTION identifier (formalParameterList)? COLON resultType SEMI
-    ;
-
-constructorPrototype
-    : CONSTRUCTOR identifier (formalParameterList)? SEMI
-    ;
-
-destructorPrototype
-    : DESTRUCTOR identifier (formalParameterList)? SEMI
-    ;
-
-classFieldDeclarationPart
-    : CLASS VAR variableDeclaration (SEMI variableDeclaration)* SEMI
-    ;
-
 block
     : (
         labelDeclarationPart
-        | classDeclaration
         | constantDefinitionPart
         | typeDefinitionPart
         | variableDeclarationPart
@@ -147,7 +94,58 @@ typeDefinitionPart
     ;
 
 typeDefinition
-    : identifier EQUAL (type_ | functionType | procedureType)
+    : identifier EQUAL (classType | functionType | procedureType | type_)
+    ;
+
+classType
+    : CLASS (ABSTRACT | SEALED)? (anscestorClass | (anscestorClass)? classDefinition)
+    ;
+
+anscestorClass
+    : LPAREN identifier RPAREN
+    ;
+
+classDefinition
+    : (primaryFieldDeclarationPart)* (typeDefinitionPart | constantDefinitionPart | memberListPart)* END
+    ;
+
+primaryFieldDeclarationPart // fields with omitted var
+    : variableDeclaration (SEMI variableDeclaration)* SEMI
+    ;
+
+memberListPart
+    : accessSpecifier (primaryFieldDeclarationPart)*
+    | methodPrototype
+    | variableDeclarationPart
+    | classFieldDeclarationPart
+    ;
+
+accessSpecifier
+    : PRIVATE | PROTECTED | PUBLIC | PUBLISHED
+    ;
+
+methodPrototype
+    : (procedurePrototype | constructorPrototype | destructorPrototype | functionPrototype) SEMI
+    ;
+
+procedurePrototype
+    : PROCEDURE identifier (formalParameterList)?
+    ;
+
+constructorPrototype
+    : CONSTRUCTOR identifier (formalParameterList)?
+    ;
+
+destructorPrototype
+    : DESTRUCTOR identifier (formalParameterList)?
+    ;
+
+functionPrototype
+    : FUNCTION identifier (formalParameterList)? COLON resultType
+    ;
+
+classFieldDeclarationPart
+    : CLASS VAR variableDeclaration (SEMI variableDeclaration)* SEMI
     ;
 
 functionType
@@ -545,6 +543,10 @@ access:
     identifier DOT identifier
     ;
 
+ABSTRACT
+    : 'ABSTRACT'
+    ;
+
 AND
     : 'AND'
     ;
@@ -699,6 +701,10 @@ RECORD
 
 REPEAT
     : 'REPEAT'
+    ;
+
+SEALED
+    : 'SEALED'
     ;
 
 SET
