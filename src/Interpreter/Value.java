@@ -3,7 +3,7 @@ package Interpreter;
 
 enum TYPE{
     INT,
-    BOOLEAN,
+    REFERENCE,
     VOID
 };
 
@@ -39,7 +39,7 @@ public class Value {
             }
 
 
-        Integer toInteger(){
+        Integer asInteger(){
             if(this.value instanceof Integer){
                 return (Integer)this.value;
             }
@@ -48,7 +48,16 @@ public class Value {
             }
         }
 
-        boolean isPrivate(){
+        String asString(){
+            return String.valueOf(this.asInteger());
+        }
+
+        void setAccess(boolean isPrivate){
+            this.isPrivate = isPrivate;
+        }
+
+
+    boolean isPrivate(){
             return this.isPrivate;
         }
 

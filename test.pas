@@ -1,26 +1,32 @@
-program SimpleObject;
+program SimpleClassWithConstructor;
 
 {$APPTYPE CONSOLE}
 
 type
-  TDog = class
-    Name: string;
-    procedure Bark;
+  TCar = class
+    private
+        number: integer;
+
+    public
+        idk: integer;
+        constructor Create(AColor: integer);
   end;
 
-procedure TDog.Bark;
-begin
-  WriteLn(Name, ' says: Woof!');
-end;
+  constructor TCar.Create(AColor: integer);
+  begin
+    Color := AColor;
+  end;
 
 var
-  MyDog: TDog;
+   Num : integer;
+   Crack : integer;
+
 
 begin
-  MyDog := TDog.Create;
-  MyDog.Name := 'Buddy';
-  MyDog.Bark;
-  MyDog.Free;
+  Num := 50;
+  Crack := 74;
 
-  ReadLn;
+  WriteLn(Num);
+  WriteLn(Crack);
+
 end.
