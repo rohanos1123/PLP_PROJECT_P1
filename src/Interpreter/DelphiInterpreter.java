@@ -31,9 +31,6 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         return attributeMap;
     }
 
-
-
-
     @Override
     public Value visitProgram(DelphiParser.ProgramContext ctx){
         // push the initial Stack Frame
@@ -68,10 +65,10 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 
     @Override
     public Value visitMemberListPart(DelphiParser.MemberListPartContext ctx){
-        boolean isPrivate = true;
+        boolean isPrivate = false;
 
-        if(ctx.accessSpecifier() != null  && ctx.accessSpecifier().PUBLIC() != null){
-            isPrivate = false;
+        if(ctx.accessSpecifier() != null  && ctx.accessSpecifier().PRIVATE() != null){
+            isPrivate = true;
         }
         for(var declarePart : ctx.primaryFieldDeclarationPart()){
             visit(declarePart);
@@ -89,7 +86,6 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         visitChildren(ctx);
         return new Value(0);
     }
-
 
     @Override
     public Value visitVariableDeclarationPart(DelphiParser.VariableDeclarationPartContext ctx){
@@ -121,17 +117,9 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 
     @Override
     public Value visitAssignmentStatement(DelphiParser.AssignmentStatementContext ctx){
-        String identifier = ctx.variable().identifier(0).IDENT().toString();
+        Value writeTo = visit(ctx.variable());
         Value v = visit(ctx.expression());
-
-        if(this.memory.peek().containsKey(identifier)){
-            this.memory.peek().put(identifier, v);
-        }
-        else{
-            int objIndex = this.objectCallContext.peek();
-            this.objectMap.get(objIndex).attributeMap.replace(identifier, v);
-        }
-
+        writeTo.setValue(v);
         return new Value(0);
     }
 
@@ -144,16 +132,9 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             System.out.println();
         }
         else if(ctx.identifier().IDENT().toString().equals("ReadLn")){
-            String paramName = ctx.parameterList().actualParameter(0).expression()
-                    .simpleExpression().
-                    term()
-                    .signedFactor()
-                    .factor()
-                    .variable()
-                    .identifier(0).IDENT().toString();
-
+            Value obj = visit(ctx.parameterList().actualParameter(0).expression());
             int val = sc.nextInt();
-            this.memory.peek().get(paramName).value = val;
+            obj.setValue(new Value(val));
         }
 
         return new Value(0);
@@ -221,6 +202,28 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
+    public Value visitVariable(DelphiParser.VariableContext ctx) {
+        if(!ctx.DOT().isEmpty()){
+            String king = ctx.identifier(0).IDENT().toString();
+            Value newValue = this.memory.peek().get(king);
+            for(var ident : ctx.identifier().subList(1, ctx.identifier().size())){
+                    this.objectCallContext.push(newValue.asInteger());
+                    newValue = visit(ident);
+                    this.objectCallContext.pop();
+                    if(newValue.isPrivate()){
+                       throw new RuntimeException("Attempting to access a private member: " + ident.IDENT().toString());
+                    }
+                }
+                return newValue;
+            }
+        else{
+            return visitChildren(ctx);
+        }
+    }
+
+
+
+    @Override
     public Value visitIdentifier(DelphiParser.IdentifierContext ctx){
 
         String idStr = ctx.IDENT().toString();
@@ -231,16 +234,18 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         }
         else {
             int objIndex = this.objectCallContext.peek();
-            targValue = this.objectMap.get(objIndex).attributeMap.get(idStr);
+            var targObject = this.objectMap.get(objIndex);
+            if(targObject.attributeMap.containsKey(idStr)){
+                targValue = this.objectMap.get(objIndex).attributeMap.get(idStr);
+            }
+            else{
+                throw new RuntimeException("Identifier " + idStr + " not found in context");
+            }
         }
 
         return targValue;
     }
 
-    @Override
-    public Value visitAccess(DelphiParser.AccessContext ctx){
-        return new Value(0);
-    }
 
 
 

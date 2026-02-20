@@ -56,6 +56,10 @@ public class Value {
             this.isPrivate = isPrivate;
         }
 
+        void setValue(Value writeValue){
+            this.value = writeValue.value;
+        }
+
 
     boolean isPrivate(){
             return this.isPrivate;
