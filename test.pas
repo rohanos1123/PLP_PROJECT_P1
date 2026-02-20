@@ -17,42 +17,27 @@ type
   constructor TCar.Create(AColor: integer; ACum: integer);
   begin
     idk := AColor;
-    number := 607;
     cum := ACum;
-    lamario := 400;
   end;
 
 var
    Khalil : TCar;
    Num : integer;
    Crack : integer;
+   Omar : TCar;
 
 
 begin
-    {
-        Crack := 67;
-        ReadLn(Num);
+    Num := 53;
+    Crack := 42;
 
-        Khalil := TCar.Create(Num, Crack);
-        WriteLn(Khalil.idk);
-        WriteLn(Khalil.cum);
-
-
-        Khalil.idk := 7192;
-
-        WriteLn(Khalil.idk);
-    }
-
-    Crack := 67;
-    Num := 51;
     Khalil := TCar.Create(Num, Crack);
+    Omar := TCar.Create(32, 81);
     WriteLn(Khalil.cum);
-    ReadLn(Khalil.cum);
-    WriteLn(Khalil.cum);
-
+    WriteLn(Omar.cum);
 
     {Should Error when uncommented due to private access}
-    WriteLn(Khalil.number);
+    {WriteLn(Khalil.number);}
     {WriteLn(Khalil.lamario);}
 
 

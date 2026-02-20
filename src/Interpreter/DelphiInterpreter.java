@@ -206,7 +206,12 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         if(!ctx.DOT().isEmpty()){
             String king = ctx.identifier(0).IDENT().toString();
             Value newValue = this.memory.peek().get(king);
+
             for(var ident : ctx.identifier().subList(1, ctx.identifier().size())){
+                    if(!newValue.isReference){
+                        throw new RuntimeException("Attempting to access a non-reference");
+                    }
+
                     this.objectCallContext.push(newValue.asInteger());
                     newValue = visit(ident);
                     this.objectCallContext.pop();
@@ -233,15 +238,21 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             targValue = this.memory.peek().get(idStr);
         }
         else {
-            int objIndex = this.objectCallContext.peek();
-            var targObject = this.objectMap.get(objIndex);
-            if(targObject.attributeMap.containsKey(idStr)){
-                targValue = this.objectMap.get(objIndex).attributeMap.get(idStr);
+            if(this.objectCallContext.empty()){
+                throw new RuntimeException("Identifier "  + idStr + " not found in context");
             }
             else{
-                throw new RuntimeException("Identifier " + idStr + " not found in context");
+                int objIndex = this.objectCallContext.peek();
+                var targObject = this.objectMap.get(objIndex);
+                if(targObject.attributeMap.containsKey(idStr)){
+                    targValue = this.objectMap.get(objIndex).attributeMap.get(idStr);
+                }
+                else{
+                    throw new RuntimeException("Identifier " + idStr + " not found in context");
+                }
             }
         }
+
 
         return targValue;
     }

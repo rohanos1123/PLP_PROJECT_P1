@@ -29,6 +29,9 @@ public class Value {
             this.value = value;
             this.isPrivate = false;
             this.type = type;
+            if(type == TYPE.REFERENCE){
+                this.isReference = true;
+            }
 
         }
 
@@ -58,6 +61,8 @@ public class Value {
 
         void setValue(Value writeValue){
             this.value = writeValue.value;
+            this.isReference = writeValue.isReference;
+            this.type = writeValue.type;
         }
 
 

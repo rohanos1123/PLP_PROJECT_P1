@@ -9,7 +9,9 @@ public class DelphiObject {
 
     DelphiObject(String type, HashMap<String, Value> initAttr){
         this.type = type;
-        this.attributeMap = initAttr;
+        for(var entry : initAttr.entrySet()){
+            this.attributeMap.put(entry.getKey(), new Value(entry.getValue()));
+        }
     }
 }
 
