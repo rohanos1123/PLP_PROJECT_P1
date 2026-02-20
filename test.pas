@@ -18,6 +18,7 @@ type
   begin
     idk := AColor;
     cum := ACum;
+    number := 9234;
   end;
 
 var
@@ -28,6 +29,7 @@ var
 
 
 begin
+
     Num := 53;
     Crack := 42;
 
@@ -36,9 +38,18 @@ begin
     WriteLn(Khalil.cum);
     WriteLn(Omar.cum);
 
+    ReadLn(Omar.cum);
+    WriteLn(Omar.cum);
+
+    ReadLn(Khalil.cum);
+    WriteLn(Khalil.cum);
+
+    ReadLn(Crack);
+    WriteLn(Crack);
+
     {Should Error when uncommented due to private access}
-    {WriteLn(Khalil.number);}
-    {WriteLn(Khalil.lamario);}
+    WriteLn(Khalil.number);
+    WriteLn(Khalil.lamario);
 
 
 end.

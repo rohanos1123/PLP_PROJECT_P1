@@ -25,6 +25,13 @@ public class Value {
             this.type = TYPE.VOID;
         }
 
+        public Value(Value oldV){
+            this.value = oldV.value;
+            this.isReference = oldV.isReference;
+            this.type = oldV.type;
+            this.isPrivate = oldV.isPrivate;
+        }
+
         public Value(Object value, TYPE type){
             this.value = value;
             this.isPrivate = false;

@@ -211,7 +211,6 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
                     if(!newValue.isReference){
                         throw new RuntimeException("Attempting to access a non-reference");
                     }
-
                     this.objectCallContext.push(newValue.asInteger());
                     newValue = visit(ident);
                     this.objectCallContext.pop();
