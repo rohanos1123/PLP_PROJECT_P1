@@ -386,7 +386,6 @@ variable
     : (AT identifier | identifier) (
         LBRACK expression (COMMA expression)* RBRACK
         | LBRACK2 expression (COMMA expression)* RBRACK2
-        | DOT identifier
         | POINTER
     )*
     ;
@@ -572,7 +571,7 @@ methodCall:
     ;
 
 access:
-    identifier DOT identifier
+    identifier DOT identifier (DOT identifier)*
     ;
 
 ABSTRACT
