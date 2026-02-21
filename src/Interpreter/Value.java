@@ -2,13 +2,15 @@ package Interpreter;
 
 
 enum TYPE{
-    INT,
-    REFERENCE,
-    VOID
+    INT,        // Integer
+    REFERENCE,  // Object Reference
+    FPTR,       // Function/Method Pointer
+    CPTR,       // Constructor Pointer
+    VOID        // Unassigned (void)
+
 };
 
 public class Value {
-
 
     private
         boolean isPrivate;
@@ -16,7 +18,6 @@ public class Value {
     public
 
         Object value;
-        boolean isReference;
         TYPE type;
 
         public Value(Object value){
@@ -27,7 +28,6 @@ public class Value {
 
         public Value(Value oldV){
             this.value = oldV.value;
-            this.isReference = oldV.isReference;
             this.type = oldV.type;
             this.isPrivate = oldV.isPrivate;
         }
@@ -36,10 +36,6 @@ public class Value {
             this.value = value;
             this.isPrivate = false;
             this.type = type;
-            if(type == TYPE.REFERENCE){
-                this.isReference = true;
-            }
-
         }
 
         public Value(Object value, TYPE type,  boolean isPrivate){
@@ -66,11 +62,17 @@ public class Value {
             this.isPrivate = isPrivate;
         }
 
-        void setValue(Value writeValue){
+        void copyValue(Value writeValue){
             this.value = writeValue.value;
-            this.isReference = writeValue.isReference;
             this.type = writeValue.type;
         }
+
+        // ONLY sets the value without chaging type or
+        void setValOnly(Object o){
+            this.value = o;
+        }
+
+
 
 
     boolean isPrivate(){

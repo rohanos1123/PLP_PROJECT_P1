@@ -21,11 +21,27 @@ type
     number := 9234;
   end;
 
+
+  type
+    TBob = class
+      public
+          KIDS: integer;
+          constructor Create(K : Integer);
+    end;
+
+    constructor TBob.Create;
+    begin
+        KIDS := 4192;
+    end;
+
+
+
 var
    Khalil : TCar;
    Num : integer;
    Crack : integer;
    Omar : TCar;
+   Taco : TBob;
 
 
 begin
@@ -35,21 +51,23 @@ begin
 
     Khalil := TCar.Create(Num, Crack);
     Omar := TCar.Create(32, 81);
+
+    {This works now}
+    Taco := TBob.Create;
+
+    WriteLn(Omar.cum);
     WriteLn(Khalil.cum);
-    WriteLn(Omar.cum);
-
-    ReadLn(Omar.cum);
-    WriteLn(Omar.cum);
-
     ReadLn(Khalil.cum);
     WriteLn(Khalil.cum);
+    WriteLn(Omar.cum);
 
-    ReadLn(Crack);
-    WriteLn(Crack);
+    {Should be 721}
+    WriteLn(Taco.KIDS);
 
-    {Should Error when uncommented due to private access}
-    WriteLn(Khalil.number);
-    WriteLn(Khalil.lamario);
+    {Should throw a priate access error}
+    {WriteLn(Omar.number);}
+
+
 
 
 end.
