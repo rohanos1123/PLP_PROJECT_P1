@@ -319,15 +319,15 @@ procedureDeclaration
     ;
 
 methodDeclaration
-    : PROCEDURE access (formalParameterList)? SEMI block
+    : PROCEDURE identifier DOT identifier (formalParameterList)? SEMI block
     ;
 
 constructorDeclaration
-    : CONSTRUCTOR access (formalParameterList)? SEMI block
+    : CONSTRUCTOR identifier DOT identifier (formalParameterList)? SEMI block
     ;
 
 destructorDeclaration
-    : DESTRUCTOR access (formalParameterList)? SEMI block
+    : DESTRUCTOR identifier DOT identifier (formalParameterList)? SEMI block
     ;
 
 formalParameterList
@@ -386,6 +386,7 @@ variable
     : (AT identifier | identifier) (
         LBRACK expression (COMMA expression)* RBRACK
         | LBRACK2 expression (COMMA expression)* RBRACK2
+        | DOT identifier
         | POINTER
     )*
     ;
@@ -566,12 +567,8 @@ recordVariableList
     : variable (COMMA variable)*
     ;
 
-methodCall:
-    access (LPAREN parameterList RPAREN)?
-    ;
-
-access:
-    identifier DOT identifier (DOT identifier)*
+methodCall
+    : identifier DOT identifier (LPAREN parameterList RPAREN)?
     ;
 
 ABSTRACT

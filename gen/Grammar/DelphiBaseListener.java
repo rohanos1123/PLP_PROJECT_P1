@@ -1,4 +1,4 @@
-// Generated from /home/rrao/IdeaProjects/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
+// Generated from /home/tr446/Code/grad/COP5556/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
 package Grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -1428,18 +1428,6 @@ public class DelphiBaseListener implements DelphiListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMethodCall(DelphiParser.MethodCallContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAccess(DelphiParser.AccessContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAccess(DelphiParser.AccessContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

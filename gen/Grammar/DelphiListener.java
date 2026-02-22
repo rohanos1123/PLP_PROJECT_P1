@@ -1,4 +1,4 @@
-// Generated from /home/rrao/IdeaProjects/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
+// Generated from /home/tr446/Code/grad/COP5556/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
 package Grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -1187,14 +1187,4 @@ public interface DelphiListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMethodCall(DelphiParser.MethodCallContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link DelphiParser#access}.
-	 * @param ctx the parse tree
-	 */
-	void enterAccess(DelphiParser.AccessContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link DelphiParser#access}.
-	 * @param ctx the parse tree
-	 */
-	void exitAccess(DelphiParser.AccessContext ctx);
 }

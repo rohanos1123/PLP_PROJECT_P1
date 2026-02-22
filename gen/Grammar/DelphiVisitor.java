@@ -1,4 +1,4 @@
-// Generated from /home/rrao/IdeaProjects/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
+// Generated from /home/tr446/Code/grad/COP5556/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
 package Grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -718,10 +718,4 @@ public interface DelphiVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMethodCall(DelphiParser.MethodCallContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link DelphiParser#access}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAccess(DelphiParser.AccessContext ctx);
 }
