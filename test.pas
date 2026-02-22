@@ -11,9 +11,8 @@ type
     public
         idk: integer;
         cum : integer;
-        constructor Create(AColor: integer);
+        constructor Create(AColor: integer; ACum : integer);
   end;
-
   constructor TCar.Create(AColor: integer; ACum: integer);
   begin
     idk := AColor;
@@ -27,6 +26,7 @@ type
       public
           KIDS: integer;
           constructor Create(K : Integer);
+          constructor Create;
     end;
 
     constructor TBob.Create;

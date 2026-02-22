@@ -1,16 +1,16 @@
 package Interpreter;
 
-
 enum TYPE{
     INT,        // Integer
+    STRING,     // String
+    ARRAY,      // Array
     REFERENCE,  // Object Reference
     FPTR,       // Function/Method Pointer
-    CPTR,       // Constructor Pointer
     VOID        // Unassigned (void)
-
 };
 
 public class Value {
+
 
     private
         boolean isPrivate;
@@ -76,8 +76,8 @@ public class Value {
 
 
     boolean isPrivate(){
-            return this.isPrivate;
-        }
+        return this.isPrivate;
+    }
 
 
 
