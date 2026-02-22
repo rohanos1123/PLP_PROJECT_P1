@@ -13,17 +13,15 @@ public class Value {
 
 
     private
-        boolean isPrivate;
+        boolean isPrivate = false;
 
     public
         Object value;
-        TYPE type;
+        TYPE type = TYPE.VOID;
         String identifier = "0"; // always an invalid identifier
     
         public Value(Object value){
             this.value = value;
-            this.isPrivate = false;
-            this.type = TYPE.VOID;
         }
 
         public Value(Value oldV){

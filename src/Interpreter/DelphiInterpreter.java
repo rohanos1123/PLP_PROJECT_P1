@@ -46,7 +46,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             Scanner sc = new Scanner(System.in);
             Value obj = args.get(0);
             int val = sc.nextInt();
-            obj.copyValue(new Value(val));
+            obj.copyValue(new Value(val, TYPE.INT));
             sc.close();
             return new Value(0);
         });
@@ -65,44 +65,30 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     public Value visitExpandedTypeDefinition(DelphiParser.ExpandedTypeDefinitionContext ctx){
         String className = (String)visit(ctx.identifier()).value;
         this.currentClass = className;
+        return visitChildren(ctx);
+    }
+
+    @Override
+    public Value visitClassType(DelphiParser.ClassTypeContext ctx){
         ClassInfo ci = new ClassInfo();
-        ci.classDefContext = ctx.classType().classDefinition();
-        this.classInfo.put(className, ci);
-
-        // Set a template attribute map
-        for(var memberList : ctx.classType().classDefinition().memberListPart()){
-            this.memory.push(new HashMap<>());
-            visit(memberList);
-            for(var item : this.memory.peek().entrySet()){
-                this.classInfo.get(className).attributeMap.put(item.getKey(), item.getValue());
-            }
-            this.memory.pop();
+        this.classInfo.put(this.currentClass, ci);
+        
+        this.isPrivate = false;
+        this.memory.push(new HashMap<>());
+        visitChildren(ctx);
+        for(var entry : this.memory.peek().entrySet()){
+            ci.attributeMap.put(entry.getKey(), entry.getValue());
         }
-
+        this.memory.pop();
+        this.isPrivate = false;
+        
         return new Value(0);
     }
 
     @Override
-    public Value visitMemberListPart(DelphiParser.MemberListPartContext ctx){
-        isPrivate = false;
-
-        if(ctx.accessSpecifier() != null  && ctx.accessSpecifier().PRIVATE() != null){
-            isPrivate = true;
-        }
-        for(var declarePart : ctx.primaryFieldDeclarationPart()){
-            visit(declarePart);
-        }
-
-        if(ctx.methodPrototype() != null){
-            visit(ctx.methodPrototype());
-        }
-
-
-        for(var obj : this.memory.peek().values()){
-            obj.setAccess(isPrivate);
-        }
-
-        return new Value(0);
+    public Value visitAccessSpecifier(DelphiParser.AccessSpecifierContext ctx){
+        this.isPrivate = ctx.PRIVATE() != null;
+        return visitChildren(ctx);
     }
 
     @Override
@@ -248,7 +234,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         @SuppressWarnings("unchecked")
         var identifiers = (ArrayList<String>)visit(ctx.identifierList()).value;
         for(var identifier : identifiers){
-            this.memory.peek().put(identifier, new Value(0, TYPE.INT, identifier));
+            this.memory.peek().put(identifier, new Value(0, TYPE.INT, identifier, this.isPrivate));
         }
         return new Value(0);
     }
