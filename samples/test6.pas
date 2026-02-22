@@ -1,4 +1,4 @@
-program Inheritance;
+program SealedInheritance;
 
 type
     TTest = class
