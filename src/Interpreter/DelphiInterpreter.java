@@ -3,6 +3,7 @@ package Interpreter;
 import org.antlr.v4.runtime.ParserRuleContext;
 import Grammar.DelphiBaseVisitor;
 import Grammar.DelphiParser;
+import Interpreter.ClassInfo.InheritanceType;
 
 import java.util.*;
 import java.util.function.Function;
@@ -72,15 +73,41 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     public Value visitClassType(DelphiParser.ClassTypeContext ctx){
         ClassInfo ci = new ClassInfo();
         this.classInfo.put(this.currentClass, ci);
-        
-        this.isPrivate = false;
-        this.memory.push(new HashMap<>());
-        visitChildren(ctx);
-        for(var entry : this.memory.peek().entrySet()){
-            ci.attributeMap.put(entry.getKey(), entry.getValue());
+        if (ctx.ABSTRACT() != null) {
+            ci.inheritanceType = InheritanceType.ABSTRACT;
         }
-        this.memory.pop();
-        this.isPrivate = false;
+        else if (ctx.SEALED() != null) {
+            ci.inheritanceType = InheritanceType.SEALED;
+        }
+
+        if (ctx.anscestor() != null) {
+            /* 
+               have to visit anscestor().identifier() explicitly
+               because visitChildren() in default impl will return null due
+               to terminals at end of rule
+            */
+            var anscestor = (String)visit(ctx.anscestor().identifier()).value;
+            if (!this.classInfo.containsKey(anscestor)) {
+                throw error("No such class: " + anscestor, ctx);
+            }
+            var parentInfo = this.classInfo.get(anscestor);
+            if (parentInfo.inheritanceType == InheritanceType.SEALED) {
+                throw error("Cannot extend sealed class: " + anscestor, ctx);
+            }
+            ci.attributeMap = new HashMap<>(parentInfo.attributeMap);
+            ci.methodMap = new HashMap<>(parentInfo.methodMap);
+        }
+        
+        if (ctx.classDefinition() != null) {
+            this.isPrivate = false;
+            this.memory.push(new HashMap<>());
+            visit(ctx.classDefinition());
+            for(var entry : this.memory.peek().entrySet()){
+                ci.attributeMap.put(entry.getKey(), entry.getValue());
+            }
+            this.memory.pop();
+            this.isPrivate = false;
+        }
         
         return new Value(0);
     }
@@ -88,7 +115,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     @Override
     public Value visitAccessSpecifier(DelphiParser.AccessSpecifierContext ctx){
         this.isPrivate = ctx.PRIVATE() != null;
-        return visitChildren(ctx);
+        return new Value(0);
     }
 
     @Override
@@ -212,8 +239,9 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 
         cdata.methodMap.put(destructorId, (args) -> {
             HashMap<String, Value> frame = new HashMap<>();
-            var object = (DelphiObject) args.get(0).value;
-            var objectAttributes = object.attributeMap;
+            var object = args.get(0);
+            var resolvedObject = (DelphiObject) object.value;
+            var objectAttributes = resolvedObject.attributeMap;
             for (int i = 1; i < args.size(); i++) {
                 frame.put(destructorId.parameterNames.get(i), args.get(i));
             }
@@ -221,8 +249,8 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             memory.add(frame);
             visit(ctx.block());
             memory.pop();
-            memory.peek().get(args.get(0).identifier).type = TYPE.VOID;
-            return new Value(null, TYPE.REFERENCE);
+            memory.peek().get(object.identifier).type = TYPE.VOID;
+            return object;
         });
 
         return new Value(0);
@@ -298,7 +326,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 
     @Override
     public Value visitSignedFactor(DelphiParser.SignedFactorContext ctx){
-        Value pureValue = visitChildren(ctx);
+        Value pureValue = visit(ctx.factor());
         if(ctx.MINUS() != null) {
             pureValue.value = -(pureValue.asInteger());
         }
@@ -366,7 +394,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
 	@Override public Value visitTypeIdentifier(DelphiParser.TypeIdentifierContext ctx) {
-        return new Value(null, TYPE.INT);
+        return new Value(0, TYPE.INT);
     }
 
 }
