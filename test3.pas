@@ -1,14 +1,18 @@
-program ClassesAndObjects;
+program Encapsulation;
 
 type
     TTest = class
         value : integer;
         constructor Create(val : integer);
+        private
+        var
+            priv : integer;
     end;
 
 constructor TTest.Create(val : integer);
 begin
     value := val;
+    priv := 999;
 end;
 
 var
@@ -18,6 +22,6 @@ begin
 
     test := TTest.Create(47);
 
-    WriteLn(test.value);
+    WriteLn(test.priv);
 
 end.
