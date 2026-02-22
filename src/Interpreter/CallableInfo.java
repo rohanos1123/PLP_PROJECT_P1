@@ -6,7 +6,9 @@ public class CallableInfo {
     String name;
     ArrayList<TYPE> parameterTypes = new ArrayList<>();
     boolean variadic = false;
-    ArrayList<String> parameterNames = new ArrayList<>(); // not relevant for identification
+    /* not relevant for identification */
+    ArrayList<String> parameterNames = new ArrayList<>();
+    TYPE returnType = TYPE.VOID;
 
     public CallableInfo(String name) {
         this.name = name;

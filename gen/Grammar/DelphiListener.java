@@ -148,26 +148,6 @@ public interface DelphiListener extends ParseTreeListener {
 	 */
 	void exitProcedurePrototype(DelphiParser.ProcedurePrototypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link DelphiParser#constructorPrototype}.
-	 * @param ctx the parse tree
-	 */
-	void enterConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link DelphiParser#constructorPrototype}.
-	 * @param ctx the parse tree
-	 */
-	void exitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link DelphiParser#destructorPrototype}.
-	 * @param ctx the parse tree
-	 */
-	void enterDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link DelphiParser#destructorPrototype}.
-	 * @param ctx the parse tree
-	 */
-	void exitDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link DelphiParser#functionPrototype}.
 	 * @param ctx the parse tree
 	 */

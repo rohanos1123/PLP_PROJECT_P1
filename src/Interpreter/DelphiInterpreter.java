@@ -106,19 +106,40 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx){
-        String constructorName = (String)visit(ctx.identifier()).value;
-        var cMap = this.classInfo.get(currentClass).methodMap;
-        var constructorId = new CallableInfo(constructorName);
+    public Value visitProcedurePrototype(DelphiParser.ProcedurePrototypeContext ctx){
+        String procedureName = (String)visit(ctx.identifier()).value;
+        var methods = this.classInfo.get(currentClass).methodMap;
+        var procedureId = new CallableInfo(procedureName);
         if (ctx.formalParameterList() != null) {
             @SuppressWarnings("unchecked")
             var params = (ArrayList<Value>) visit(ctx.formalParameterList()).value;
             for (var param : params) {
-                constructorId.parameterNames.add((String)param.value);
-                constructorId.parameterTypes.add(param.type);
+                procedureId.parameterNames.add((String)param.value);
+                procedureId.parameterTypes.add(param.type);
             }
         }
-        cMap.put(constructorId, null);
+        if (ctx.CONSTRUCTOR() != null) {
+            procedureId.returnType = TYPE.REFERENCE;            
+        }
+        methods.put(procedureId, null);
+        return new Value(0);
+    }
+
+    @Override
+    public Value visitFunctionPrototype(DelphiParser.FunctionPrototypeContext ctx) {
+        String functionName = (String)visit(ctx.identifier()).value;
+        var methods = this.classInfo.get(currentClass).methodMap;
+        var procedureId = new CallableInfo(functionName);
+        if (ctx.formalParameterList() != null) {
+            @SuppressWarnings("unchecked")
+            var params = (ArrayList<Value>) visit(ctx.formalParameterList()).value;
+            for (var param : params) {
+                procedureId.parameterNames.add((String)param.value);
+                procedureId.parameterTypes.add(param.type);
+            }
+        }
+        procedureId.returnType = visit(ctx.resultType()).type;
+        methods.put(procedureId, null);
         return new Value(0);
     }
 
@@ -144,18 +165,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitVariableDeclarationPart(DelphiParser.VariableDeclarationPartContext ctx){
-        // Visit the first declaration:
-        visit(ctx.variableDeclaration(0));
-        for(int i = 1 ;i < ctx.variableDeclaration().size(); i++){
-            visit(ctx.variableDeclaration(i));
-        }
-        return new Value(0);
-    }
-
-    @Override
     public Value visitConstructorDeclaration(DelphiParser.ConstructorDeclarationContext ctx){
-        // Constructor Declaration
         String className = (String)visit(ctx.identifier(0)).value;
         String constructorName = (String)visit(ctx.identifier(1)).value;
         ClassInfo cdata = this.classInfo.get(className);
@@ -193,7 +203,44 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         return new Value(0);
     }
 
+    @Override
+    public Value visitDestructorDeclaration(DelphiParser.DestructorDeclarationContext ctx){
+        String className = (String)visit(ctx.identifier(0)).value;
+        String destructorName = (String)visit(ctx.identifier(1)).value;
+        ClassInfo cdata = this.classInfo.get(className);
 
+        var destructorId = new CallableInfo(destructorName);
+
+        if (ctx.formalParameterList() != null) {
+            @SuppressWarnings("unchecked")
+            var params = (ArrayList<Value>) visit(ctx.formalParameterList()).value;
+            for (var param : params) {
+                destructorId.parameterNames.add((String)param.value);
+                destructorId.parameterTypes.add(param.type);
+            }
+        }
+
+        if(!cdata.methodMap.containsKey(destructorId)){
+            throw error("Destructor " + destructorName + " not declared in class " + className, ctx);
+        }
+
+        cdata.methodMap.put(destructorId, (args) -> {
+            HashMap<String, Value> frame = new HashMap<>();
+            var object = (DelphiObject) args.get(0).value;
+            var objectAttributes = object.attributeMap;
+            for (int i = 1; i < args.size(); i++) {
+                frame.put(destructorId.parameterNames.get(i), args.get(i));
+            }
+            objectAttributes.forEach((attrName, attrVal) -> frame.put(attrName, attrVal));
+            memory.add(frame);
+            visit(ctx.block());
+            memory.pop();
+            memory.peek().get(args.get(0).identifier).type = TYPE.VOID;
+            return new Value(null, TYPE.REFERENCE);
+        });
+
+        return new Value(0);
+    }
 
     @Override
     public Value visitVariableDeclaration(DelphiParser.VariableDeclarationContext ctx){
@@ -201,7 +248,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         @SuppressWarnings("unchecked")
         var identifiers = (ArrayList<String>)visit(ctx.identifierList()).value;
         for(var identifier : identifiers){
-            this.memory.peek().put(identifier, new Value(0, TYPE.INT));
+            this.memory.peek().put(identifier, new Value(0, TYPE.INT, identifier));
         }
         return new Value(0);
     }
@@ -218,7 +265,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     public Value visitProcedureStatement(DelphiParser.ProcedureStatementContext ctx){
         var procedureName = (String)visit(ctx.identifier()).value;
         @SuppressWarnings("unchecked")
-        ArrayList<Value> args = (ArrayList<Value>) visit(ctx.parameterList()).value;
+        var args = (ctx.parameterList() != null) ? (ArrayList<Value>) visit(ctx.parameterList()).value : new ArrayList<Value>();
         var paramTypes = new ArrayList<TYPE>(args.stream().map(arg -> arg.type).toList());
         var procedureId = new CallableInfo(procedureName, paramTypes);
         if (!callables.containsKey(procedureId)) {
@@ -245,7 +292,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         String methodName = (String)visit(ctx.identifier(1)).value;
         var topVariables = this.memory.peek();
         @SuppressWarnings("unchecked")
-		ArrayList<Value> args = (ArrayList<Value>) visit(ctx.parameterList()).value;
+		var args = (ctx.parameterList() != null) ? (ArrayList<Value>) visit(ctx.parameterList()).value : new ArrayList<Value>();
         var paramTypes = new ArrayList<TYPE>(args.stream().map(arg -> arg.type).toList());
         var methodId = new CallableInfo(methodName, paramTypes);
         if (this.classInfo.containsKey(variableName)) {
@@ -283,6 +330,9 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         var topVariables = this.memory.peek();
         if (topVariables.containsKey(variableName)) {
             var variable = topVariables.get(variableName);
+            if (variable.type == TYPE.VOID && !(ctx.getParent() instanceof DelphiParser.AssignmentStatementContext)) {
+                throw error(variableName + " is uninitialized.", ctx);
+            }
             if (!memberName.isEmpty()) {
                 var object = (DelphiObject)variable.value;
                 var methods = this.classInfo.get(object.type).methodMap;

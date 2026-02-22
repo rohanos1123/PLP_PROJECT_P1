@@ -95,18 +95,6 @@ public interface DelphiVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProcedurePrototype(DelphiParser.ProcedurePrototypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link DelphiParser#constructorPrototype}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link DelphiParser#destructorPrototype}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link DelphiParser#functionPrototype}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

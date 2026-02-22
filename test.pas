@@ -27,11 +27,17 @@ type
           KIDS: integer;
           constructor Create(K : Integer);
           constructor Create;
+          destructor Destroy;
     end;
 
     constructor TBob.Create;
     begin
         KIDS := 4192;
+    end;
+
+    destructor TBob.Destroy;
+    begin
+      WriteLn(999);
     end;
 
 
@@ -62,6 +68,12 @@ begin
     WriteLn(Omar.cum);
 
     {Should be 721}
+    WriteLn(Taco.KIDS);
+
+    Taco.Destroy;
+
+    Taco := TBob.Create;
+
     WriteLn(Taco.KIDS);
 
     {Should throw a priate access error}

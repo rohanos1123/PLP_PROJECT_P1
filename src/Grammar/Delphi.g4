@@ -65,19 +65,11 @@ accessSpecifier
     ;
 
 methodPrototype
-    : (procedurePrototype | constructorPrototype | destructorPrototype | functionPrototype) SEMI
+    : (procedurePrototype | functionPrototype) SEMI
     ;
 
 procedurePrototype
-    : PROCEDURE identifier (formalParameterList)?
-    ;
-
-constructorPrototype
-    : CONSTRUCTOR identifier (formalParameterList)?
-    ;
-
-destructorPrototype
-    : DESTRUCTOR identifier (formalParameterList)?
+    : (PROCEDURE | CONSTRUCTOR | DESTRUCTOR) identifier (formalParameterList)?
     ;
 
 functionPrototype
@@ -374,6 +366,7 @@ unlabelledStatement
 simpleStatement
     : assignmentStatement
     | procedureStatement
+    | methodCall
     | gotoStatement
     | emptyStatement_
     ;
@@ -473,7 +466,6 @@ element
 
 procedureStatement
     : identifier (LPAREN parameterList RPAREN)?
-    | methodCall
     ;
 
 actualParameter
