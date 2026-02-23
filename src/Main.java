@@ -1,4 +1,5 @@
 import Interpreter.DelphiInterpreter;
+import Interpreter.DelphiInterpreter.DelphiRuntimeError;
 import Grammar.DelphiLexer;
 import Grammar.DelphiParser;
 import org.antlr.v4.runtime.*;
@@ -21,7 +22,11 @@ public class Main{
         ParseTree tree = parser.program();
 
         DelphiInterpreter interpreter = new DelphiInterpreter();
-        interpreter.visit(tree);
+        try {
+            interpreter.visit(tree);
+        } catch (DelphiRuntimeError e) {
+            System.err.println("Delphi Runtime Error: " + e.getMessage());
+        }
 
 
     }

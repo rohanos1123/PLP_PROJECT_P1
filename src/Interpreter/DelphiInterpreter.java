@@ -28,11 +28,12 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 	private static void log(Object msg, ParserRuleContext ctx) {
         System.err.println(createLogMsg(msg, ctx));
     }
-
-    private static RuntimeException error(Object msg, ParserRuleContext ctx) {
-        throw new RuntimeException(createLogMsg(msg, ctx));
+    
+    public class DelphiRuntimeError extends RuntimeException {
+        public DelphiRuntimeError(Object msg, ParserRuleContext ctx) {
+            super(createLogMsg(msg, ctx));
+        }
     }
-
     private void setupBuiltinCallables() {
         callables.put(new CallableInfo("WriteLn", new ArrayList<>(), true),
         (args) -> {
@@ -77,11 +78,11 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         if (ctx.identifier() != null) {
 			var anscestor = (String) visit(ctx.identifier()).value;
             if (!this.typeInfo.containsKey(anscestor)) {
-                throw error("No such interface: " + anscestor, ctx);
+                throw new DelphiRuntimeError("No such interface: " + anscestor, ctx);
             }
             var parentInfo = this.typeInfo.get(anscestor);
             if (parentInfo.type != TypeInfo.Type.INTERFACE) {
-                throw error("Cannot extend non interface type: " + anscestor, ctx);
+                throw new DelphiRuntimeError("Cannot extend non interface type: " + anscestor, ctx);
             }
             ti.parents.add(parentInfo);
         }
@@ -106,21 +107,21 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 			var interfaces = (ArrayList<String>) visit(ctx.interfaces()).value;
             var anscestor = interfaces.get(0);
             if (!this.typeInfo.containsKey(anscestor)) {
-                throw error("No such class: " + anscestor, ctx);
+                throw new DelphiRuntimeError("No such class: " + anscestor, ctx);
             }
             var parentInfo = this.typeInfo.get(anscestor);
             if (parentInfo.inheritanceType == InheritanceType.SEALED) {
-                throw error("Cannot extend sealed class: " + anscestor, ctx);
+                throw new DelphiRuntimeError("Cannot extend sealed class: " + anscestor, ctx);
             }
             ti.parents.add(parentInfo);
             for (int i = 1; i < interfaces.size(); i++) {
                 var interfaceName = interfaces.get(i);
                 if (!this.typeInfo.containsKey(interfaceName)) {
-                    throw error("No such interface: " + interfaceName, ctx);
+                    throw new DelphiRuntimeError("No such interface: " + interfaceName, ctx);
                 }
                 var currentInterface = this.typeInfo.get(interfaceName);
                 if (currentInterface.type != TypeInfo.Type.INTERFACE) {
-                    throw error("Cannot implement non interface type: " + interfaceName, ctx);
+                    throw new DelphiRuntimeError("Cannot implement non interface type: " + interfaceName, ctx);
                 }
                 ti.parents.add(currentInterface);
             }
@@ -264,7 +265,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         }
 
         if(!tdata.hasMethod(methodId)){
-            throw error("Method " + methodName + " not declared in class " + className, ctx);
+            throw new DelphiRuntimeError("Method " + methodName + " not declared in class " + className, ctx);
         }
 
         tdata.registerMethod(methodId, (args) -> {
@@ -302,7 +303,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             }
         }
         if(!tdata.hasMethod(constructorId)){
-            throw error("Constructor " + constructorName + " not declared in class " + className, ctx);
+            throw new DelphiRuntimeError("Constructor " + constructorName + " not declared in class " + className, ctx);
         }
 
         tdata.registerMethod(constructorId, (args) -> {
@@ -343,7 +344,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         }
 
         if(!tdata.hasMethod(destructorId)){
-            throw error("Destructor " + destructorName + " not declared in class " + className, ctx);
+            throw new DelphiRuntimeError("Destructor " + destructorName + " not declared in class " + className, ctx);
         }
 
         tdata.registerMethod(destructorId, (args) -> {
@@ -396,7 +397,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             // try again for variadic functions
             procedureId.variadic = true;
             if (!callables.containsKey(procedureId)) {
-                throw error(procedureName + " not found.", ctx);
+                throw new DelphiRuntimeError(procedureName + " not found.", ctx);
             }
         }
         return callables.get(procedureId).apply(args);
@@ -432,7 +433,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             return method.apply(args);
         }
         else {
-            throw error("Invalid method invocation: " + variableName + "." + methodName, ctx);
+            throw new DelphiRuntimeError("Invalid method invocation: " + variableName + "." + methodName, ctx);
         }
     }
 
@@ -457,7 +458,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         if (topVariables.containsKey(variableName)) {
             var variable = topVariables.get(variableName);
             if (variable.type == TYPE.VOID && !(ctx.getParent() instanceof DelphiParser.AssignmentStatementContext)) {
-                throw error(variableName + " is uninitialized.", ctx);
+                throw new DelphiRuntimeError(variableName + " is uninitialized.", ctx);
             }
             if (!memberName.isEmpty()) {
                 var object = (DelphiObject)variable.value;
@@ -466,7 +467,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
                 if (ti.hasAttribute(memberName)) {
                     var attribute = ti.getAttribute(memberName);
                     if (attribute.isPrivate()) {
-                        throw error("Attempting to access a private member: " + memberName, ctx);
+                        throw new DelphiRuntimeError("Attempting to access a private member: " + memberName, ctx);
                     }
                     return attribute;
                 }
@@ -474,7 +475,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
                     return ti.getMethod(methodId).apply(new ArrayList<Value>(Arrays.asList(variable)));
                 }
                 else {
-                    throw error("No such attribute named: " + memberName, ctx);
+                    throw new DelphiRuntimeError("No such attribute named: " + memberName, ctx);
                 }
             }
             return variable;
@@ -483,12 +484,12 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             var methodId = new CallableInfo(memberName);
             var ti = this.typeInfo.get(variableName);
             if (!ti.hasMethod(methodId)) {
-                throw error("No such method named: " + memberName, ctx);
+                throw new DelphiRuntimeError("No such method named: " + memberName, ctx);
             }
             return ti.getMethod(methodId).apply(new ArrayList<Value>(Arrays.asList(new Value(variableName))));
         }
         else {
-            throw error("Identifier " + variableName + " not found in context", ctx);
+            throw new DelphiRuntimeError("Identifier " + variableName + " not found in context", ctx);
         }
     }
 
