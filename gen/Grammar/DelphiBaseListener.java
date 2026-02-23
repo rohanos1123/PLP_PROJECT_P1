@@ -101,13 +101,13 @@ public class DelphiBaseListener implements DelphiListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAnscestor(DelphiParser.AnscestorContext ctx) { }
+	@Override public void enterInterfaces(DelphiParser.InterfacesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAnscestor(DelphiParser.AnscestorContext ctx) { }
+	@Override public void exitInterfaces(DelphiParser.InterfacesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -180,6 +180,30 @@ public class DelphiBaseListener implements DelphiListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitProcedurePrototype(DelphiParser.ProcedurePrototypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

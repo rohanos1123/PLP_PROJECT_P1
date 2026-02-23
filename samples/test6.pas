@@ -38,7 +38,7 @@ begin
     test.otherVal := 87;
     WriteLn(test.otherVal);
 
-    furtherTest := TChild.Create(567);
+    furtherTest := TGrandchild.Create(567);
     furtherTest.otherVal := -21;
     WriteLn(furtherTest.value);
     WriteLn(furtherTest.otherVal);

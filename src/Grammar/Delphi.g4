@@ -38,11 +38,11 @@ expandedTypeDefinition
     ;
 
 classType
-    : CLASS (ABSTRACT | SEALED)? (anscestor | (anscestor)? classDefinition)
+    : CLASS (ABSTRACT | SEALED)? (interfaces | (interfaces)? classDefinition)
     ;
 
-anscestor
-    : LPAREN identifier RPAREN
+interfaces
+    : LPAREN identifierList RPAREN
     ;
 
 classDefinition
@@ -65,11 +65,19 @@ accessSpecifier
     ;
 
 methodPrototype
-    : (procedurePrototype | functionPrototype) SEMI
+    : (procedurePrototype | constructorPrototype | destructorPrototype | functionPrototype) SEMI
     ;
 
 procedurePrototype
-    : (PROCEDURE | CONSTRUCTOR | DESTRUCTOR) identifier (formalParameterList)?
+    : PROCEDURE identifier (formalParameterList)?
+    ;
+
+constructorPrototype
+    : CONSTRUCTOR identifier (formalParameterList)?
+    ;
+
+destructorPrototype
+    : DESTRUCTOR identifier (formalParameterList)?
     ;
 
 functionPrototype
@@ -83,7 +91,7 @@ classFieldDeclarationPart
 // class rules end
 
 interfaceType
-    : INTERFACE (anscestor)? (interfaceGuid)? ((procedurePrototype | functionPrototype)* END)? SEMI
+    : INTERFACE (LPAREN identifier RPAREN)? (interfaceGuid)? (((procedurePrototype | functionPrototype) SEMI)* END)?
     ;
 
 interfaceGuid

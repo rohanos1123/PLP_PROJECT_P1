@@ -78,15 +78,15 @@ public interface DelphiListener extends ParseTreeListener {
 	 */
 	void exitClassType(DelphiParser.ClassTypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link DelphiParser#anscestor}.
+	 * Enter a parse tree produced by {@link DelphiParser#interfaces}.
 	 * @param ctx the parse tree
 	 */
-	void enterAnscestor(DelphiParser.AnscestorContext ctx);
+	void enterInterfaces(DelphiParser.InterfacesContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link DelphiParser#anscestor}.
+	 * Exit a parse tree produced by {@link DelphiParser#interfaces}.
 	 * @param ctx the parse tree
 	 */
-	void exitAnscestor(DelphiParser.AnscestorContext ctx);
+	void exitInterfaces(DelphiParser.InterfacesContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DelphiParser#classDefinition}.
 	 * @param ctx the parse tree
@@ -147,6 +147,26 @@ public interface DelphiListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitProcedurePrototype(DelphiParser.ProcedurePrototypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DelphiParser#constructorPrototype}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DelphiParser#constructorPrototype}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DelphiParser#destructorPrototype}.
+	 * @param ctx the parse tree
+	 */
+	void enterDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DelphiParser#destructorPrototype}.
+	 * @param ctx the parse tree
+	 */
+	void exitDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DelphiParser#functionPrototype}.
 	 * @param ctx the parse tree
