@@ -1,11 +1,11 @@
-program MultiInterface;
+program InterfaceInheritance;
 
 type
     IPrintBase = interface
         procedure print;
     end;
 
-    IPrint = interface
+    IPrint = interface(IPrintBase)
         procedure print(int : integer);
     end;
 
@@ -19,7 +19,7 @@ type
         constructor Create(val : integer);
     end;
 
-    TGrandchild = class(TChild, IPrint, IPrintBase);
+    TGrandchild = class(TChild, IPrint);
 
 constructor TTest.Create(val : integer);
 begin

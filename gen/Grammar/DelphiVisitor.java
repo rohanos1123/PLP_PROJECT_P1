@@ -407,11 +407,17 @@ public interface DelphiVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProcedureDeclaration(DelphiParser.ProcedureDeclarationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link DelphiParser#methodDeclaration}.
+	 * Visit a parse tree produced by {@link DelphiParser#methodProcedureDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitMethodDeclaration(DelphiParser.MethodDeclarationContext ctx);
+	T visitMethodProcedureDeclaration(DelphiParser.MethodProcedureDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link DelphiParser#methodFunctionDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMethodFunctionDeclaration(DelphiParser.MethodFunctionDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link DelphiParser#constructorDeclaration}.
 	 * @param ctx the parse tree

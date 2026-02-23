@@ -668,15 +668,25 @@ public interface DelphiListener extends ParseTreeListener {
 	 */
 	void exitProcedureDeclaration(DelphiParser.ProcedureDeclarationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link DelphiParser#methodDeclaration}.
+	 * Enter a parse tree produced by {@link DelphiParser#methodProcedureDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterMethodDeclaration(DelphiParser.MethodDeclarationContext ctx);
+	void enterMethodProcedureDeclaration(DelphiParser.MethodProcedureDeclarationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link DelphiParser#methodDeclaration}.
+	 * Exit a parse tree produced by {@link DelphiParser#methodProcedureDeclaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitMethodDeclaration(DelphiParser.MethodDeclarationContext ctx);
+	void exitMethodProcedureDeclaration(DelphiParser.MethodProcedureDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link DelphiParser#methodFunctionDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterMethodFunctionDeclaration(DelphiParser.MethodFunctionDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link DelphiParser#methodFunctionDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitMethodFunctionDeclaration(DelphiParser.MethodFunctionDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link DelphiParser#constructorDeclaration}.
 	 * @param ctx the parse tree

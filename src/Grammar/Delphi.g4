@@ -297,7 +297,8 @@ procedureAndFunctionDeclarationPart
 procedureOrFunctionDeclaration
     : procedureDeclaration
     | functionDeclaration
-    | methodDeclaration
+    | methodProcedureDeclaration
+    | methodFunctionDeclaration
     | constructorDeclaration
     | destructorDeclaration
     ;
@@ -318,8 +319,12 @@ procedureDeclaration
     : PROCEDURE identifier (formalParameterList)? SEMI block
     ;
 
-methodDeclaration
+methodProcedureDeclaration
     : PROCEDURE identifier DOT identifier (formalParameterList)? SEMI block
+    ;
+
+methodFunctionDeclaration
+    : FUNCTION identifier DOT identifier (formalParameterList)? COLON resultType SEMI block
     ;
 
 constructorDeclaration

@@ -1,4 +1,4 @@
-program UnimplementedMethod;
+program MultiInterface;
 
 type
     IPrintBase = interface
@@ -35,6 +35,11 @@ end;
 procedure TGrandchild.print(int : integer);
 begin
     WriteLn(int);
+end;
+
+procedure TGrandchild.print;
+begin
+    WriteLn(607);
 end;
 
 var

@@ -1,11 +1,7 @@
-program InterfaceInheritance;
+program Interfaces;
 
 type
-    IPrintBase = interface
-        procedure print;
-    end;
-
-    IPrint = interface(IPrintBase)
+    IPrint = interface
         procedure print(int : integer);
     end;
 
@@ -37,11 +33,6 @@ begin
     WriteLn(int);
 end;
 
-procedure TGrandchild.print;
-begin
-    WriteLn(607);
-end;
-
 var
     test : TChild;
     furtherTest : TGrandchild;
@@ -49,7 +40,5 @@ var
 begin
 
     furtherTest := TGrandchild.Create(567);
-
     furtherTest.print(7);
-    furtherTest.print;
 end.

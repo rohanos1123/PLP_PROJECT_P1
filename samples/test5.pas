@@ -1,45 +1,39 @@
-program Inheritance;
+program Methods;
 
 type
     TTest = class
+    private
         value : integer;
-        constructor Create(val : integer);
+    public
+        constructor Create;
+        function getValue : integer;
+        procedure print8;
     end;
 
-    TChild = class(TTest)
-        otherVal : integer;
-        constructor Create(val : integer);
-    end;
-
-    TGrandchild = class(TChild);
-
-constructor TTest.Create(val : integer);
+constructor TTest.Create;
 begin
-    value := val;
+    value := 11;
 end;
 
-constructor TChild.Create(val : integer);
+procedure TTest.print8;
 begin
-    value := val;
-    otherVal := 21;
+    WriteLn(8);
+end;
+
+function TTest.getValue : integer;
+begin
+    Result := value;
 end;
 
 var
-    test : TChild;
-    furtherTest : TGrandchild;
+    test : TTest;
 
 begin
 
-    test := TChild.Create(47);
+    test := TTest.Create;
 
-    WriteLn(test.value);
-    WriteLn(test.otherVal);
+    test.print8;
 
-    test.otherVal := 87;
-    WriteLn(test.otherVal);
+    WriteLn(test.getValue);
 
-    furtherTest := TGrandchild.Create(567);
-    furtherTest.otherVal := -21;
-    WriteLn(furtherTest.value);
-    WriteLn(furtherTest.otherVal);
 end.

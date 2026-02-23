@@ -809,13 +809,25 @@ public class DelphiBaseListener implements DelphiListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMethodDeclaration(DelphiParser.MethodDeclarationContext ctx) { }
+	@Override public void enterMethodProcedureDeclaration(DelphiParser.MethodProcedureDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMethodDeclaration(DelphiParser.MethodDeclarationContext ctx) { }
+	@Override public void exitMethodProcedureDeclaration(DelphiParser.MethodProcedureDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMethodFunctionDeclaration(DelphiParser.MethodFunctionDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMethodFunctionDeclaration(DelphiParser.MethodFunctionDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
