@@ -39,18 +39,6 @@ var
 
 begin
 
-    test := TChild.Create(47);
-
-    WriteLn(test.value);
-    WriteLn(test.otherVal);
-
-    test.otherVal := 87;
-    WriteLn(test.otherVal);
-
     furtherTest := TGrandchild.Create(567);
-    furtherTest.otherVal := -21;
-    WriteLn(furtherTest.value);
-    WriteLn(furtherTest.otherVal);
-
     furtherTest.print(7);
 end.

@@ -33,10 +33,6 @@ public class TypeInfo {
         methodMap.put(name, method);
     }
 
-    void registerMethod(CallableInfo name) {
-        methodMap.put(name, (_) -> {return new Value(0);});
-    }
-
     Value getAttribute(String attributeName) {
         if (attributeMap.containsKey(attributeName)) {
             return attributeMap.get(attributeName);

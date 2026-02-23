@@ -169,7 +169,10 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
                 procedureId.parameterTypes.add(param.type);
             }
         }
-        ti.registerMethod(procedureId);
+        ti.registerMethod(procedureId, (_) -> {
+            throw new DelphiRuntimeError("Procedure " + this.currentType + "." + procedureName + " not defined.", ctx);
+        });
+
         return new Value(0);
     }
 
@@ -187,7 +190,9 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
                 constructorId.parameterTypes.add(param.type);
             }
         }
-        ti.registerMethod(constructorId);
+        ti.registerMethod(constructorId, (_) -> {
+            throw new DelphiRuntimeError("Constructor " + this.currentType + "." + constructorName + " not defined.", ctx);
+        });
         return new Value(0);
     }
 
@@ -204,7 +209,9 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
                 destructorId.parameterTypes.add(param.type);
             }
         }
-        ti.registerMethod(destructorId);
+        ti.registerMethod(destructorId, (_) -> {
+            throw new DelphiRuntimeError("Destructor " + this.currentType + "." + destructorName + " not defined.", ctx);
+        });
         return new Value(0);
     }
 
@@ -212,17 +219,19 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     public Value visitFunctionPrototype(DelphiParser.FunctionPrototypeContext ctx) {
         String functionName = (String)visit(ctx.identifier()).value;
         var ti = this.typeInfo.get(this.currentType);
-        var procedureId = new CallableInfo(functionName);
+        var functionId = new CallableInfo(functionName);
         if (ctx.formalParameterList() != null) {
             @SuppressWarnings("unchecked")
             var params = (ArrayList<Value>) visit(ctx.formalParameterList()).value;
             for (var param : params) {
-                procedureId.parameterNames.add((String)param.value);
-                procedureId.parameterTypes.add(param.type);
+                functionId.parameterNames.add((String)param.value);
+                functionId.parameterTypes.add(param.type);
             }
         }
-        procedureId.returnType = visit(ctx.resultType()).type;
-        ti.registerMethod(procedureId);
+        functionId.returnType = visit(ctx.resultType()).type;
+        ti.registerMethod(functionId, (_) -> {
+            throw new DelphiRuntimeError("Procedure " + this.currentType + "." + functionName + " not defined.", ctx);
+        });
         return new Value(0);
     }
 
