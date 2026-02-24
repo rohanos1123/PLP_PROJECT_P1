@@ -1,29 +1,27 @@
 package Interpreter;
 
-
 enum TYPE{
     INT,        // Integer
+    STRING,     // String
+    ARRAY,      // Array
     REFERENCE,  // Object Reference
     FPTR,       // Function/Method Pointer
-    CPTR,       // Constructor Pointer
     VOID        // Unassigned (void)
-
 };
 
 public class Value {
 
+
     private
-        boolean isPrivate;
+        boolean isPrivate = false;
 
     public
-
         Object value;
-        TYPE type;
-
+        TYPE type = TYPE.VOID;
+        String identifier = "0"; // always an invalid identifier
+    
         public Value(Object value){
             this.value = value;
-            this.isPrivate = false;
-            this.type = TYPE.VOID;
         }
 
         public Value(Value oldV){
@@ -33,17 +31,19 @@ public class Value {
         }
 
         public Value(Object value, TYPE type){
-            this.value = value;
-            this.isPrivate = false;
+            this(value);
             this.type = type;
         }
 
-        public Value(Object value, TYPE type,  boolean isPrivate){
-                this.value = value;
-                this.isPrivate = isPrivate;
-                this.type = type;
-            }
+        public Value(Object value, TYPE type,  String identifier){
+            this(value, type);
+            this.identifier = identifier;
+        }
 
+        public Value(Object value, TYPE type, String identifier, boolean isPrivate){
+            this(value, type, identifier);
+            this.isPrivate = isPrivate;
+        }
 
         Integer asInteger(){
             if(this.value instanceof Integer){
@@ -76,8 +76,8 @@ public class Value {
 
 
     boolean isPrivate(){
-            return this.isPrivate;
-        }
+        return this.isPrivate;
+    }
 
 
 

@@ -1,4 +1,4 @@
-grammar Delphi;
+grammar delphi;
 
 options {
     caseInsensitive = true;
@@ -38,11 +38,11 @@ expandedTypeDefinition
     ;
 
 classType
-    : CLASS (ABSTRACT | SEALED)? (anscestor | (anscestor)? classDefinition)
+    : CLASS (ABSTRACT | SEALED)? (interfaces | (interfaces)? classDefinition)
     ;
 
-anscestor
-    : LPAREN identifier RPAREN
+interfaces
+    : LPAREN identifierList RPAREN
     ;
 
 classDefinition
@@ -91,7 +91,7 @@ classFieldDeclarationPart
 // class rules end
 
 interfaceType
-    : INTERFACE (anscestor)? (interfaceGuid)? ((procedurePrototype | functionPrototype)* END)? SEMI
+    : INTERFACE (LPAREN identifier RPAREN)? (interfaceGuid)? (((procedurePrototype | functionPrototype) SEMI)* END)?
     ;
 
 interfaceGuid
@@ -297,7 +297,8 @@ procedureAndFunctionDeclarationPart
 procedureOrFunctionDeclaration
     : procedureDeclaration
     | functionDeclaration
-    | methodDeclaration
+    | methodProcedureDeclaration
+    | methodFunctionDeclaration
     | constructorDeclaration
     | destructorDeclaration
     ;
@@ -318,16 +319,20 @@ procedureDeclaration
     : PROCEDURE identifier (formalParameterList)? SEMI block
     ;
 
-methodDeclaration
-    : PROCEDURE access (formalParameterList)? SEMI block
+methodProcedureDeclaration
+    : PROCEDURE identifier DOT identifier (formalParameterList)? SEMI block
+    ;
+
+methodFunctionDeclaration
+    : FUNCTION identifier DOT identifier (formalParameterList)? COLON resultType SEMI block
     ;
 
 constructorDeclaration
-    : CONSTRUCTOR access (formalParameterList)? SEMI block
+    : CONSTRUCTOR identifier DOT identifier (formalParameterList)? SEMI block
     ;
 
 destructorDeclaration
-    : DESTRUCTOR access (formalParameterList)? SEMI block
+    : DESTRUCTOR identifier DOT identifier (formalParameterList)? SEMI block
     ;
 
 formalParameterList
@@ -374,6 +379,7 @@ unlabelledStatement
 simpleStatement
     : assignmentStatement
     | procedureStatement
+    | methodCall
     | gotoStatement
     | emptyStatement_
     ;
@@ -386,6 +392,7 @@ variable
     : (AT identifier | identifier) (
         LBRACK expression (COMMA expression)* RBRACK
         | LBRACK2 expression (COMMA expression)* RBRACK2
+        | DOT identifier
         | POINTER
     )*
     ;
@@ -472,7 +479,6 @@ element
 
 procedureStatement
     : identifier (LPAREN parameterList RPAREN)?
-    | methodCall
     ;
 
 actualParameter
@@ -566,12 +572,8 @@ recordVariableList
     : variable (COMMA variable)*
     ;
 
-methodCall:
-    access (LPAREN parameterList RPAREN)?
-    ;
-
-access:
-    identifier DOT identifier (DOT identifier)*
+methodCall
+    : identifier DOT identifier (LPAREN parameterList RPAREN)?
     ;
 
 ABSTRACT

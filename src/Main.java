@@ -1,6 +1,7 @@
-import Interpreter.DelphiInterpreter;
-import Grammar.DelphiLexer;
-import Grammar.DelphiParser;
+import Interpreter.delphiInterpreter;
+import Interpreter.delphiInterpreter.delphiRuntimeError;
+import Grammar.delphiLexer;
+import Grammar.delphiParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.runtime.tree.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -8,17 +9,24 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class Main{
 
     public static void main(String[] args) throws Exception{
+        if (args.length != 1) {
+            throw new RuntimeException("Invalid number of arguments provided. Please provide the file to run.");
+        }
 
-        CharStream input = CharStreams.fromFileName("test.pas");
+        CharStream input = CharStreams.fromFileName(args[0]);
 
-        DelphiLexer lexer = new DelphiLexer(input);
+        delphiLexer lexer = new delphiLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        DelphiParser parser = new DelphiParser(tokens);
+        delphiParser parser = new delphiParser(tokens);
 
         ParseTree tree = parser.program();
 
-        DelphiInterpreter interpreter = new DelphiInterpreter();
-        interpreter.visit(tree);
+        delphiInterpreter interpreter = new delphiInterpreter();
+        try {
+            interpreter.visit(tree);
+        } catch (delphiRuntimeError e) {
+            System.err.println("delphi Runtime Error: " + e.getMessage());
+        }
 
 
     }
