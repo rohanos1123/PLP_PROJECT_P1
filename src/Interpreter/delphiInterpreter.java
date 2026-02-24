@@ -1,14 +1,14 @@
 package Interpreter;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import Grammar.DelphiBaseVisitor;
-import Grammar.DelphiParser;
+import Grammar.delphiBaseVisitor;
+import Grammar.delphiParser;
 import Interpreter.TypeInfo.InheritanceType;
 
 import java.util.*;
 import java.util.function.Function;
 
-public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
+public class delphiInterpreter extends delphiBaseVisitor<Value> {
 
     Stack<HashMap<String, Value>> memory = new Stack<HashMap<String, Value>>();
     HashMap<CallableInfo, Function<ArrayList<Value>, Value>> callables = new HashMap<>();
@@ -29,8 +29,8 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         System.err.println(createLogMsg(msg, ctx));
     }
     
-    public class DelphiRuntimeError extends RuntimeException {
-        public DelphiRuntimeError(Object msg, ParserRuleContext ctx) {
+    public class delphiRuntimeError extends RuntimeException {
+        public delphiRuntimeError(Object msg, ParserRuleContext ctx) {
             super(createLogMsg(msg, ctx));
         }
     }
@@ -57,7 +57,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         });
     }
 
-    private CallableInfo createCallableInfo(String callableName, DelphiParser.FormalParameterListContext paramCtx) {
+    private CallableInfo createCallableInfo(String callableName, delphiParser.FormalParameterListContext paramCtx) {
         var callableId = new CallableInfo(callableName);
         if (paramCtx != null) {
             @SuppressWarnings("unchecked")
@@ -70,26 +70,26 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         return callableId;
     }
 
-    private Value registerMethodPrototype(DelphiParser.IdentifierContext nameCtx, DelphiParser.FormalParameterListContext paramCtx) {
+    private Value registerMethodPrototype(delphiParser.IdentifierContext nameCtx, delphiParser.FormalParameterListContext paramCtx) {
         String methodName = (String)visit(nameCtx).value;
         var ti = this.typeInfo.get(this.currentType);
         var methodId = createCallableInfo(methodName, paramCtx);
         ti.registerMethod(methodId, (_) -> {
-            throw new DelphiRuntimeError("Method " + this.currentType + "." + methodName + " not defined.", nameCtx);
+            throw new delphiRuntimeError("Method " + this.currentType + "." + methodName + " not defined.", nameCtx);
         });
         return new Value(0);
     }
 
-    private Value registerCallable(DelphiParser.FormalParameterListContext paramCtx) {
+    private Value registerCallable(delphiParser.FormalParameterListContext paramCtx) {
         String callableName = this.currentType;
         var functionId = createCallableInfo(callableName, paramCtx);
         callables.put(functionId, (_) -> {
-            throw new DelphiRuntimeError("No definition for: " + callableName, paramCtx);
+            throw new delphiRuntimeError("No definition for: " + callableName, paramCtx);
         });
         return new Value(0);
     }
 
-    private Value executeCallable(String functionName, DelphiParser.ParameterListContext paramCtx) {
+    private Value executeCallable(String functionName, delphiParser.ParameterListContext paramCtx) {
         @SuppressWarnings("unchecked")
         var args = (paramCtx != null) ? (ArrayList<Value>) visit(paramCtx).value : new ArrayList<Value>();
         var paramTypes = new ArrayList<TYPE>(args.stream().map(arg -> arg.type).toList());
@@ -98,7 +98,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             // try again for variadic functions
             callableId.variadic = true;
             if (!callables.containsKey(callableId)) {
-                throw new DelphiRuntimeError(functionName + " not found.", paramCtx);
+                throw new delphiRuntimeError(functionName + " not found.", paramCtx);
             }
         }
         return callables.get(callableId).apply(args);
@@ -107,7 +107,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     /* visitor implementation */
 
     @Override
-    public Value visitProgram(DelphiParser.ProgramContext ctx){
+    public Value visitProgram(delphiParser.ProgramContext ctx){
         setupBuiltinCallables();
         // push the initial Stack Frame
         this.memory.push(new HashMap<>());
@@ -116,32 +116,32 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitExpandedTypeDefinition(DelphiParser.ExpandedTypeDefinitionContext ctx){
+    public Value visitExpandedTypeDefinition(delphiParser.ExpandedTypeDefinitionContext ctx){
         String typeName = (String)visit(ctx.identifier()).value;
         this.currentType = typeName;
         return visitChildren(ctx);
     }
 
     @Override
-    public Value visitTypeDefinition(DelphiParser.TypeDefinitionContext ctx){
+    public Value visitTypeDefinition(delphiParser.TypeDefinitionContext ctx){
         String typeName = (String)visit(ctx.identifier()).value;
         this.currentType = typeName;
         return visitChildren(ctx);
     }
 
     @Override
-    public Value visitInterfaceType(DelphiParser.InterfaceTypeContext ctx){
+    public Value visitInterfaceType(delphiParser.InterfaceTypeContext ctx){
         TypeInfo ti = new TypeInfo(TypeInfo.Type.INTERFACE);
         this.typeInfo.put(this.currentType, ti);
 
         if (ctx.identifier() != null) {
 			var anscestor = (String) visit(ctx.identifier()).value;
             if (!this.typeInfo.containsKey(anscestor)) {
-                throw new DelphiRuntimeError("No such interface: " + anscestor, ctx);
+                throw new delphiRuntimeError("No such interface: " + anscestor, ctx);
             }
             var parentInfo = this.typeInfo.get(anscestor);
             if (parentInfo.type != TypeInfo.Type.INTERFACE) {
-                throw new DelphiRuntimeError("Cannot extend non interface type: " + anscestor, ctx);
+                throw new delphiRuntimeError("Cannot extend non interface type: " + anscestor, ctx);
             }
             ti.parents.add(parentInfo);
         }
@@ -151,7 +151,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitClassType(DelphiParser.ClassTypeContext ctx){
+    public Value visitClassType(delphiParser.ClassTypeContext ctx){
         TypeInfo ti = new TypeInfo(TypeInfo.Type.CLASS);
         this.typeInfo.put(this.currentType, ti);
         if (ctx.ABSTRACT() != null) {
@@ -166,21 +166,21 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 			var interfaces = (ArrayList<String>) visit(ctx.interfaces()).value;
             var anscestor = interfaces.get(0);
             if (!this.typeInfo.containsKey(anscestor)) {
-                throw new DelphiRuntimeError("No such class: " + anscestor, ctx);
+                throw new delphiRuntimeError("No such class: " + anscestor, ctx);
             }
             var parentInfo = this.typeInfo.get(anscestor);
             if (parentInfo.inheritanceType == InheritanceType.SEALED) {
-                throw new DelphiRuntimeError("Cannot extend sealed class: " + anscestor, ctx);
+                throw new delphiRuntimeError("Cannot extend sealed class: " + anscestor, ctx);
             }
             ti.parents.add(parentInfo);
             for (int i = 1; i < interfaces.size(); i++) {
                 var interfaceName = interfaces.get(i);
                 if (!this.typeInfo.containsKey(interfaceName)) {
-                    throw new DelphiRuntimeError("No such interface: " + interfaceName, ctx);
+                    throw new delphiRuntimeError("No such interface: " + interfaceName, ctx);
                 }
                 var currentInterface = this.typeInfo.get(interfaceName);
                 if (currentInterface.type != TypeInfo.Type.INTERFACE) {
-                    throw new DelphiRuntimeError("Cannot implement non interface type: " + interfaceName, ctx);
+                    throw new delphiRuntimeError("Cannot implement non interface type: " + interfaceName, ctx);
                 }
                 ti.parents.add(currentInterface);
             }
@@ -201,17 +201,17 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitProcedureType(DelphiParser.ProcedureTypeContext ctx){
+    public Value visitProcedureType(delphiParser.ProcedureTypeContext ctx){
         return registerCallable(ctx.formalParameterList());
     }
 
     @Override
-    public Value visitFunctionType(DelphiParser.FunctionTypeContext ctx){
+    public Value visitFunctionType(delphiParser.FunctionTypeContext ctx){
         return registerCallable(ctx.formalParameterList());
     }
 
     @Override
-    public Value visitInterfaces(DelphiParser.InterfacesContext ctx) {
+    public Value visitInterfaces(delphiParser.InterfacesContext ctx) {
         /* 
             have to overload explicitly because visitChildren() in default impl 
             will return null due to terminals at end of rule
@@ -220,33 +220,33 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitAccessSpecifier(DelphiParser.AccessSpecifierContext ctx){
+    public Value visitAccessSpecifier(delphiParser.AccessSpecifierContext ctx){
         this.isPrivate = ctx.PRIVATE() != null;
         return new Value(0);
     }
 
     @Override
-    public Value visitProcedurePrototype(DelphiParser.ProcedurePrototypeContext ctx){
+    public Value visitProcedurePrototype(delphiParser.ProcedurePrototypeContext ctx){
         return registerMethodPrototype(ctx.identifier(), ctx.formalParameterList());
     }
 
     @Override
-    public Value visitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx){
+    public Value visitConstructorPrototype(delphiParser.ConstructorPrototypeContext ctx){
         return registerMethodPrototype(ctx.identifier(), ctx.formalParameterList());
     }
 
     @Override
-    public Value visitDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx){
+    public Value visitDestructorPrototype(delphiParser.DestructorPrototypeContext ctx){
         return registerMethodPrototype(ctx.identifier(), ctx.formalParameterList());
     }
 
     @Override
-    public Value visitFunctionPrototype(DelphiParser.FunctionPrototypeContext ctx) {
+    public Value visitFunctionPrototype(delphiParser.FunctionPrototypeContext ctx) {
         return registerMethodPrototype(ctx.identifier(), ctx.formalParameterList());
     }
 
     @Override
-    public Value visitFormalParameterList(DelphiParser.FormalParameterListContext ctx) {
+    public Value visitFormalParameterList(delphiParser.FormalParameterListContext ctx) {
         var paramGroups = ctx.formalParameterSection();
         ArrayList<Value> params = new ArrayList<>();
         for(int i = 0 ; i < paramGroups.size(); i++){
@@ -260,14 +260,14 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         return new Value(params);
     }
 
-	@Override public Value visitParameterGroup(DelphiParser.ParameterGroupContext ctx) {
+	@Override public Value visitParameterGroup(delphiParser.ParameterGroupContext ctx) {
         var params = visit(ctx.identifierList()).value;
         TYPE type = visit(ctx.typeIdentifier()).type;
         return new Value(params, type);
     }
 
     @Override
-    public Value visitProcedureDeclaration(DelphiParser.ProcedureDeclarationContext ctx){
+    public Value visitProcedureDeclaration(delphiParser.ProcedureDeclarationContext ctx){
         String procedureName = (String)visit(ctx.identifier()).value;
         var procedureId = createCallableInfo(procedureName, ctx.formalParameterList());
         /* might need to eventually check for redefinition dunno if its allowed */
@@ -287,7 +287,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitFunctionDeclaration(DelphiParser.FunctionDeclarationContext ctx){
+    public Value visitFunctionDeclaration(delphiParser.FunctionDeclarationContext ctx){
         String functionName = (String)visit(ctx.identifier()).value;
         var functionId = createCallableInfo(functionName, ctx.formalParameterList());
         /* might need to eventually check for redefinition dunno if its allowed */
@@ -309,14 +309,14 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitMethodProcedureDeclaration(DelphiParser.MethodProcedureDeclarationContext ctx){
+    public Value visitMethodProcedureDeclaration(delphiParser.MethodProcedureDeclarationContext ctx){
         String className = (String)visit(ctx.identifier(0)).value;
         String methodName = (String)visit(ctx.identifier(1)).value;
         TypeInfo tdata = this.typeInfo.get(className);
         var methodId = createCallableInfo(methodName, ctx.formalParameterList());
 
         if(!tdata.hasMethod(methodId)){
-            throw new DelphiRuntimeError("Method " + methodName + " not declared in class " + className, ctx);
+            throw new delphiRuntimeError("Method " + methodName + " not declared in class " + className, ctx);
         }
 
         tdata.registerMethod(methodId, (args) -> {
@@ -325,7 +325,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
                 // add index offset to account for object parameter
                 frame.put(methodId.parameterNames.get(i-1), args.get(i));
             }
-            var objectAttributes = ((DelphiObject) args.get(0).value).attributeMap;
+            var objectAttributes = ((delphiObject) args.get(0).value).attributeMap;
             objectAttributes.forEach((attrName, attrVal) -> frame.put(attrName, attrVal));
             memory.add(frame);
             visit(ctx.block());
@@ -338,14 +338,14 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitMethodFunctionDeclaration(DelphiParser.MethodFunctionDeclarationContext ctx){
+    public Value visitMethodFunctionDeclaration(delphiParser.MethodFunctionDeclarationContext ctx){
         String className = (String)visit(ctx.identifier(0)).value;
         String methodName = (String)visit(ctx.identifier(1)).value;
         TypeInfo tdata = this.typeInfo.get(className);
         var methodId = createCallableInfo(methodName, ctx.formalParameterList());
 
         if(!tdata.hasMethod(methodId)){
-            throw new DelphiRuntimeError("Method " + methodName + " not declared in class " + className, ctx);
+            throw new delphiRuntimeError("Method " + methodName + " not declared in class " + className, ctx);
         }
 
         tdata.registerMethod(methodId, (args) -> {
@@ -354,7 +354,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
                 // add index offset to account for object parameter
                 frame.put(methodId.parameterNames.get(i-1), args.get(i));
             }
-            var objectAttributes = ((DelphiObject) args.get(0).value).attributeMap;
+            var objectAttributes = ((delphiObject) args.get(0).value).attributeMap;
             objectAttributes.forEach((attrName, attrVal) -> frame.put(attrName, attrVal));
             var result = new Value(0);
             frame.put("Result", result);
@@ -369,14 +369,14 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitConstructorDeclaration(DelphiParser.ConstructorDeclarationContext ctx){
+    public Value visitConstructorDeclaration(delphiParser.ConstructorDeclarationContext ctx){
         String className = (String)visit(ctx.identifier(0)).value;
         String constructorName = (String)visit(ctx.identifier(1)).value;
         TypeInfo tdata = this.typeInfo.get(className);
         var constructorId = createCallableInfo(constructorName, ctx.formalParameterList());
 
         if(!tdata.hasMethod(constructorId)){
-            throw new DelphiRuntimeError("Constructor " + constructorName + " not declared in class " + className, ctx);
+            throw new delphiRuntimeError("Constructor " + constructorName + " not declared in class " + className, ctx);
         }
 
         tdata.registerMethod(constructorId, (args) -> {
@@ -391,7 +391,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             memory.add(frame);
             visit(ctx.block());
             objectAttributes.forEach((attrName, attrVal) -> objectAttributes.put(attrName, frame.get(attrName)));
-            var object = new DelphiObject(invokerClass, objectAttributes);
+            var object = new delphiObject(invokerClass, objectAttributes);
             memory.pop();
             return new Value(object, TYPE.REFERENCE);
         });
@@ -400,20 +400,20 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitDestructorDeclaration(DelphiParser.DestructorDeclarationContext ctx){
+    public Value visitDestructorDeclaration(delphiParser.DestructorDeclarationContext ctx){
         String className = (String)visit(ctx.identifier(0)).value;
         String destructorName = (String)visit(ctx.identifier(1)).value;
         TypeInfo tdata = this.typeInfo.get(className);
         var destructorId = createCallableInfo(destructorName, ctx.formalParameterList());
 
         if(!tdata.hasMethod(destructorId)){
-            throw new DelphiRuntimeError("Destructor " + destructorName + " not declared in class " + className, ctx);
+            throw new delphiRuntimeError("Destructor " + destructorName + " not declared in class " + className, ctx);
         }
 
         tdata.registerMethod(destructorId, (args) -> {
             HashMap<String, Value> frame = new HashMap<>();
             var object = args.get(0);
-            var resolvedObject = (DelphiObject) object.value;
+            var resolvedObject = (delphiObject) object.value;
             var objectAttributes = resolvedObject.attributeMap;
             for (int i = 1; i < args.size(); i++) {
                 // add index offset to account for object parameter
@@ -431,7 +431,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitVariableDeclaration(DelphiParser.VariableDeclarationContext ctx){
+    public Value visitVariableDeclaration(delphiParser.VariableDeclarationContext ctx){
         // Get the type
         @SuppressWarnings("unchecked")
         var identifiers = (ArrayList<String>)visit(ctx.identifierList()).value;
@@ -442,7 +442,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitAssignmentStatement(DelphiParser.AssignmentStatementContext ctx){
+    public Value visitAssignmentStatement(delphiParser.AssignmentStatementContext ctx){
         Value writeTo = visit(ctx.variable());
         Value v = visit(ctx.expression());
         writeTo.copyValue(v);
@@ -450,18 +450,18 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitProcedureStatement(DelphiParser.ProcedureStatementContext ctx){
+    public Value visitProcedureStatement(delphiParser.ProcedureStatementContext ctx){
         var procedureName = (String)visit(ctx.identifier()).value;
         return executeCallable(procedureName, ctx.parameterList());
     }
 
     @Override
-    public Value visitFunctionDesignator(DelphiParser.FunctionDesignatorContext ctx){
+    public Value visitFunctionDesignator(delphiParser.FunctionDesignatorContext ctx){
         var functionName = (String)visit(ctx.identifier()).value;
         return executeCallable(functionName, ctx.parameterList());
     }
 
-    @Override public Value visitParameterList(DelphiParser.ParameterListContext ctx) {
+    @Override public Value visitParameterList(delphiParser.ParameterListContext ctx) {
         var resolvedParams = new ArrayList<Value>();
         for (var param : ctx.actualParameter()) {
             resolvedParams.add(visit(param));
@@ -470,7 +470,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitMethodCall(DelphiParser.MethodCallContext ctx){
+    public Value visitMethodCall(delphiParser.MethodCallContext ctx){
         String variableName = (String)visit(ctx.identifier(0)).value;
         String methodName = (String)visit(ctx.identifier(1)).value;
         var topVariables = this.memory.peek();
@@ -485,18 +485,18 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         }
         else if (topVariables.containsKey(variableName)) {
             var variable = topVariables.get(variableName);
-            var object = (DelphiObject)variable.value;
+            var object = (delphiObject)variable.value;
             var method = this.typeInfo.get(object.type).getMethod(methodId);
             args.add(0, variable);
             return method.apply(args);
         }
         else {
-            throw new DelphiRuntimeError("Invalid method invocation: " + variableName + "." + methodName, ctx);
+            throw new delphiRuntimeError("Invalid method invocation: " + variableName + "." + methodName, ctx);
         }
     }
 
     @Override
-    public Value visitSignedFactor(DelphiParser.SignedFactorContext ctx){
+    public Value visitSignedFactor(delphiParser.SignedFactorContext ctx){
         Value pureValue = visit(ctx.factor());
         if(ctx.MINUS() != null) {
             pureValue.value = -(pureValue.asInteger());
@@ -505,28 +505,28 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitUnsignedInteger(DelphiParser.UnsignedIntegerContext ctx){
+    public Value visitUnsignedInteger(delphiParser.UnsignedIntegerContext ctx){
         return new Value(Integer.parseInt(ctx.NUM_INT().toString()), TYPE.INT);
     }
 
-	@Override public Value visitVariable(DelphiParser.VariableContext ctx) {
+	@Override public Value visitVariable(delphiParser.VariableContext ctx) {
         String variableName = (String)visit(ctx.identifier(0)).value;
         String memberName = (ctx.identifier().size() > 1) ? (String)visit(ctx.identifier(1)).value : "";  
         var topVariables = this.memory.peek();
         var callableId = new CallableInfo(variableName);
         if (topVariables.containsKey(variableName)) {
             var variable = topVariables.get(variableName);
-            if (variable.type == TYPE.VOID && !(ctx.getParent() instanceof DelphiParser.AssignmentStatementContext)) {
-                throw new DelphiRuntimeError(variableName + " is uninitialized.", ctx);
+            if (variable.type == TYPE.VOID && !(ctx.getParent() instanceof delphiParser.AssignmentStatementContext)) {
+                throw new delphiRuntimeError(variableName + " is uninitialized.", ctx);
             }
             if (!memberName.isEmpty()) {
-                var object = (DelphiObject)variable.value;
+                var object = (delphiObject)variable.value;
                 var ti = this.typeInfo.get(object.type);
                 var methodId = new CallableInfo(memberName);
                 if (ti.hasAttribute(memberName)) {
                     var attribute = ti.getAttribute(memberName);
                     if (attribute.isPrivate()) {
-                        throw new DelphiRuntimeError("Attempting to access a private member: " + memberName, ctx);
+                        throw new delphiRuntimeError("Attempting to access a private member: " + memberName, ctx);
                     }
                     return attribute;
                 }
@@ -534,7 +534,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
                     return ti.getMethod(methodId).apply(new ArrayList<Value>(Arrays.asList(variable)));
                 }
                 else {
-                    throw new DelphiRuntimeError("No such attribute named: " + memberName, ctx);
+                    throw new delphiRuntimeError("No such attribute named: " + memberName, ctx);
                 }
             }
             return variable;
@@ -543,7 +543,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             var methodId = new CallableInfo(memberName);
             var ti = this.typeInfo.get(variableName);
             if (!ti.hasMethod(methodId)) {
-                throw new DelphiRuntimeError("No such method named: " + memberName, ctx);
+                throw new delphiRuntimeError("No such method named: " + memberName, ctx);
             }
             return ti.getMethod(methodId).apply(new ArrayList<Value>(Arrays.asList(new Value(variableName))));
         }
@@ -551,11 +551,11 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             return callables.get(callableId).apply(new ArrayList<>());
         }
         else {
-            throw new DelphiRuntimeError("Identifier " + variableName + " not found in context", ctx);
+            throw new delphiRuntimeError("Identifier " + variableName + " not found in context", ctx);
         }
     }
 
-	@Override public Value visitIdentifierList(DelphiParser.IdentifierListContext ctx) {
+	@Override public Value visitIdentifierList(delphiParser.IdentifierListContext ctx) {
         ArrayList<String> identifiers = new ArrayList<>();
         for (var identifier : ctx.identifier()) {
             identifiers.add((String) visit(identifier).value);
@@ -564,11 +564,11 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitIdentifier(DelphiParser.IdentifierContext ctx){
+    public Value visitIdentifier(delphiParser.IdentifierContext ctx){
         return new Value(ctx.IDENT().toString(), TYPE.STRING);
     }
 
-	@Override public Value visitTypeIdentifier(DelphiParser.TypeIdentifierContext ctx) {
+	@Override public Value visitTypeIdentifier(delphiParser.TypeIdentifierContext ctx) {
         return new Value(0, TYPE.INT);
     }
 

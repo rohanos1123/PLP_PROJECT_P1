@@ -1,4 +1,4 @@
-// Generated from /home/tr446/Code/grad/COP5556/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
+// Generated from delphi.g4 by ANTLR 4.13.2
 package Grammar;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
-public class DelphiLexer extends Lexer {
+public class delphiLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.13.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -123,13 +123,13 @@ public class DelphiLexer extends Lexer {
 	}
 
 
-	public DelphiLexer(CharStream input) {
+	public delphiLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Delphi.g4"; }
+	public String getGrammarFileName() { return "delphi.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }

@@ -1,4 +1,4 @@
-grammar Delphi;
+grammar delphi;
 
 options {
     caseInsensitive = true;

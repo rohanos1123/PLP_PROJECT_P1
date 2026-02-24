@@ -1,4 +1,4 @@
-// Generated from /home/tr446/Code/grad/COP5556/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
+// Generated from delphi.g4 by ANTLR 4.13.2
 package Grammar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
-public class DelphiParser extends Parser {
+public class delphiParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.13.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -169,7 +169,7 @@ public class DelphiParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Delphi.g4"; }
+	public String getGrammarFileName() { return "delphi.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -180,7 +180,7 @@ public class DelphiParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public DelphiParser(TokenStream input) {
+	public delphiParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
@@ -193,24 +193,24 @@ public class DelphiParser extends Parser {
 		public TopLevelBlockContext topLevelBlock() {
 			return getRuleContext(TopLevelBlockContext.class,0);
 		}
-		public TerminalNode DOT() { return getToken(DelphiParser.DOT, 0); }
-		public TerminalNode EOF() { return getToken(DelphiParser.EOF, 0); }
-		public TerminalNode INTERFACE() { return getToken(DelphiParser.INTERFACE, 0); }
+		public TerminalNode DOT() { return getToken(delphiParser.DOT, 0); }
+		public TerminalNode EOF() { return getToken(delphiParser.EOF, 0); }
+		public TerminalNode INTERFACE() { return getToken(delphiParser.INTERFACE, 0); }
 		public ProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterProgram(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterProgram(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitProgram(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitProgram(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitProgram(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitProgram(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -255,32 +255,32 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProgramHeadingContext extends ParserRuleContext {
-		public TerminalNode PROGRAM() { return getToken(DelphiParser.PROGRAM, 0); }
+		public TerminalNode PROGRAM() { return getToken(delphiParser.PROGRAM, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
-		public TerminalNode LPAREN() { return getToken(DelphiParser.LPAREN, 0); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
+		public TerminalNode LPAREN() { return getToken(delphiParser.LPAREN, 0); }
 		public IdentifierListContext identifierList() {
 			return getRuleContext(IdentifierListContext.class,0);
 		}
-		public TerminalNode RPAREN() { return getToken(DelphiParser.RPAREN, 0); }
-		public TerminalNode UNIT() { return getToken(DelphiParser.UNIT, 0); }
+		public TerminalNode RPAREN() { return getToken(delphiParser.RPAREN, 0); }
+		public TerminalNode UNIT() { return getToken(delphiParser.UNIT, 0); }
 		public ProgramHeadingContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_programHeading; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterProgramHeading(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterProgramHeading(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitProgramHeading(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitProgramHeading(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitProgramHeading(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitProgramHeading(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -346,22 +346,22 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class IdentifierContext extends ParserRuleContext {
-		public TerminalNode IDENT() { return getToken(DelphiParser.IDENT, 0); }
+		public TerminalNode IDENT() { return getToken(delphiParser.IDENT, 0); }
 		public IdentifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_identifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterIdentifier(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterIdentifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitIdentifier(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitIdentifier(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitIdentifier(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitIdentifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -428,9 +428,9 @@ public class DelphiParser extends Parser {
 		public UsesUnitsPartContext usesUnitsPart(int i) {
 			return getRuleContext(UsesUnitsPartContext.class,i);
 		}
-		public List<TerminalNode> IMPLEMENTATION() { return getTokens(DelphiParser.IMPLEMENTATION); }
+		public List<TerminalNode> IMPLEMENTATION() { return getTokens(delphiParser.IMPLEMENTATION); }
 		public TerminalNode IMPLEMENTATION(int i) {
-			return getToken(DelphiParser.IMPLEMENTATION, i);
+			return getToken(delphiParser.IMPLEMENTATION, i);
 		}
 		public TopLevelBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -438,15 +438,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_topLevelBlock; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterTopLevelBlock(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterTopLevelBlock(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitTopLevelBlock(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitTopLevelBlock(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitTopLevelBlock(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitTopLevelBlock(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -536,16 +536,16 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ExpandedTypeDefinitionPartContext extends ParserRuleContext {
-		public TerminalNode TYPE() { return getToken(DelphiParser.TYPE, 0); }
+		public TerminalNode TYPE() { return getToken(delphiParser.TYPE, 0); }
 		public List<ExpandedTypeDefinitionContext> expandedTypeDefinition() {
 			return getRuleContexts(ExpandedTypeDefinitionContext.class);
 		}
 		public ExpandedTypeDefinitionContext expandedTypeDefinition(int i) {
 			return getRuleContext(ExpandedTypeDefinitionContext.class,i);
 		}
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
 		public ExpandedTypeDefinitionPartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -553,15 +553,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expandedTypeDefinitionPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterExpandedTypeDefinitionPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterExpandedTypeDefinitionPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitExpandedTypeDefinitionPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitExpandedTypeDefinitionPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitExpandedTypeDefinitionPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitExpandedTypeDefinitionPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -609,7 +609,7 @@ public class DelphiParser extends Parser {
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode EQUAL() { return getToken(DelphiParser.EQUAL, 0); }
+		public TerminalNode EQUAL() { return getToken(delphiParser.EQUAL, 0); }
 		public ClassTypeContext classType() {
 			return getRuleContext(ClassTypeContext.class,0);
 		}
@@ -631,15 +631,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expandedTypeDefinition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterExpandedTypeDefinition(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterExpandedTypeDefinition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitExpandedTypeDefinition(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitExpandedTypeDefinition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitExpandedTypeDefinition(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitExpandedTypeDefinition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -723,30 +723,30 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ClassTypeContext extends ParserRuleContext {
-		public TerminalNode CLASS() { return getToken(DelphiParser.CLASS, 0); }
+		public TerminalNode CLASS() { return getToken(delphiParser.CLASS, 0); }
 		public InterfacesContext interfaces() {
 			return getRuleContext(InterfacesContext.class,0);
 		}
 		public ClassDefinitionContext classDefinition() {
 			return getRuleContext(ClassDefinitionContext.class,0);
 		}
-		public TerminalNode ABSTRACT() { return getToken(DelphiParser.ABSTRACT, 0); }
-		public TerminalNode SEALED() { return getToken(DelphiParser.SEALED, 0); }
+		public TerminalNode ABSTRACT() { return getToken(delphiParser.ABSTRACT, 0); }
+		public TerminalNode SEALED() { return getToken(delphiParser.SEALED, 0); }
 		public ClassTypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_classType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterClassType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterClassType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitClassType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitClassType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitClassType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitClassType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -819,26 +819,26 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class InterfacesContext extends ParserRuleContext {
-		public TerminalNode LPAREN() { return getToken(DelphiParser.LPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(delphiParser.LPAREN, 0); }
 		public IdentifierListContext identifierList() {
 			return getRuleContext(IdentifierListContext.class,0);
 		}
-		public TerminalNode RPAREN() { return getToken(DelphiParser.RPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(delphiParser.RPAREN, 0); }
 		public InterfacesContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_interfaces; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterInterfaces(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterInterfaces(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitInterfaces(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitInterfaces(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitInterfaces(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitInterfaces(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -870,7 +870,7 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ClassDefinitionContext extends ParserRuleContext {
-		public TerminalNode END() { return getToken(DelphiParser.END, 0); }
+		public TerminalNode END() { return getToken(delphiParser.END, 0); }
 		public List<PrimaryFieldDeclarationPartContext> primaryFieldDeclarationPart() {
 			return getRuleContexts(PrimaryFieldDeclarationPartContext.class);
 		}
@@ -901,15 +901,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_classDefinition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterClassDefinition(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterClassDefinition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitClassDefinition(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitClassDefinition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitClassDefinition(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitClassDefinition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1001,9 +1001,9 @@ public class DelphiParser extends Parser {
 		public VariableDeclarationContext variableDeclaration(int i) {
 			return getRuleContext(VariableDeclarationContext.class,i);
 		}
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
 		public PrimaryFieldDeclarationPartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1011,15 +1011,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_primaryFieldDeclarationPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterPrimaryFieldDeclarationPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterPrimaryFieldDeclarationPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitPrimaryFieldDeclarationPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitPrimaryFieldDeclarationPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitPrimaryFieldDeclarationPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitPrimaryFieldDeclarationPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1092,15 +1092,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_memberListPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterMemberListPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterMemberListPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitMemberListPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitMemberListPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitMemberListPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitMemberListPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1178,25 +1178,25 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class AccessSpecifierContext extends ParserRuleContext {
-		public TerminalNode PRIVATE() { return getToken(DelphiParser.PRIVATE, 0); }
-		public TerminalNode PROTECTED() { return getToken(DelphiParser.PROTECTED, 0); }
-		public TerminalNode PUBLIC() { return getToken(DelphiParser.PUBLIC, 0); }
-		public TerminalNode PUBLISHED() { return getToken(DelphiParser.PUBLISHED, 0); }
+		public TerminalNode PRIVATE() { return getToken(delphiParser.PRIVATE, 0); }
+		public TerminalNode PROTECTED() { return getToken(delphiParser.PROTECTED, 0); }
+		public TerminalNode PUBLIC() { return getToken(delphiParser.PUBLIC, 0); }
+		public TerminalNode PUBLISHED() { return getToken(delphiParser.PUBLISHED, 0); }
 		public AccessSpecifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_accessSpecifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterAccessSpecifier(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterAccessSpecifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitAccessSpecifier(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitAccessSpecifier(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitAccessSpecifier(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitAccessSpecifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1233,7 +1233,7 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class MethodPrototypeContext extends ParserRuleContext {
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
 		public ProcedurePrototypeContext procedurePrototype() {
 			return getRuleContext(ProcedurePrototypeContext.class,0);
 		}
@@ -1252,15 +1252,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_methodPrototype; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterMethodPrototype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterMethodPrototype(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitMethodPrototype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitMethodPrototype(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitMethodPrototype(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitMethodPrototype(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1318,7 +1318,7 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProcedurePrototypeContext extends ParserRuleContext {
-		public TerminalNode PROCEDURE() { return getToken(DelphiParser.PROCEDURE, 0); }
+		public TerminalNode PROCEDURE() { return getToken(delphiParser.PROCEDURE, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
@@ -1331,15 +1331,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_procedurePrototype; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterProcedurePrototype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterProcedurePrototype(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitProcedurePrototype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitProcedurePrototype(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitProcedurePrototype(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitProcedurePrototype(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1380,7 +1380,7 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ConstructorPrototypeContext extends ParserRuleContext {
-		public TerminalNode CONSTRUCTOR() { return getToken(DelphiParser.CONSTRUCTOR, 0); }
+		public TerminalNode CONSTRUCTOR() { return getToken(delphiParser.CONSTRUCTOR, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
@@ -1393,15 +1393,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_constructorPrototype; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterConstructorPrototype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterConstructorPrototype(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitConstructorPrototype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitConstructorPrototype(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitConstructorPrototype(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitConstructorPrototype(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1442,7 +1442,7 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class DestructorPrototypeContext extends ParserRuleContext {
-		public TerminalNode DESTRUCTOR() { return getToken(DelphiParser.DESTRUCTOR, 0); }
+		public TerminalNode DESTRUCTOR() { return getToken(delphiParser.DESTRUCTOR, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
@@ -1455,15 +1455,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_destructorPrototype; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterDestructorPrototype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterDestructorPrototype(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitDestructorPrototype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitDestructorPrototype(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitDestructorPrototype(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitDestructorPrototype(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1504,11 +1504,11 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class FunctionPrototypeContext extends ParserRuleContext {
-		public TerminalNode FUNCTION() { return getToken(DelphiParser.FUNCTION, 0); }
+		public TerminalNode FUNCTION() { return getToken(delphiParser.FUNCTION, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
 		public ResultTypeContext resultType() {
 			return getRuleContext(ResultTypeContext.class,0);
 		}
@@ -1521,15 +1521,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_functionPrototype; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterFunctionPrototype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterFunctionPrototype(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitFunctionPrototype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitFunctionPrototype(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitFunctionPrototype(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitFunctionPrototype(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1574,17 +1574,17 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ClassFieldDeclarationPartContext extends ParserRuleContext {
-		public TerminalNode CLASS() { return getToken(DelphiParser.CLASS, 0); }
-		public TerminalNode VAR() { return getToken(DelphiParser.VAR, 0); }
+		public TerminalNode CLASS() { return getToken(delphiParser.CLASS, 0); }
+		public TerminalNode VAR() { return getToken(delphiParser.VAR, 0); }
 		public List<VariableDeclarationContext> variableDeclaration() {
 			return getRuleContexts(VariableDeclarationContext.class);
 		}
 		public VariableDeclarationContext variableDeclaration(int i) {
 			return getRuleContext(VariableDeclarationContext.class,i);
 		}
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
 		public ClassFieldDeclarationPartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1592,15 +1592,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_classFieldDeclarationPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterClassFieldDeclarationPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterClassFieldDeclarationPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitClassFieldDeclarationPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitClassFieldDeclarationPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitClassFieldDeclarationPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitClassFieldDeclarationPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1653,19 +1653,19 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class InterfaceTypeContext extends ParserRuleContext {
-		public TerminalNode INTERFACE() { return getToken(DelphiParser.INTERFACE, 0); }
-		public TerminalNode LPAREN() { return getToken(DelphiParser.LPAREN, 0); }
+		public TerminalNode INTERFACE() { return getToken(delphiParser.INTERFACE, 0); }
+		public TerminalNode LPAREN() { return getToken(delphiParser.LPAREN, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode RPAREN() { return getToken(DelphiParser.RPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(delphiParser.RPAREN, 0); }
 		public InterfaceGuidContext interfaceGuid() {
 			return getRuleContext(InterfaceGuidContext.class,0);
 		}
-		public TerminalNode END() { return getToken(DelphiParser.END, 0); }
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public TerminalNode END() { return getToken(delphiParser.END, 0); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
 		public List<ProcedurePrototypeContext> procedurePrototype() {
 			return getRuleContexts(ProcedurePrototypeContext.class);
@@ -1685,15 +1685,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_interfaceType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterInterfaceType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterInterfaceType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitInterfaceType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitInterfaceType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitInterfaceType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitInterfaceType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1788,24 +1788,24 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class InterfaceGuidContext extends ParserRuleContext {
-		public TerminalNode LBRACK() { return getToken(DelphiParser.LBRACK, 0); }
-		public TerminalNode STRING_LITERAL() { return getToken(DelphiParser.STRING_LITERAL, 0); }
-		public TerminalNode RBRACK() { return getToken(DelphiParser.RBRACK, 0); }
+		public TerminalNode LBRACK() { return getToken(delphiParser.LBRACK, 0); }
+		public TerminalNode STRING_LITERAL() { return getToken(delphiParser.STRING_LITERAL, 0); }
+		public TerminalNode RBRACK() { return getToken(delphiParser.RBRACK, 0); }
 		public InterfaceGuidContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_interfaceGuid; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterInterfaceGuid(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterInterfaceGuid(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitInterfaceGuid(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitInterfaceGuid(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitInterfaceGuid(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitInterfaceGuid(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1837,26 +1837,26 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class UsesUnitsPartContext extends ParserRuleContext {
-		public TerminalNode USES() { return getToken(DelphiParser.USES, 0); }
+		public TerminalNode USES() { return getToken(delphiParser.USES, 0); }
 		public IdentifierListContext identifierList() {
 			return getRuleContext(IdentifierListContext.class,0);
 		}
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
 		public UsesUnitsPartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_usesUnitsPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterUsesUnitsPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterUsesUnitsPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitUsesUnitsPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitUsesUnitsPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitUsesUnitsPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitUsesUnitsPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1888,17 +1888,17 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class LabelDeclarationPartContext extends ParserRuleContext {
-		public TerminalNode LABEL() { return getToken(DelphiParser.LABEL, 0); }
+		public TerminalNode LABEL() { return getToken(delphiParser.LABEL, 0); }
 		public List<LabelContext> label() {
 			return getRuleContexts(LabelContext.class);
 		}
 		public LabelContext label(int i) {
 			return getRuleContext(LabelContext.class,i);
 		}
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(DelphiParser.COMMA); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
+		public List<TerminalNode> COMMA() { return getTokens(delphiParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(DelphiParser.COMMA, i);
+			return getToken(delphiParser.COMMA, i);
 		}
 		public LabelDeclarationPartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1906,15 +1906,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_labelDeclarationPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterLabelDeclarationPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterLabelDeclarationPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitLabelDeclarationPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitLabelDeclarationPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitLabelDeclarationPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitLabelDeclarationPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1972,15 +1972,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_label; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterLabel(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterLabel(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitLabel(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitLabel(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitLabel(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitLabel(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2008,16 +2008,16 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ConstantDefinitionPartContext extends ParserRuleContext {
-		public TerminalNode CONST() { return getToken(DelphiParser.CONST, 0); }
+		public TerminalNode CONST() { return getToken(delphiParser.CONST, 0); }
 		public List<ConstantDefinitionContext> constantDefinition() {
 			return getRuleContexts(ConstantDefinitionContext.class);
 		}
 		public ConstantDefinitionContext constantDefinition(int i) {
 			return getRuleContext(ConstantDefinitionContext.class,i);
 		}
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
 		public ConstantDefinitionPartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2025,15 +2025,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_constantDefinitionPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterConstantDefinitionPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterConstantDefinitionPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitConstantDefinitionPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitConstantDefinitionPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitConstantDefinitionPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitConstantDefinitionPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2081,7 +2081,7 @@ public class DelphiParser extends Parser {
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode EQUAL() { return getToken(DelphiParser.EQUAL, 0); }
+		public TerminalNode EQUAL() { return getToken(delphiParser.EQUAL, 0); }
 		public ConstantContext constant() {
 			return getRuleContext(ConstantContext.class,0);
 		}
@@ -2091,15 +2091,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_constantDefinition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterConstantDefinition(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterConstantDefinition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitConstantDefinition(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitConstantDefinition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitConstantDefinition(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitConstantDefinition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2131,27 +2131,27 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ConstantChrContext extends ParserRuleContext {
-		public TerminalNode CHR() { return getToken(DelphiParser.CHR, 0); }
-		public TerminalNode LPAREN() { return getToken(DelphiParser.LPAREN, 0); }
+		public TerminalNode CHR() { return getToken(delphiParser.CHR, 0); }
+		public TerminalNode LPAREN() { return getToken(delphiParser.LPAREN, 0); }
 		public UnsignedIntegerContext unsignedInteger() {
 			return getRuleContext(UnsignedIntegerContext.class,0);
 		}
-		public TerminalNode RPAREN() { return getToken(DelphiParser.RPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(delphiParser.RPAREN, 0); }
 		public ConstantChrContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_constantChr; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterConstantChr(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterConstantChr(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitConstantChr(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitConstantChr(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitConstantChr(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitConstantChr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2206,15 +2206,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_constant; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterConstant(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterConstant(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitConstant(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitConstant(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitConstant(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitConstant(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2299,15 +2299,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_unsignedNumber; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterUnsignedNumber(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterUnsignedNumber(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitUnsignedNumber(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitUnsignedNumber(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitUnsignedNumber(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitUnsignedNumber(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2350,22 +2350,22 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class UnsignedIntegerContext extends ParserRuleContext {
-		public TerminalNode NUM_INT() { return getToken(DelphiParser.NUM_INT, 0); }
+		public TerminalNode NUM_INT() { return getToken(delphiParser.NUM_INT, 0); }
 		public UnsignedIntegerContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_unsignedInteger; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterUnsignedInteger(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterUnsignedInteger(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitUnsignedInteger(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitUnsignedInteger(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitUnsignedInteger(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitUnsignedInteger(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2393,22 +2393,22 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class UnsignedRealContext extends ParserRuleContext {
-		public TerminalNode NUM_REAL() { return getToken(DelphiParser.NUM_REAL, 0); }
+		public TerminalNode NUM_REAL() { return getToken(delphiParser.NUM_REAL, 0); }
 		public UnsignedRealContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_unsignedReal; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterUnsignedReal(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterUnsignedReal(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitUnsignedReal(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitUnsignedReal(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitUnsignedReal(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitUnsignedReal(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2436,23 +2436,23 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class SignContext extends ParserRuleContext {
-		public TerminalNode PLUS() { return getToken(DelphiParser.PLUS, 0); }
-		public TerminalNode MINUS() { return getToken(DelphiParser.MINUS, 0); }
+		public TerminalNode PLUS() { return getToken(delphiParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(delphiParser.MINUS, 0); }
 		public SignContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_sign; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterSign(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterSign(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitSign(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitSign(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitSign(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitSign(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2489,23 +2489,23 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Bool_Context extends ParserRuleContext {
-		public TerminalNode TRUE() { return getToken(DelphiParser.TRUE, 0); }
-		public TerminalNode FALSE() { return getToken(DelphiParser.FALSE, 0); }
+		public TerminalNode TRUE() { return getToken(delphiParser.TRUE, 0); }
+		public TerminalNode FALSE() { return getToken(delphiParser.FALSE, 0); }
 		public Bool_Context(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_bool_; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterBool_(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterBool_(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitBool_(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitBool_(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitBool_(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitBool_(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2542,22 +2542,22 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class StringContext extends ParserRuleContext {
-		public TerminalNode STRING_LITERAL() { return getToken(DelphiParser.STRING_LITERAL, 0); }
+		public TerminalNode STRING_LITERAL() { return getToken(delphiParser.STRING_LITERAL, 0); }
 		public StringContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_string; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterString(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterString(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitString(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitString(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitString(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitString(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2585,16 +2585,16 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class TypeDefinitionPartContext extends ParserRuleContext {
-		public TerminalNode TYPE() { return getToken(DelphiParser.TYPE, 0); }
+		public TerminalNode TYPE() { return getToken(delphiParser.TYPE, 0); }
 		public List<TypeDefinitionContext> typeDefinition() {
 			return getRuleContexts(TypeDefinitionContext.class);
 		}
 		public TypeDefinitionContext typeDefinition(int i) {
 			return getRuleContext(TypeDefinitionContext.class,i);
 		}
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
 		public TypeDefinitionPartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2602,15 +2602,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_typeDefinitionPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterTypeDefinitionPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterTypeDefinitionPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitTypeDefinitionPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitTypeDefinitionPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitTypeDefinitionPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitTypeDefinitionPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2658,7 +2658,7 @@ public class DelphiParser extends Parser {
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode EQUAL() { return getToken(DelphiParser.EQUAL, 0); }
+		public TerminalNode EQUAL() { return getToken(delphiParser.EQUAL, 0); }
 		public FunctionTypeContext functionType() {
 			return getRuleContext(FunctionTypeContext.class,0);
 		}
@@ -2674,15 +2674,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_typeDefinition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterTypeDefinition(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterTypeDefinition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitTypeDefinition(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitTypeDefinition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitTypeDefinition(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitTypeDefinition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2754,8 +2754,8 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class FunctionTypeContext extends ParserRuleContext {
-		public TerminalNode FUNCTION() { return getToken(DelphiParser.FUNCTION, 0); }
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
+		public TerminalNode FUNCTION() { return getToken(delphiParser.FUNCTION, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
 		public ResultTypeContext resultType() {
 			return getRuleContext(ResultTypeContext.class,0);
 		}
@@ -2768,15 +2768,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_functionType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterFunctionType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterFunctionType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitFunctionType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitFunctionType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitFunctionType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitFunctionType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2819,7 +2819,7 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProcedureTypeContext extends ParserRuleContext {
-		public TerminalNode PROCEDURE() { return getToken(DelphiParser.PROCEDURE, 0); }
+		public TerminalNode PROCEDURE() { return getToken(delphiParser.PROCEDURE, 0); }
 		public FormalParameterListContext formalParameterList() {
 			return getRuleContext(FormalParameterListContext.class,0);
 		}
@@ -2829,15 +2829,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_procedureType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterProcedureType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterProcedureType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitProcedureType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitProcedureType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitProcedureType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitProcedureType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2891,15 +2891,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_type_; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterType_(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterType_(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitType_(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitType_(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitType_(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitType_(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -2983,15 +2983,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_simpleType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterSimpleType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterSimpleType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitSimpleType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitSimpleType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitSimpleType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitSimpleType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3046,26 +3046,26 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ScalarTypeContext extends ParserRuleContext {
-		public TerminalNode LPAREN() { return getToken(DelphiParser.LPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(delphiParser.LPAREN, 0); }
 		public IdentifierListContext identifierList() {
 			return getRuleContext(IdentifierListContext.class,0);
 		}
-		public TerminalNode RPAREN() { return getToken(DelphiParser.RPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(delphiParser.RPAREN, 0); }
 		public ScalarTypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_scalarType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterScalarType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterScalarType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitScalarType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitScalarType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitScalarType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitScalarType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3103,22 +3103,22 @@ public class DelphiParser extends Parser {
 		public ConstantContext constant(int i) {
 			return getRuleContext(ConstantContext.class,i);
 		}
-		public TerminalNode DOTDOT() { return getToken(DelphiParser.DOTDOT, 0); }
+		public TerminalNode DOTDOT() { return getToken(delphiParser.DOTDOT, 0); }
 		public SubrangeTypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_subrangeType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterSubrangeType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterSubrangeType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitSubrangeType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitSubrangeType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitSubrangeType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitSubrangeType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3153,26 +3153,26 @@ public class DelphiParser extends Parser {
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode CHAR() { return getToken(DelphiParser.CHAR, 0); }
-		public TerminalNode BOOLEAN() { return getToken(DelphiParser.BOOLEAN, 0); }
-		public TerminalNode INTEGER() { return getToken(DelphiParser.INTEGER, 0); }
-		public TerminalNode REAL() { return getToken(DelphiParser.REAL, 0); }
-		public TerminalNode STRING() { return getToken(DelphiParser.STRING, 0); }
+		public TerminalNode CHAR() { return getToken(delphiParser.CHAR, 0); }
+		public TerminalNode BOOLEAN() { return getToken(delphiParser.BOOLEAN, 0); }
+		public TerminalNode INTEGER() { return getToken(delphiParser.INTEGER, 0); }
+		public TerminalNode REAL() { return getToken(delphiParser.REAL, 0); }
+		public TerminalNode STRING() { return getToken(delphiParser.STRING, 0); }
 		public TypeIdentifierContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_typeIdentifier; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterTypeIdentifier(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterTypeIdentifier(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitTypeIdentifier(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitTypeIdentifier(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitTypeIdentifier(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitTypeIdentifier(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3228,7 +3228,7 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class StructuredTypeContext extends ParserRuleContext {
-		public TerminalNode PACKED() { return getToken(DelphiParser.PACKED, 0); }
+		public TerminalNode PACKED() { return getToken(delphiParser.PACKED, 0); }
 		public UnpackedStructuredTypeContext unpackedStructuredType() {
 			return getRuleContext(UnpackedStructuredTypeContext.class,0);
 		}
@@ -3238,15 +3238,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_structuredType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterStructuredType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterStructuredType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitStructuredType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitStructuredType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitStructuredType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitStructuredType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3312,15 +3312,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_unpackedStructuredType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterUnpackedStructuredType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterUnpackedStructuredType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitUnpackedStructuredType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitUnpackedStructuredType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitUnpackedStructuredType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitUnpackedStructuredType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3377,9 +3377,9 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class StringtypeContext extends ParserRuleContext {
-		public TerminalNode STRING() { return getToken(DelphiParser.STRING, 0); }
-		public TerminalNode LBRACK() { return getToken(DelphiParser.LBRACK, 0); }
-		public TerminalNode RBRACK() { return getToken(DelphiParser.RBRACK, 0); }
+		public TerminalNode STRING() { return getToken(delphiParser.STRING, 0); }
+		public TerminalNode LBRACK() { return getToken(delphiParser.LBRACK, 0); }
+		public TerminalNode RBRACK() { return getToken(delphiParser.RBRACK, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
@@ -3392,15 +3392,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_stringtype; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterStringtype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterStringtype(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitStringtype(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitStringtype(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitStringtype(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitStringtype(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3451,33 +3451,33 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ArrayTypeContext extends ParserRuleContext {
-		public TerminalNode ARRAY() { return getToken(DelphiParser.ARRAY, 0); }
-		public TerminalNode LBRACK() { return getToken(DelphiParser.LBRACK, 0); }
+		public TerminalNode ARRAY() { return getToken(delphiParser.ARRAY, 0); }
+		public TerminalNode LBRACK() { return getToken(delphiParser.LBRACK, 0); }
 		public TypeListContext typeList() {
 			return getRuleContext(TypeListContext.class,0);
 		}
-		public TerminalNode RBRACK() { return getToken(DelphiParser.RBRACK, 0); }
-		public TerminalNode OF() { return getToken(DelphiParser.OF, 0); }
+		public TerminalNode RBRACK() { return getToken(delphiParser.RBRACK, 0); }
+		public TerminalNode OF() { return getToken(delphiParser.OF, 0); }
 		public ComponentTypeContext componentType() {
 			return getRuleContext(ComponentTypeContext.class,0);
 		}
-		public TerminalNode LBRACK2() { return getToken(DelphiParser.LBRACK2, 0); }
-		public TerminalNode RBRACK2() { return getToken(DelphiParser.RBRACK2, 0); }
+		public TerminalNode LBRACK2() { return getToken(delphiParser.LBRACK2, 0); }
+		public TerminalNode RBRACK2() { return getToken(delphiParser.RBRACK2, 0); }
 		public ArrayTypeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arrayType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterArrayType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterArrayType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitArrayType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitArrayType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitArrayType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitArrayType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3544,9 +3544,9 @@ public class DelphiParser extends Parser {
 		public IndexTypeContext indexType(int i) {
 			return getRuleContext(IndexTypeContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(DelphiParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(delphiParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(DelphiParser.COMMA, i);
+			return getToken(delphiParser.COMMA, i);
 		}
 		public TypeListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -3554,15 +3554,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_typeList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterTypeList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterTypeList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitTypeList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitTypeList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitTypeList(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitTypeList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3616,15 +3616,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_indexType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterIndexType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterIndexType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitIndexType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitIndexType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitIndexType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitIndexType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3661,15 +3661,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_componentType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterComponentType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterComponentType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitComponentType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitComponentType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitComponentType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitComponentType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3697,8 +3697,8 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class RecordTypeContext extends ParserRuleContext {
-		public TerminalNode RECORD() { return getToken(DelphiParser.RECORD, 0); }
-		public TerminalNode END() { return getToken(DelphiParser.END, 0); }
+		public TerminalNode RECORD() { return getToken(delphiParser.RECORD, 0); }
+		public TerminalNode END() { return getToken(delphiParser.END, 0); }
 		public FieldListContext fieldList() {
 			return getRuleContext(FieldListContext.class,0);
 		}
@@ -3708,15 +3708,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_recordType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterRecordType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterRecordType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitRecordType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitRecordType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitRecordType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitRecordType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3760,7 +3760,7 @@ public class DelphiParser extends Parser {
 		public FixedPartContext fixedPart() {
 			return getRuleContext(FixedPartContext.class,0);
 		}
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
 		public VariantPartContext variantPart() {
 			return getRuleContext(VariantPartContext.class,0);
 		}
@@ -3770,15 +3770,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_fieldList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterFieldList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterFieldList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitFieldList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitFieldList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitFieldList(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitFieldList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3840,9 +3840,9 @@ public class DelphiParser extends Parser {
 		public RecordSectionContext recordSection(int i) {
 			return getRuleContext(RecordSectionContext.class,i);
 		}
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
 		public FixedPartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -3850,15 +3850,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_fixedPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterFixedPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterFixedPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitFixedPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitFixedPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitFixedPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitFixedPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3908,7 +3908,7 @@ public class DelphiParser extends Parser {
 		public IdentifierListContext identifierList() {
 			return getRuleContext(IdentifierListContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
 		public Type_Context type_() {
 			return getRuleContext(Type_Context.class,0);
 		}
@@ -3918,15 +3918,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_recordSection; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterRecordSection(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterRecordSection(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitRecordSection(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitRecordSection(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitRecordSection(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitRecordSection(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -3958,20 +3958,20 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class VariantPartContext extends ParserRuleContext {
-		public TerminalNode CASE() { return getToken(DelphiParser.CASE, 0); }
+		public TerminalNode CASE() { return getToken(delphiParser.CASE, 0); }
 		public TagContext tag() {
 			return getRuleContext(TagContext.class,0);
 		}
-		public TerminalNode OF() { return getToken(DelphiParser.OF, 0); }
+		public TerminalNode OF() { return getToken(delphiParser.OF, 0); }
 		public List<VariantContext> variant() {
 			return getRuleContexts(VariantContext.class);
 		}
 		public VariantContext variant(int i) {
 			return getRuleContext(VariantContext.class,i);
 		}
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
 		public VariantPartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -3979,15 +3979,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_variantPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterVariantPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterVariantPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitVariantPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitVariantPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitVariantPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitVariantPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4041,7 +4041,7 @@ public class DelphiParser extends Parser {
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
 		public TypeIdentifierContext typeIdentifier() {
 			return getRuleContext(TypeIdentifierContext.class,0);
 		}
@@ -4051,15 +4051,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_tag; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterTag(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterTag(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitTag(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitTag(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitTag(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitTag(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4107,27 +4107,27 @@ public class DelphiParser extends Parser {
 		public ConstListContext constList() {
 			return getRuleContext(ConstListContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
-		public TerminalNode LPAREN() { return getToken(DelphiParser.LPAREN, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
+		public TerminalNode LPAREN() { return getToken(delphiParser.LPAREN, 0); }
 		public FieldListContext fieldList() {
 			return getRuleContext(FieldListContext.class,0);
 		}
-		public TerminalNode RPAREN() { return getToken(DelphiParser.RPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(delphiParser.RPAREN, 0); }
 		public VariantContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_variant; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterVariant(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterVariant(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitVariant(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitVariant(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitVariant(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitVariant(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4163,8 +4163,8 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class SetTypeContext extends ParserRuleContext {
-		public TerminalNode SET() { return getToken(DelphiParser.SET, 0); }
-		public TerminalNode OF() { return getToken(DelphiParser.OF, 0); }
+		public TerminalNode SET() { return getToken(delphiParser.SET, 0); }
+		public TerminalNode OF() { return getToken(delphiParser.OF, 0); }
 		public BaseTypeContext baseType() {
 			return getRuleContext(BaseTypeContext.class,0);
 		}
@@ -4174,15 +4174,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_setType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterSetType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterSetType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitSetType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitSetType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitSetType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitSetType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4223,15 +4223,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_baseType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterBaseType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterBaseType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitBaseType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitBaseType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitBaseType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitBaseType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4259,8 +4259,8 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class FileTypeContext extends ParserRuleContext {
-		public TerminalNode FILE() { return getToken(DelphiParser.FILE, 0); }
-		public TerminalNode OF() { return getToken(DelphiParser.OF, 0); }
+		public TerminalNode FILE() { return getToken(delphiParser.FILE, 0); }
+		public TerminalNode OF() { return getToken(delphiParser.OF, 0); }
 		public Type_Context type_() {
 			return getRuleContext(Type_Context.class,0);
 		}
@@ -4270,15 +4270,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_fileType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterFileType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterFileType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitFileType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitFileType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitFileType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitFileType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4323,7 +4323,7 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class PointerTypeContext extends ParserRuleContext {
-		public TerminalNode POINTER() { return getToken(DelphiParser.POINTER, 0); }
+		public TerminalNode POINTER() { return getToken(delphiParser.POINTER, 0); }
 		public TypeIdentifierContext typeIdentifier() {
 			return getRuleContext(TypeIdentifierContext.class,0);
 		}
@@ -4333,15 +4333,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_pointerType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterPointerType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterPointerType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitPointerType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitPointerType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitPointerType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitPointerType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4371,16 +4371,16 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class VariableDeclarationPartContext extends ParserRuleContext {
-		public TerminalNode VAR() { return getToken(DelphiParser.VAR, 0); }
+		public TerminalNode VAR() { return getToken(delphiParser.VAR, 0); }
 		public List<VariableDeclarationContext> variableDeclaration() {
 			return getRuleContexts(VariableDeclarationContext.class);
 		}
 		public VariableDeclarationContext variableDeclaration(int i) {
 			return getRuleContext(VariableDeclarationContext.class,i);
 		}
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
 		public VariableDeclarationPartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -4388,15 +4388,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_variableDeclarationPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterVariableDeclarationPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterVariableDeclarationPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitVariableDeclarationPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitVariableDeclarationPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitVariableDeclarationPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitVariableDeclarationPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4450,7 +4450,7 @@ public class DelphiParser extends Parser {
 		public IdentifierListContext identifierList() {
 			return getRuleContext(IdentifierListContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
 		public Type_Context type_() {
 			return getRuleContext(Type_Context.class,0);
 		}
@@ -4460,15 +4460,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_variableDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterVariableDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterVariableDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitVariableDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitVariableDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitVariableDeclaration(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitVariableDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4503,22 +4503,22 @@ public class DelphiParser extends Parser {
 		public ProcedureOrFunctionDeclarationContext procedureOrFunctionDeclaration() {
 			return getRuleContext(ProcedureOrFunctionDeclarationContext.class,0);
 		}
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
 		public ProcedureAndFunctionDeclarationPartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_procedureAndFunctionDeclarationPart; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterProcedureAndFunctionDeclarationPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterProcedureAndFunctionDeclarationPart(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitProcedureAndFunctionDeclarationPart(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitProcedureAndFunctionDeclarationPart(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitProcedureAndFunctionDeclarationPart(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitProcedureAndFunctionDeclarationPart(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4572,15 +4572,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_procedureOrFunctionDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterProcedureOrFunctionDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterProcedureOrFunctionDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitProcedureOrFunctionDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitProcedureOrFunctionDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitProcedureOrFunctionDeclaration(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitProcedureOrFunctionDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4688,9 +4688,9 @@ public class DelphiParser extends Parser {
 		public UsesUnitsPartContext usesUnitsPart(int i) {
 			return getRuleContext(UsesUnitsPartContext.class,i);
 		}
-		public List<TerminalNode> IMPLEMENTATION() { return getTokens(DelphiParser.IMPLEMENTATION); }
+		public List<TerminalNode> IMPLEMENTATION() { return getTokens(delphiParser.IMPLEMENTATION); }
 		public TerminalNode IMPLEMENTATION(int i) {
-			return getToken(DelphiParser.IMPLEMENTATION, i);
+			return getToken(delphiParser.IMPLEMENTATION, i);
 		}
 		public BlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -4698,15 +4698,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_block; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterBlock(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterBlock(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitBlock(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitBlock(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitBlock(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitBlock(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4796,11 +4796,11 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ProcedureDeclarationContext extends ParserRuleContext {
-		public TerminalNode PROCEDURE() { return getToken(DelphiParser.PROCEDURE, 0); }
+		public TerminalNode PROCEDURE() { return getToken(delphiParser.PROCEDURE, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -4813,15 +4813,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_procedureDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterProcedureDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterProcedureDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitProcedureDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitProcedureDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitProcedureDeclaration(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitProcedureDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4866,15 +4866,15 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class MethodProcedureDeclarationContext extends ParserRuleContext {
-		public TerminalNode PROCEDURE() { return getToken(DelphiParser.PROCEDURE, 0); }
+		public TerminalNode PROCEDURE() { return getToken(delphiParser.PROCEDURE, 0); }
 		public List<IdentifierContext> identifier() {
 			return getRuleContexts(IdentifierContext.class);
 		}
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public TerminalNode DOT() { return getToken(DelphiParser.DOT, 0); }
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
+		public TerminalNode DOT() { return getToken(delphiParser.DOT, 0); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -4887,15 +4887,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_methodProcedureDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterMethodProcedureDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterMethodProcedureDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitMethodProcedureDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitMethodProcedureDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitMethodProcedureDeclaration(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitMethodProcedureDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -4944,19 +4944,19 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class MethodFunctionDeclarationContext extends ParserRuleContext {
-		public TerminalNode FUNCTION() { return getToken(DelphiParser.FUNCTION, 0); }
+		public TerminalNode FUNCTION() { return getToken(delphiParser.FUNCTION, 0); }
 		public List<IdentifierContext> identifier() {
 			return getRuleContexts(IdentifierContext.class);
 		}
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public TerminalNode DOT() { return getToken(DelphiParser.DOT, 0); }
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
+		public TerminalNode DOT() { return getToken(delphiParser.DOT, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
 		public ResultTypeContext resultType() {
 			return getRuleContext(ResultTypeContext.class,0);
 		}
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -4969,15 +4969,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_methodFunctionDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterMethodFunctionDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterMethodFunctionDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitMethodFunctionDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitMethodFunctionDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitMethodFunctionDeclaration(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitMethodFunctionDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5030,15 +5030,15 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ConstructorDeclarationContext extends ParserRuleContext {
-		public TerminalNode CONSTRUCTOR() { return getToken(DelphiParser.CONSTRUCTOR, 0); }
+		public TerminalNode CONSTRUCTOR() { return getToken(delphiParser.CONSTRUCTOR, 0); }
 		public List<IdentifierContext> identifier() {
 			return getRuleContexts(IdentifierContext.class);
 		}
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public TerminalNode DOT() { return getToken(DelphiParser.DOT, 0); }
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
+		public TerminalNode DOT() { return getToken(delphiParser.DOT, 0); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -5051,15 +5051,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_constructorDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterConstructorDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterConstructorDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitConstructorDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitConstructorDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitConstructorDeclaration(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitConstructorDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5108,15 +5108,15 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class DestructorDeclarationContext extends ParserRuleContext {
-		public TerminalNode DESTRUCTOR() { return getToken(DelphiParser.DESTRUCTOR, 0); }
+		public TerminalNode DESTRUCTOR() { return getToken(delphiParser.DESTRUCTOR, 0); }
 		public List<IdentifierContext> identifier() {
 			return getRuleContexts(IdentifierContext.class);
 		}
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public TerminalNode DOT() { return getToken(DelphiParser.DOT, 0); }
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
+		public TerminalNode DOT() { return getToken(delphiParser.DOT, 0); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -5129,15 +5129,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_destructorDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterDestructorDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterDestructorDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitDestructorDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitDestructorDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitDestructorDeclaration(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitDestructorDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5186,17 +5186,17 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class FormalParameterListContext extends ParserRuleContext {
-		public TerminalNode LPAREN() { return getToken(DelphiParser.LPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(delphiParser.LPAREN, 0); }
 		public List<FormalParameterSectionContext> formalParameterSection() {
 			return getRuleContexts(FormalParameterSectionContext.class);
 		}
 		public FormalParameterSectionContext formalParameterSection(int i) {
 			return getRuleContext(FormalParameterSectionContext.class,i);
 		}
-		public TerminalNode RPAREN() { return getToken(DelphiParser.RPAREN, 0); }
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public TerminalNode RPAREN() { return getToken(delphiParser.RPAREN, 0); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
 		public FormalParameterListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -5204,15 +5204,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_formalParameterList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterFormalParameterList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterFormalParameterList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitFormalParameterList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitFormalParameterList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitFormalParameterList(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitFormalParameterList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5264,24 +5264,24 @@ public class DelphiParser extends Parser {
 		public ParameterGroupContext parameterGroup() {
 			return getRuleContext(ParameterGroupContext.class,0);
 		}
-		public TerminalNode VAR() { return getToken(DelphiParser.VAR, 0); }
-		public TerminalNode FUNCTION() { return getToken(DelphiParser.FUNCTION, 0); }
-		public TerminalNode PROCEDURE() { return getToken(DelphiParser.PROCEDURE, 0); }
+		public TerminalNode VAR() { return getToken(delphiParser.VAR, 0); }
+		public TerminalNode FUNCTION() { return getToken(delphiParser.FUNCTION, 0); }
+		public TerminalNode PROCEDURE() { return getToken(delphiParser.PROCEDURE, 0); }
 		public FormalParameterSectionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_formalParameterSection; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterFormalParameterSection(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterFormalParameterSection(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitFormalParameterSection(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitFormalParameterSection(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitFormalParameterSection(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitFormalParameterSection(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5347,7 +5347,7 @@ public class DelphiParser extends Parser {
 		public IdentifierListContext identifierList() {
 			return getRuleContext(IdentifierListContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
 		public TypeIdentifierContext typeIdentifier() {
 			return getRuleContext(TypeIdentifierContext.class,0);
 		}
@@ -5357,15 +5357,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_parameterGroup; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterParameterGroup(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterParameterGroup(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitParameterGroup(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitParameterGroup(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitParameterGroup(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitParameterGroup(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5403,9 +5403,9 @@ public class DelphiParser extends Parser {
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(DelphiParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(delphiParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(DelphiParser.COMMA, i);
+			return getToken(delphiParser.COMMA, i);
 		}
 		public IdentifierListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -5413,15 +5413,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_identifierList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterIdentifierList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterIdentifierList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitIdentifierList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitIdentifierList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitIdentifierList(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitIdentifierList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5472,9 +5472,9 @@ public class DelphiParser extends Parser {
 		public ConstantContext constant(int i) {
 			return getRuleContext(ConstantContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(DelphiParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(delphiParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(DelphiParser.COMMA, i);
+			return getToken(delphiParser.COMMA, i);
 		}
 		public ConstListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -5482,15 +5482,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_constList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterConstList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterConstList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitConstList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitConstList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitConstList(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitConstList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5535,15 +5535,15 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class FunctionDeclarationContext extends ParserRuleContext {
-		public TerminalNode FUNCTION() { return getToken(DelphiParser.FUNCTION, 0); }
+		public TerminalNode FUNCTION() { return getToken(delphiParser.FUNCTION, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
 		public ResultTypeContext resultType() {
 			return getRuleContext(ResultTypeContext.class,0);
 		}
-		public TerminalNode SEMI() { return getToken(DelphiParser.SEMI, 0); }
+		public TerminalNode SEMI() { return getToken(delphiParser.SEMI, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -5556,15 +5556,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_functionDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterFunctionDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterFunctionDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitFunctionDeclaration(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitFunctionDeclaration(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitFunctionDeclaration(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitFunctionDeclaration(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5622,15 +5622,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_resultType; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterResultType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterResultType(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitResultType(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitResultType(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitResultType(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitResultType(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5661,7 +5661,7 @@ public class DelphiParser extends Parser {
 		public LabelContext label() {
 			return getRuleContext(LabelContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
 		public UnlabelledStatementContext unlabelledStatement() {
 			return getRuleContext(UnlabelledStatementContext.class,0);
 		}
@@ -5671,15 +5671,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_statement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5751,15 +5751,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_unlabelledStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterUnlabelledStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterUnlabelledStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitUnlabelledStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitUnlabelledStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitUnlabelledStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitUnlabelledStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5835,15 +5835,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_simpleStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterSimpleStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterSimpleStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitSimpleStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitSimpleStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitSimpleStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitSimpleStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5908,7 +5908,7 @@ public class DelphiParser extends Parser {
 		public VariableContext variable() {
 			return getRuleContext(VariableContext.class,0);
 		}
-		public TerminalNode ASSIGN() { return getToken(DelphiParser.ASSIGN, 0); }
+		public TerminalNode ASSIGN() { return getToken(delphiParser.ASSIGN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -5918,15 +5918,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_assignmentStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterAssignmentStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterAssignmentStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitAssignmentStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitAssignmentStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitAssignmentStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitAssignmentStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -5958,16 +5958,16 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class VariableContext extends ParserRuleContext {
-		public TerminalNode AT() { return getToken(DelphiParser.AT, 0); }
+		public TerminalNode AT() { return getToken(delphiParser.AT, 0); }
 		public List<IdentifierContext> identifier() {
 			return getRuleContexts(IdentifierContext.class);
 		}
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public List<TerminalNode> LBRACK() { return getTokens(DelphiParser.LBRACK); }
+		public List<TerminalNode> LBRACK() { return getTokens(delphiParser.LBRACK); }
 		public TerminalNode LBRACK(int i) {
-			return getToken(DelphiParser.LBRACK, i);
+			return getToken(delphiParser.LBRACK, i);
 		}
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
@@ -5975,29 +5975,29 @@ public class DelphiParser extends Parser {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public List<TerminalNode> RBRACK() { return getTokens(DelphiParser.RBRACK); }
+		public List<TerminalNode> RBRACK() { return getTokens(delphiParser.RBRACK); }
 		public TerminalNode RBRACK(int i) {
-			return getToken(DelphiParser.RBRACK, i);
+			return getToken(delphiParser.RBRACK, i);
 		}
-		public List<TerminalNode> LBRACK2() { return getTokens(DelphiParser.LBRACK2); }
+		public List<TerminalNode> LBRACK2() { return getTokens(delphiParser.LBRACK2); }
 		public TerminalNode LBRACK2(int i) {
-			return getToken(DelphiParser.LBRACK2, i);
+			return getToken(delphiParser.LBRACK2, i);
 		}
-		public List<TerminalNode> RBRACK2() { return getTokens(DelphiParser.RBRACK2); }
+		public List<TerminalNode> RBRACK2() { return getTokens(delphiParser.RBRACK2); }
 		public TerminalNode RBRACK2(int i) {
-			return getToken(DelphiParser.RBRACK2, i);
+			return getToken(delphiParser.RBRACK2, i);
 		}
-		public List<TerminalNode> DOT() { return getTokens(DelphiParser.DOT); }
+		public List<TerminalNode> DOT() { return getTokens(delphiParser.DOT); }
 		public TerminalNode DOT(int i) {
-			return getToken(DelphiParser.DOT, i);
+			return getToken(delphiParser.DOT, i);
 		}
-		public List<TerminalNode> POINTER() { return getTokens(DelphiParser.POINTER); }
+		public List<TerminalNode> POINTER() { return getTokens(delphiParser.POINTER); }
 		public TerminalNode POINTER(int i) {
-			return getToken(DelphiParser.POINTER, i);
+			return getToken(delphiParser.POINTER, i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(DelphiParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(delphiParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(DelphiParser.COMMA, i);
+			return getToken(delphiParser.COMMA, i);
 		}
 		public VariableContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -6005,15 +6005,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_variable; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterVariable(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterVariable(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitVariable(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitVariable(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitVariable(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitVariable(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6157,15 +6157,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_expression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterExpression(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitExpression(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitExpression(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6206,28 +6206,28 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class RelationaloperatorContext extends ParserRuleContext {
-		public TerminalNode EQUAL() { return getToken(DelphiParser.EQUAL, 0); }
-		public TerminalNode NOT_EQUAL() { return getToken(DelphiParser.NOT_EQUAL, 0); }
-		public TerminalNode LT() { return getToken(DelphiParser.LT, 0); }
-		public TerminalNode LE() { return getToken(DelphiParser.LE, 0); }
-		public TerminalNode GE() { return getToken(DelphiParser.GE, 0); }
-		public TerminalNode GT() { return getToken(DelphiParser.GT, 0); }
-		public TerminalNode IN() { return getToken(DelphiParser.IN, 0); }
+		public TerminalNode EQUAL() { return getToken(delphiParser.EQUAL, 0); }
+		public TerminalNode NOT_EQUAL() { return getToken(delphiParser.NOT_EQUAL, 0); }
+		public TerminalNode LT() { return getToken(delphiParser.LT, 0); }
+		public TerminalNode LE() { return getToken(delphiParser.LE, 0); }
+		public TerminalNode GE() { return getToken(delphiParser.GE, 0); }
+		public TerminalNode GT() { return getToken(delphiParser.GT, 0); }
+		public TerminalNode IN() { return getToken(delphiParser.IN, 0); }
 		public RelationaloperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_relationaloperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterRelationaloperator(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterRelationaloperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitRelationaloperator(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitRelationaloperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitRelationaloperator(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitRelationaloperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6279,15 +6279,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_simpleExpression; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterSimpleExpression(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterSimpleExpression(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitSimpleExpression(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitSimpleExpression(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitSimpleExpression(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitSimpleExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6328,24 +6328,24 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class AdditiveoperatorContext extends ParserRuleContext {
-		public TerminalNode PLUS() { return getToken(DelphiParser.PLUS, 0); }
-		public TerminalNode MINUS() { return getToken(DelphiParser.MINUS, 0); }
-		public TerminalNode OR() { return getToken(DelphiParser.OR, 0); }
+		public TerminalNode PLUS() { return getToken(delphiParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(delphiParser.MINUS, 0); }
+		public TerminalNode OR() { return getToken(delphiParser.OR, 0); }
 		public AdditiveoperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_additiveoperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterAdditiveoperator(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterAdditiveoperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitAdditiveoperator(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitAdditiveoperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitAdditiveoperator(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitAdditiveoperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6397,15 +6397,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_term; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterTerm(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterTerm(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitTerm(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitTerm(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitTerm(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitTerm(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6446,26 +6446,26 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class MultiplicativeoperatorContext extends ParserRuleContext {
-		public TerminalNode STAR() { return getToken(DelphiParser.STAR, 0); }
-		public TerminalNode SLASH() { return getToken(DelphiParser.SLASH, 0); }
-		public TerminalNode DIV() { return getToken(DelphiParser.DIV, 0); }
-		public TerminalNode MOD() { return getToken(DelphiParser.MOD, 0); }
-		public TerminalNode AND() { return getToken(DelphiParser.AND, 0); }
+		public TerminalNode STAR() { return getToken(delphiParser.STAR, 0); }
+		public TerminalNode SLASH() { return getToken(delphiParser.SLASH, 0); }
+		public TerminalNode DIV() { return getToken(delphiParser.DIV, 0); }
+		public TerminalNode MOD() { return getToken(delphiParser.MOD, 0); }
+		public TerminalNode AND() { return getToken(delphiParser.AND, 0); }
 		public MultiplicativeoperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_multiplicativeoperator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterMultiplicativeoperator(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterMultiplicativeoperator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitMultiplicativeoperator(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitMultiplicativeoperator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitMultiplicativeoperator(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitMultiplicativeoperator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6505,23 +6505,23 @@ public class DelphiParser extends Parser {
 		public FactorContext factor() {
 			return getRuleContext(FactorContext.class,0);
 		}
-		public TerminalNode PLUS() { return getToken(DelphiParser.PLUS, 0); }
-		public TerminalNode MINUS() { return getToken(DelphiParser.MINUS, 0); }
+		public TerminalNode PLUS() { return getToken(delphiParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(delphiParser.MINUS, 0); }
 		public SignedFactorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_signedFactor; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterSignedFactor(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterSignedFactor(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitSignedFactor(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitSignedFactor(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitSignedFactor(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitSignedFactor(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6571,11 +6571,11 @@ public class DelphiParser extends Parser {
 		public VariableContext variable() {
 			return getRuleContext(VariableContext.class,0);
 		}
-		public TerminalNode LPAREN() { return getToken(DelphiParser.LPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(delphiParser.LPAREN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode RPAREN() { return getToken(DelphiParser.RPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(delphiParser.RPAREN, 0); }
 		public FunctionDesignatorContext functionDesignator() {
 			return getRuleContext(FunctionDesignatorContext.class,0);
 		}
@@ -6588,7 +6588,7 @@ public class DelphiParser extends Parser {
 		public Set_Context set_() {
 			return getRuleContext(Set_Context.class,0);
 		}
-		public TerminalNode NOT() { return getToken(DelphiParser.NOT, 0); }
+		public TerminalNode NOT() { return getToken(delphiParser.NOT, 0); }
 		public FactorContext factor() {
 			return getRuleContext(FactorContext.class,0);
 		}
@@ -6601,15 +6601,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_factor; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterFactor(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterFactor(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitFactor(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitFactor(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitFactor(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitFactor(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6707,22 +6707,22 @@ public class DelphiParser extends Parser {
 		public StringContext string() {
 			return getRuleContext(StringContext.class,0);
 		}
-		public TerminalNode NIL() { return getToken(DelphiParser.NIL, 0); }
+		public TerminalNode NIL() { return getToken(delphiParser.NIL, 0); }
 		public UnsignedConstantContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_unsignedConstant; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterUnsignedConstant(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterUnsignedConstant(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitUnsignedConstant(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitUnsignedConstant(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitUnsignedConstant(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitUnsignedConstant(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6783,26 +6783,26 @@ public class DelphiParser extends Parser {
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode LPAREN() { return getToken(DelphiParser.LPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(delphiParser.LPAREN, 0); }
 		public ParameterListContext parameterList() {
 			return getRuleContext(ParameterListContext.class,0);
 		}
-		public TerminalNode RPAREN() { return getToken(DelphiParser.RPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(delphiParser.RPAREN, 0); }
 		public FunctionDesignatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionDesignator; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterFunctionDesignator(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterFunctionDesignator(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitFunctionDesignator(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitFunctionDesignator(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitFunctionDesignator(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitFunctionDesignator(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6842,9 +6842,9 @@ public class DelphiParser extends Parser {
 		public ActualParameterContext actualParameter(int i) {
 			return getRuleContext(ActualParameterContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(DelphiParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(delphiParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(DelphiParser.COMMA, i);
+			return getToken(delphiParser.COMMA, i);
 		}
 		public ParameterListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -6852,15 +6852,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_parameterList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterParameterList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterParameterList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitParameterList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitParameterList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitParameterList(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitParameterList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6905,28 +6905,28 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class Set_Context extends ParserRuleContext {
-		public TerminalNode LBRACK() { return getToken(DelphiParser.LBRACK, 0); }
+		public TerminalNode LBRACK() { return getToken(delphiParser.LBRACK, 0); }
 		public ElementListContext elementList() {
 			return getRuleContext(ElementListContext.class,0);
 		}
-		public TerminalNode RBRACK() { return getToken(DelphiParser.RBRACK, 0); }
-		public TerminalNode LBRACK2() { return getToken(DelphiParser.LBRACK2, 0); }
-		public TerminalNode RBRACK2() { return getToken(DelphiParser.RBRACK2, 0); }
+		public TerminalNode RBRACK() { return getToken(delphiParser.RBRACK, 0); }
+		public TerminalNode LBRACK2() { return getToken(delphiParser.LBRACK2, 0); }
+		public TerminalNode RBRACK2() { return getToken(delphiParser.RBRACK2, 0); }
 		public Set_Context(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_set_; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterSet_(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterSet_(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitSet_(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitSet_(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitSet_(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitSet_(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -6983,9 +6983,9 @@ public class DelphiParser extends Parser {
 		public ElementContext element(int i) {
 			return getRuleContext(ElementContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(DelphiParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(delphiParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(DelphiParser.COMMA, i);
+			return getToken(delphiParser.COMMA, i);
 		}
 		public ElementListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -6993,15 +6993,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_elementList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterElementList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterElementList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitElementList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitElementList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitElementList(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitElementList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7080,22 +7080,22 @@ public class DelphiParser extends Parser {
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode DOTDOT() { return getToken(DelphiParser.DOTDOT, 0); }
+		public TerminalNode DOTDOT() { return getToken(delphiParser.DOTDOT, 0); }
 		public ElementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_element; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterElement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterElement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitElement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitElement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitElement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitElement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7139,26 +7139,26 @@ public class DelphiParser extends Parser {
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode LPAREN() { return getToken(DelphiParser.LPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(delphiParser.LPAREN, 0); }
 		public ParameterListContext parameterList() {
 			return getRuleContext(ParameterListContext.class,0);
 		}
-		public TerminalNode RPAREN() { return getToken(DelphiParser.RPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(delphiParser.RPAREN, 0); }
 		public ProcedureStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_procedureStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterProcedureStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterProcedureStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitProcedureStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitProcedureStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitProcedureStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitProcedureStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7216,15 +7216,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_actualParameter; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterActualParameter(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterActualParameter(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitActualParameter(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitActualParameter(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitActualParameter(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitActualParameter(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7267,7 +7267,7 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ParameterwidthContext extends ParserRuleContext {
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -7277,15 +7277,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_parameterwidth; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterParameterwidth(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterParameterwidth(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitParameterwidth(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitParameterwidth(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitParameterwidth(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitParameterwidth(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7315,7 +7315,7 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class GotoStatementContext extends ParserRuleContext {
-		public TerminalNode GOTO() { return getToken(DelphiParser.GOTO, 0); }
+		public TerminalNode GOTO() { return getToken(delphiParser.GOTO, 0); }
 		public LabelContext label() {
 			return getRuleContext(LabelContext.class,0);
 		}
@@ -7325,15 +7325,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_gotoStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterGotoStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterGotoStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitGotoStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitGotoStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitGotoStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitGotoStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7369,15 +7369,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_emptyStatement_; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterEmptyStatement_(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterEmptyStatement_(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitEmptyStatement_(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitEmptyStatement_(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitEmptyStatement_(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitEmptyStatement_(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7409,15 +7409,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_empty_; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterEmpty_(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterEmpty_(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitEmpty_(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitEmpty_(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitEmpty_(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitEmpty_(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7461,15 +7461,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_structuredStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterStructuredStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterStructuredStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitStructuredStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitStructuredStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitStructuredStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitStructuredStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7529,26 +7529,26 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class CompoundStatementContext extends ParserRuleContext {
-		public TerminalNode BEGIN() { return getToken(DelphiParser.BEGIN, 0); }
+		public TerminalNode BEGIN() { return getToken(delphiParser.BEGIN, 0); }
 		public StatementsContext statements() {
 			return getRuleContext(StatementsContext.class,0);
 		}
-		public TerminalNode END() { return getToken(DelphiParser.END, 0); }
+		public TerminalNode END() { return getToken(delphiParser.END, 0); }
 		public CompoundStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_compoundStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterCompoundStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterCompoundStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitCompoundStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitCompoundStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitCompoundStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitCompoundStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7586,9 +7586,9 @@ public class DelphiParser extends Parser {
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
 		public StatementsContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -7596,15 +7596,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_statements; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterStatements(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterStatements(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitStatements(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitStatements(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitStatements(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitStatements(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7661,15 +7661,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_conditionalStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterConditionalStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterConditionalStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitConditionalStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitConditionalStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitConditionalStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitConditionalStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7712,33 +7712,33 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class IfStatementContext extends ParserRuleContext {
-		public TerminalNode IF() { return getToken(DelphiParser.IF, 0); }
+		public TerminalNode IF() { return getToken(delphiParser.IF, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode THEN() { return getToken(DelphiParser.THEN, 0); }
+		public TerminalNode THEN() { return getToken(delphiParser.THEN, 0); }
 		public List<StatementContext> statement() {
 			return getRuleContexts(StatementContext.class);
 		}
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
-		public TerminalNode ELSE() { return getToken(DelphiParser.ELSE, 0); }
+		public TerminalNode ELSE() { return getToken(delphiParser.ELSE, 0); }
 		public IfStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ifStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterIfStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterIfStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitIfStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitIfStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitIfStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitIfStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7784,23 +7784,23 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class CaseStatementContext extends ParserRuleContext {
-		public TerminalNode CASE() { return getToken(DelphiParser.CASE, 0); }
+		public TerminalNode CASE() { return getToken(delphiParser.CASE, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode OF() { return getToken(DelphiParser.OF, 0); }
+		public TerminalNode OF() { return getToken(delphiParser.OF, 0); }
 		public List<CaseListElementContext> caseListElement() {
 			return getRuleContexts(CaseListElementContext.class);
 		}
 		public CaseListElementContext caseListElement(int i) {
 			return getRuleContext(CaseListElementContext.class,i);
 		}
-		public TerminalNode END() { return getToken(DelphiParser.END, 0); }
-		public List<TerminalNode> SEMI() { return getTokens(DelphiParser.SEMI); }
+		public TerminalNode END() { return getToken(delphiParser.END, 0); }
+		public List<TerminalNode> SEMI() { return getTokens(delphiParser.SEMI); }
 		public TerminalNode SEMI(int i) {
-			return getToken(DelphiParser.SEMI, i);
+			return getToken(delphiParser.SEMI, i);
 		}
-		public TerminalNode ELSE() { return getToken(DelphiParser.ELSE, 0); }
+		public TerminalNode ELSE() { return getToken(delphiParser.ELSE, 0); }
 		public StatementsContext statements() {
 			return getRuleContext(StatementsContext.class,0);
 		}
@@ -7810,15 +7810,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_caseStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterCaseStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterCaseStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitCaseStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitCaseStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitCaseStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitCaseStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7891,7 +7891,7 @@ public class DelphiParser extends Parser {
 		public ConstListContext constList() {
 			return getRuleContext(ConstListContext.class,0);
 		}
-		public TerminalNode COLON() { return getToken(DelphiParser.COLON, 0); }
+		public TerminalNode COLON() { return getToken(delphiParser.COLON, 0); }
 		public StatementContext statement() {
 			return getRuleContext(StatementContext.class,0);
 		}
@@ -7901,15 +7901,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_caseListElement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterCaseListElement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterCaseListElement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitCaseListElement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitCaseListElement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitCaseListElement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitCaseListElement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -7956,15 +7956,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_repetetiveStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterRepetetiveStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterRepetetiveStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitRepetetiveStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitRepetetiveStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitRepetetiveStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitRepetetiveStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -8014,11 +8014,11 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class WhileStatementContext extends ParserRuleContext {
-		public TerminalNode WHILE() { return getToken(DelphiParser.WHILE, 0); }
+		public TerminalNode WHILE() { return getToken(delphiParser.WHILE, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode DO() { return getToken(DelphiParser.DO, 0); }
+		public TerminalNode DO() { return getToken(delphiParser.DO, 0); }
 		public StatementContext statement() {
 			return getRuleContext(StatementContext.class,0);
 		}
@@ -8028,15 +8028,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_whileStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterWhileStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterWhileStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitWhileStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitWhileStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitWhileStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitWhileStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -8070,11 +8070,11 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class RepeatStatementContext extends ParserRuleContext {
-		public TerminalNode REPEAT() { return getToken(DelphiParser.REPEAT, 0); }
+		public TerminalNode REPEAT() { return getToken(delphiParser.REPEAT, 0); }
 		public StatementsContext statements() {
 			return getRuleContext(StatementsContext.class,0);
 		}
-		public TerminalNode UNTIL() { return getToken(DelphiParser.UNTIL, 0); }
+		public TerminalNode UNTIL() { return getToken(delphiParser.UNTIL, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
@@ -8084,15 +8084,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_repeatStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterRepeatStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterRepeatStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitRepeatStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitRepeatStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitRepeatStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitRepeatStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -8126,15 +8126,15 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class ForStatementContext extends ParserRuleContext {
-		public TerminalNode FOR() { return getToken(DelphiParser.FOR, 0); }
+		public TerminalNode FOR() { return getToken(delphiParser.FOR, 0); }
 		public IdentifierContext identifier() {
 			return getRuleContext(IdentifierContext.class,0);
 		}
-		public TerminalNode ASSIGN() { return getToken(DelphiParser.ASSIGN, 0); }
+		public TerminalNode ASSIGN() { return getToken(delphiParser.ASSIGN, 0); }
 		public ForListContext forList() {
 			return getRuleContext(ForListContext.class,0);
 		}
-		public TerminalNode DO() { return getToken(DelphiParser.DO, 0); }
+		public TerminalNode DO() { return getToken(delphiParser.DO, 0); }
 		public StatementContext statement() {
 			return getRuleContext(StatementContext.class,0);
 		}
@@ -8144,15 +8144,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_forStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterForStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterForStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitForStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitForStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitForStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitForStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -8196,23 +8196,23 @@ public class DelphiParser extends Parser {
 		public FinalValueContext finalValue() {
 			return getRuleContext(FinalValueContext.class,0);
 		}
-		public TerminalNode TO() { return getToken(DelphiParser.TO, 0); }
-		public TerminalNode DOWNTO() { return getToken(DelphiParser.DOWNTO, 0); }
+		public TerminalNode TO() { return getToken(delphiParser.TO, 0); }
+		public TerminalNode DOWNTO() { return getToken(delphiParser.DOWNTO, 0); }
 		public ForListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_forList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterForList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterForList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitForList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitForList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitForList(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitForList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -8262,15 +8262,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_initialValue; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterInitialValue(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterInitialValue(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitInitialValue(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitInitialValue(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitInitialValue(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitInitialValue(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -8307,15 +8307,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_finalValue; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterFinalValue(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterFinalValue(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitFinalValue(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitFinalValue(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitFinalValue(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitFinalValue(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -8343,11 +8343,11 @@ public class DelphiParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class WithStatementContext extends ParserRuleContext {
-		public TerminalNode WITH() { return getToken(DelphiParser.WITH, 0); }
+		public TerminalNode WITH() { return getToken(delphiParser.WITH, 0); }
 		public RecordVariableListContext recordVariableList() {
 			return getRuleContext(RecordVariableListContext.class,0);
 		}
-		public TerminalNode DO() { return getToken(DelphiParser.DO, 0); }
+		public TerminalNode DO() { return getToken(delphiParser.DO, 0); }
 		public StatementContext statement() {
 			return getRuleContext(StatementContext.class,0);
 		}
@@ -8357,15 +8357,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_withStatement; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterWithStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterWithStatement(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitWithStatement(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitWithStatement(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitWithStatement(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitWithStatement(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -8405,9 +8405,9 @@ public class DelphiParser extends Parser {
 		public VariableContext variable(int i) {
 			return getRuleContext(VariableContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(DelphiParser.COMMA); }
+		public List<TerminalNode> COMMA() { return getTokens(delphiParser.COMMA); }
 		public TerminalNode COMMA(int i) {
-			return getToken(DelphiParser.COMMA, i);
+			return getToken(delphiParser.COMMA, i);
 		}
 		public RecordVariableListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -8415,15 +8415,15 @@ public class DelphiParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_recordVariableList; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterRecordVariableList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterRecordVariableList(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitRecordVariableList(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitRecordVariableList(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitRecordVariableList(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitRecordVariableList(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -8474,27 +8474,27 @@ public class DelphiParser extends Parser {
 		public IdentifierContext identifier(int i) {
 			return getRuleContext(IdentifierContext.class,i);
 		}
-		public TerminalNode DOT() { return getToken(DelphiParser.DOT, 0); }
-		public TerminalNode LPAREN() { return getToken(DelphiParser.LPAREN, 0); }
+		public TerminalNode DOT() { return getToken(delphiParser.DOT, 0); }
+		public TerminalNode LPAREN() { return getToken(delphiParser.LPAREN, 0); }
 		public ParameterListContext parameterList() {
 			return getRuleContext(ParameterListContext.class,0);
 		}
-		public TerminalNode RPAREN() { return getToken(DelphiParser.RPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(delphiParser.RPAREN, 0); }
 		public MethodCallContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_methodCall; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).enterMethodCall(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).enterMethodCall(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof DelphiListener ) ((DelphiListener)listener).exitMethodCall(this);
+			if ( listener instanceof delphiListener ) ((delphiListener)listener).exitMethodCall(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof DelphiVisitor ) return ((DelphiVisitor<? extends T>)visitor).visitMethodCall(this);
+			if ( visitor instanceof delphiVisitor ) return ((delphiVisitor<? extends T>)visitor).visitMethodCall(this);
 			else return visitor.visitChildren(this);
 		}
 	}

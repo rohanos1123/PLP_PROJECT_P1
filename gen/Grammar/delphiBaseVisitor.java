@@ -1,9 +1,9 @@
-// Generated from /home/tr446/Code/grad/COP5556/PLP_PROJECT_P1/src/Grammar/Delphi.g4 by ANTLR 4.13.2
+// Generated from delphi.g4 by ANTLR 4.13.2
 package Grammar;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
- * This class provides an empty implementation of {@link DelphiVisitor},
+ * This class provides an empty implementation of {@link delphiVisitor},
  * which can be extended to create a visitor which only needs to handle a subset
  * of the available methods.
  *
@@ -11,838 +11,838 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * operations with no return type.
  */
 @SuppressWarnings("CheckReturnValue")
-public class DelphiBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements DelphiVisitor<T> {
+public class delphiBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements delphiVisitor<T> {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProgram(DelphiParser.ProgramContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProgram(delphiParser.ProgramContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProgramHeading(DelphiParser.ProgramHeadingContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProgramHeading(delphiParser.ProgramHeadingContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIdentifier(DelphiParser.IdentifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIdentifier(delphiParser.IdentifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTopLevelBlock(DelphiParser.TopLevelBlockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTopLevelBlock(delphiParser.TopLevelBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpandedTypeDefinitionPart(DelphiParser.ExpandedTypeDefinitionPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpandedTypeDefinitionPart(delphiParser.ExpandedTypeDefinitionPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpandedTypeDefinition(DelphiParser.ExpandedTypeDefinitionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpandedTypeDefinition(delphiParser.ExpandedTypeDefinitionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitClassType(DelphiParser.ClassTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitClassType(delphiParser.ClassTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInterfaces(DelphiParser.InterfacesContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInterfaces(delphiParser.InterfacesContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitClassDefinition(DelphiParser.ClassDefinitionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitClassDefinition(delphiParser.ClassDefinitionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPrimaryFieldDeclarationPart(DelphiParser.PrimaryFieldDeclarationPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPrimaryFieldDeclarationPart(delphiParser.PrimaryFieldDeclarationPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMemberListPart(DelphiParser.MemberListPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMemberListPart(delphiParser.MemberListPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAccessSpecifier(DelphiParser.AccessSpecifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAccessSpecifier(delphiParser.AccessSpecifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMethodPrototype(DelphiParser.MethodPrototypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMethodPrototype(delphiParser.MethodPrototypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProcedurePrototype(DelphiParser.ProcedurePrototypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProcedurePrototype(delphiParser.ProcedurePrototypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConstructorPrototype(DelphiParser.ConstructorPrototypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConstructorPrototype(delphiParser.ConstructorPrototypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDestructorPrototype(DelphiParser.DestructorPrototypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDestructorPrototype(delphiParser.DestructorPrototypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionPrototype(DelphiParser.FunctionPrototypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionPrototype(delphiParser.FunctionPrototypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitClassFieldDeclarationPart(DelphiParser.ClassFieldDeclarationPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitClassFieldDeclarationPart(delphiParser.ClassFieldDeclarationPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInterfaceType(DelphiParser.InterfaceTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInterfaceType(delphiParser.InterfaceTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInterfaceGuid(DelphiParser.InterfaceGuidContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInterfaceGuid(delphiParser.InterfaceGuidContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUsesUnitsPart(DelphiParser.UsesUnitsPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUsesUnitsPart(delphiParser.UsesUnitsPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLabelDeclarationPart(DelphiParser.LabelDeclarationPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLabelDeclarationPart(delphiParser.LabelDeclarationPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLabel(DelphiParser.LabelContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLabel(delphiParser.LabelContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConstantDefinitionPart(DelphiParser.ConstantDefinitionPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConstantDefinitionPart(delphiParser.ConstantDefinitionPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConstantDefinition(DelphiParser.ConstantDefinitionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConstantDefinition(delphiParser.ConstantDefinitionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConstantChr(DelphiParser.ConstantChrContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConstantChr(delphiParser.ConstantChrContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConstant(DelphiParser.ConstantContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConstant(delphiParser.ConstantContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnsignedNumber(DelphiParser.UnsignedNumberContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnsignedNumber(delphiParser.UnsignedNumberContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnsignedInteger(DelphiParser.UnsignedIntegerContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnsignedInteger(delphiParser.UnsignedIntegerContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnsignedReal(DelphiParser.UnsignedRealContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnsignedReal(delphiParser.UnsignedRealContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSign(DelphiParser.SignContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSign(delphiParser.SignContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBool_(DelphiParser.Bool_Context ctx) { return visitChildren(ctx); }
+	@Override public T visitBool_(delphiParser.Bool_Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitString(DelphiParser.StringContext ctx) { return visitChildren(ctx); }
+	@Override public T visitString(delphiParser.StringContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeDefinitionPart(DelphiParser.TypeDefinitionPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeDefinitionPart(delphiParser.TypeDefinitionPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeDefinition(DelphiParser.TypeDefinitionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeDefinition(delphiParser.TypeDefinitionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionType(DelphiParser.FunctionTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionType(delphiParser.FunctionTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProcedureType(DelphiParser.ProcedureTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProcedureType(delphiParser.ProcedureTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitType_(DelphiParser.Type_Context ctx) { return visitChildren(ctx); }
+	@Override public T visitType_(delphiParser.Type_Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSimpleType(DelphiParser.SimpleTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSimpleType(delphiParser.SimpleTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitScalarType(DelphiParser.ScalarTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitScalarType(delphiParser.ScalarTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSubrangeType(DelphiParser.SubrangeTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSubrangeType(delphiParser.SubrangeTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeIdentifier(DelphiParser.TypeIdentifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeIdentifier(delphiParser.TypeIdentifierContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStructuredType(DelphiParser.StructuredTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStructuredType(delphiParser.StructuredTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnpackedStructuredType(DelphiParser.UnpackedStructuredTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnpackedStructuredType(delphiParser.UnpackedStructuredTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStringtype(DelphiParser.StringtypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStringtype(delphiParser.StringtypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArrayType(DelphiParser.ArrayTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArrayType(delphiParser.ArrayTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeList(DelphiParser.TypeListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTypeList(delphiParser.TypeListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIndexType(DelphiParser.IndexTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIndexType(delphiParser.IndexTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitComponentType(DelphiParser.ComponentTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitComponentType(delphiParser.ComponentTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRecordType(DelphiParser.RecordTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRecordType(delphiParser.RecordTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFieldList(DelphiParser.FieldListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFieldList(delphiParser.FieldListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFixedPart(DelphiParser.FixedPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFixedPart(delphiParser.FixedPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRecordSection(DelphiParser.RecordSectionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRecordSection(delphiParser.RecordSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVariantPart(DelphiParser.VariantPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVariantPart(delphiParser.VariantPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTag(DelphiParser.TagContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTag(delphiParser.TagContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVariant(DelphiParser.VariantContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVariant(delphiParser.VariantContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSetType(DelphiParser.SetTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSetType(delphiParser.SetTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBaseType(DelphiParser.BaseTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBaseType(delphiParser.BaseTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFileType(DelphiParser.FileTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFileType(delphiParser.FileTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPointerType(DelphiParser.PointerTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPointerType(delphiParser.PointerTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVariableDeclarationPart(DelphiParser.VariableDeclarationPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVariableDeclarationPart(delphiParser.VariableDeclarationPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVariableDeclaration(DelphiParser.VariableDeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVariableDeclaration(delphiParser.VariableDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProcedureAndFunctionDeclarationPart(DelphiParser.ProcedureAndFunctionDeclarationPartContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProcedureAndFunctionDeclarationPart(delphiParser.ProcedureAndFunctionDeclarationPartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProcedureOrFunctionDeclaration(DelphiParser.ProcedureOrFunctionDeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProcedureOrFunctionDeclaration(delphiParser.ProcedureOrFunctionDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitBlock(DelphiParser.BlockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitBlock(delphiParser.BlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProcedureDeclaration(DelphiParser.ProcedureDeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProcedureDeclaration(delphiParser.ProcedureDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMethodProcedureDeclaration(DelphiParser.MethodProcedureDeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMethodProcedureDeclaration(delphiParser.MethodProcedureDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMethodFunctionDeclaration(DelphiParser.MethodFunctionDeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMethodFunctionDeclaration(delphiParser.MethodFunctionDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConstructorDeclaration(DelphiParser.ConstructorDeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConstructorDeclaration(delphiParser.ConstructorDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDestructorDeclaration(DelphiParser.DestructorDeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDestructorDeclaration(delphiParser.DestructorDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFormalParameterList(DelphiParser.FormalParameterListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFormalParameterList(delphiParser.FormalParameterListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFormalParameterSection(DelphiParser.FormalParameterSectionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFormalParameterSection(delphiParser.FormalParameterSectionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParameterGroup(DelphiParser.ParameterGroupContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParameterGroup(delphiParser.ParameterGroupContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIdentifierList(DelphiParser.IdentifierListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIdentifierList(delphiParser.IdentifierListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConstList(DelphiParser.ConstListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConstList(delphiParser.ConstListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionDeclaration(DelphiParser.FunctionDeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionDeclaration(delphiParser.FunctionDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitResultType(DelphiParser.ResultTypeContext ctx) { return visitChildren(ctx); }
+	@Override public T visitResultType(delphiParser.ResultTypeContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatement(DelphiParser.StatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStatement(delphiParser.StatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnlabelledStatement(DelphiParser.UnlabelledStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnlabelledStatement(delphiParser.UnlabelledStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSimpleStatement(DelphiParser.SimpleStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSimpleStatement(delphiParser.SimpleStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAssignmentStatement(DelphiParser.AssignmentStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAssignmentStatement(delphiParser.AssignmentStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVariable(DelphiParser.VariableContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVariable(delphiParser.VariableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExpression(DelphiParser.ExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitExpression(delphiParser.ExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRelationaloperator(DelphiParser.RelationaloperatorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRelationaloperator(delphiParser.RelationaloperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSimpleExpression(DelphiParser.SimpleExpressionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSimpleExpression(delphiParser.SimpleExpressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAdditiveoperator(DelphiParser.AdditiveoperatorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAdditiveoperator(delphiParser.AdditiveoperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTerm(DelphiParser.TermContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTerm(delphiParser.TermContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMultiplicativeoperator(DelphiParser.MultiplicativeoperatorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMultiplicativeoperator(delphiParser.MultiplicativeoperatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSignedFactor(DelphiParser.SignedFactorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSignedFactor(delphiParser.SignedFactorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFactor(DelphiParser.FactorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFactor(delphiParser.FactorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUnsignedConstant(DelphiParser.UnsignedConstantContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUnsignedConstant(delphiParser.UnsignedConstantContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionDesignator(DelphiParser.FunctionDesignatorContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionDesignator(delphiParser.FunctionDesignatorContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParameterList(DelphiParser.ParameterListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParameterList(delphiParser.ParameterListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSet_(DelphiParser.Set_Context ctx) { return visitChildren(ctx); }
+	@Override public T visitSet_(delphiParser.Set_Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitElementList(DelphiParser.ElementListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitElementList(delphiParser.ElementListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitElement(DelphiParser.ElementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitElement(delphiParser.ElementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProcedureStatement(DelphiParser.ProcedureStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitProcedureStatement(delphiParser.ProcedureStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitActualParameter(DelphiParser.ActualParameterContext ctx) { return visitChildren(ctx); }
+	@Override public T visitActualParameter(delphiParser.ActualParameterContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitParameterwidth(DelphiParser.ParameterwidthContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParameterwidth(delphiParser.ParameterwidthContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGotoStatement(DelphiParser.GotoStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitGotoStatement(delphiParser.GotoStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEmptyStatement_(DelphiParser.EmptyStatement_Context ctx) { return visitChildren(ctx); }
+	@Override public T visitEmptyStatement_(delphiParser.EmptyStatement_Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEmpty_(DelphiParser.Empty_Context ctx) { return visitChildren(ctx); }
+	@Override public T visitEmpty_(delphiParser.Empty_Context ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStructuredStatement(DelphiParser.StructuredStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStructuredStatement(delphiParser.StructuredStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCompoundStatement(DelphiParser.CompoundStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCompoundStatement(delphiParser.CompoundStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStatements(DelphiParser.StatementsContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStatements(delphiParser.StatementsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitConditionalStatement(DelphiParser.ConditionalStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitConditionalStatement(delphiParser.ConditionalStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIfStatement(DelphiParser.IfStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitIfStatement(delphiParser.IfStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCaseStatement(DelphiParser.CaseStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCaseStatement(delphiParser.CaseStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCaseListElement(DelphiParser.CaseListElementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCaseListElement(delphiParser.CaseListElementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRepetetiveStatement(DelphiParser.RepetetiveStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRepetetiveStatement(delphiParser.RepetetiveStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWhileStatement(DelphiParser.WhileStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWhileStatement(delphiParser.WhileStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRepeatStatement(DelphiParser.RepeatStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRepeatStatement(delphiParser.RepeatStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitForStatement(DelphiParser.ForStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitForStatement(delphiParser.ForStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitForList(DelphiParser.ForListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitForList(delphiParser.ForListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInitialValue(DelphiParser.InitialValueContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInitialValue(delphiParser.InitialValueContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFinalValue(DelphiParser.FinalValueContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFinalValue(delphiParser.FinalValueContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWithStatement(DelphiParser.WithStatementContext ctx) { return visitChildren(ctx); }
+	@Override public T visitWithStatement(delphiParser.WithStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRecordVariableList(DelphiParser.RecordVariableListContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRecordVariableList(delphiParser.RecordVariableListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitMethodCall(DelphiParser.MethodCallContext ctx) { return visitChildren(ctx); }
+	@Override public T visitMethodCall(delphiParser.MethodCallContext ctx) { return visitChildren(ctx); }
 }
