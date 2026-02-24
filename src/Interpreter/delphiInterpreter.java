@@ -74,7 +74,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         String methodName = (String)visit(nameCtx).value;
         var ti = this.typeInfo.get(this.currentType);
         var methodId = createCallableInfo(methodName, paramCtx);
-        ti.registerMethod(methodId, (_) -> {
+        ti.registerMethod(methodId, (args) -> {
             throw new delphiRuntimeError("Method " + this.currentType + "." + methodName + " not defined.", nameCtx);
         });
         return new Value(0);
@@ -83,7 +83,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
     private Value registerCallable(delphiParser.FormalParameterListContext paramCtx) {
         String callableName = this.currentType;
         var functionId = createCallableInfo(callableName, paramCtx);
-        callables.put(functionId, (_) -> {
+        callables.put(functionId, (args) -> {
             throw new delphiRuntimeError("No definition for: " + callableName, paramCtx);
         });
         return new Value(0);
