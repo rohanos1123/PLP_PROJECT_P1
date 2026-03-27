@@ -10,8 +10,8 @@ import java.util.function.Function;
 
 public class delphiInterpreter extends delphiBaseVisitor<Value> {
 
-    Stack<HashMap<String, Value>> memory = new Stack<HashMap<String, Value>>();
-    HashMap<CallableInfo, Function<ArrayList<Value>, Value>> callables = new HashMap<>();
+
+    ScopeManager sm = new ScopeManager();
     HashMap<String, TypeInfo> typeInfo = new HashMap<>();
 
     // Keeps track of information between visitors
@@ -29,7 +29,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         System.err.println(createLogMsg(msg, ctx));
     }
     
-    public class delphiRuntimeError extends RuntimeException {
+    public static class delphiRuntimeError extends RuntimeException {
         public delphiRuntimeError(Object msg, ParserRuleContext ctx) {
             super(createLogMsg(msg, ctx));
         }
@@ -38,7 +38,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
     /* helpers */
 
     private void setupBuiltinCallables() {
-        callables.put(new CallableInfo("WriteLn", new ArrayList<>(), true),
+        sm.addGlobalCallable(new CallableInfo("WriteLn", new ArrayList<>(), true),
         (args) -> {
             for(var arg : args){
                 System.out.print(arg.asString());
@@ -46,7 +46,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
             System.out.println();
             return new Value(0);
         });
-        callables.put(new CallableInfo("ReadLn", new ArrayList<>(), true),
+        sm.addGlobalCallable(new CallableInfo("ReadLn", new ArrayList<>(), true),
         (args) -> {
             Scanner sc = new Scanner(System.in);
             Value obj = args.get(0);
@@ -83,7 +83,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
     private Value registerCallable(delphiParser.FormalParameterListContext paramCtx) {
         String callableName = this.currentType;
         var functionId = createCallableInfo(callableName, paramCtx);
-        callables.put(functionId, (args) -> {
+        sm.addGlobalCallable(functionId, (args) -> {
             throw new delphiRuntimeError("No definition for: " + callableName, paramCtx);
         });
         return new Value(0);
@@ -94,14 +94,16 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         var args = (paramCtx != null) ? (ArrayList<Value>) visit(paramCtx).value : new ArrayList<Value>();
         var paramTypes = new ArrayList<TYPE>(args.stream().map(arg -> arg.type).toList());
         var callableId = new CallableInfo(functionName, paramTypes);
-        if (!callables.containsKey(callableId)) {
+
+
+        if (sm.getFunction(callableId).isEmpty()) {
             // try again for variadic functions
             callableId.variadic = true;
-            if (!callables.containsKey(callableId)) {
+            if (sm.getFunction(callableId).isPresent()) {
                 throw new delphiRuntimeError(functionName + " not found.", paramCtx);
             }
         }
-        return callables.get(callableId).apply(args);
+        return sm.getFunction(callableId).get().apply(args);
     }
 
     /* visitor implementation */
@@ -110,7 +112,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
     public Value visitProgram(delphiParser.ProgramContext ctx){
         setupBuiltinCallables();
         // push the initial Stack Frame
-        this.memory.push(new HashMap<>());
+        sm.pushFrame(new Frame(new HashMap<>(), new HashMap<>(), Frame.Type.LOCAL));
         visit(ctx.topLevelBlock());
         return new Value(0);
     }
@@ -188,12 +190,12 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         
         if (ctx.classDefinition() != null) {
             this.isPrivate = false;
-            this.memory.push(new HashMap<>());
+            sm.pushFrame(new Frame(new HashMap<>(), Frame.Type.OBJECT));
             visit(ctx.classDefinition());
-            for(var entry : this.memory.peek().entrySet()){
+            for(var entry : sm.top().memory.entrySet()){
                 ti.registerAttribute(entry.getKey(), entry.getValue());
             }
-            this.memory.pop();
+            sm.popFrame();
             this.isPrivate = false;
         }
         
@@ -272,14 +274,14 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         var procedureId = createCallableInfo(procedureName, ctx.formalParameterList());
         /* might need to eventually check for redefinition dunno if its allowed */
 
-        callables.put(procedureId, (args) -> {
+        sm.addGlobalCallable(procedureId, (args) -> {
             HashMap<String, Value> frame = new HashMap<>();
             for (int i = 0; i < args.size(); i++) {
                 frame.put(procedureId.parameterNames.get(i), args.get(i));
             }
-            memory.add(frame);
+            sm.pushFrame(new Frame(frame, Frame.Type.FUNCTION));
             visit(ctx.block());
-            memory.pop();
+            sm.popFrame();
             return new Value(0);
         });
 
@@ -292,16 +294,16 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         var functionId = createCallableInfo(functionName, ctx.formalParameterList());
         /* might need to eventually check for redefinition dunno if its allowed */
 
-        callables.put(functionId, (args) -> {
+        sm.addGlobalCallable(functionId, (args) -> {
             HashMap<String, Value> frame = new HashMap<>();
             for (int i = 0; i < args.size(); i++) {
                 frame.put(functionId.parameterNames.get(i), args.get(i));
             }
             var result = new Value(0);
             frame.put("Result", result);
-            memory.add(frame);
+            sm.pushFrame(new Frame(frame, Frame.Type.FUNCTION ));
             visit(ctx.block());
-            memory.pop();
+            sm.popFrame();
             return result;
         });
 
