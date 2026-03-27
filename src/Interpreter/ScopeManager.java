@@ -1,10 +1,117 @@
-package Interpreter; 
+package Interpreter;
 
-import java.util.*; 
+
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.function.Function;
+
 
 public class ScopeManager{
+    HashMap<String, Value> globals;
+    HashMap<CallableInfo, Function<ArrayList<Value>, Value>> globalFunctions;
+    Deque<Frame>  stack;
 
+    public void pushStack(Frame newFrame){
+        this.stack.push(newFrame);
+    }
 
+    public Optional<Value> searchGlobalValues(String valKey){
+        if(this.globals.containsKey(valKey)){
+            return Optional.of(this.globals.get(valKey));
+        }
+        else{
+            return Optional.empty();
+        }
+    }
 
+    public Optional<Function<ArrayList<Value>, Value>> searchGlobalFunctions(CallableInfo fn_id){
+        if(this.globalFunctions.containsKey(fn_id)){
+            return Optional.of(this.globalFunctions.get(fn_id));
+        }
+        else{
+            return Optional.empty();
+        }
+    }
 
+    public Optional<Value> getVariable(String valKey){
+        Frame currentFrame = stack.peek();
+
+        if(currentFrame == null){
+            throw new RuntimeException("Interpreter Impl error: No stack frame loaded when acessing variable");
+        }
+
+        switch(currentFrame.scopeType){
+            case Frame.Type.LOCAL : {
+                // Iteratively search through parent scopes
+                Iterator<Frame> it = stack.descendingIterator();
+                while (it.hasNext()) {
+                    Optional<Value> targ = it.next().getValue(valKey);
+                    if (targ.isPresent()) {
+                        return targ;
+                    }
+                    if(it.next().scopeType == Frame.Type.FUNCTION){
+                        break;
+                    }
+                }
+                // Attempt to find the key in the globals
+                return this.searchGlobalValues(valKey);
+            }
+            case Frame.Type.OBJECT :
+            case Frame.Type.FUNCTION : {
+                // Only search Latest scope (Object scope for objects but handled in frame function)
+                Optional<Value> obj = currentFrame.getValue(valKey);
+                if(obj.isPresent()){
+                    return obj;
+                }
+
+                // Search globals as last resort
+                return this.searchGlobalValues(valKey);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    public Optional<Function<ArrayList<Value>, Value>> getFunction(CallableInfo fn_id){
+        Frame currentFrame = stack.peek();
+
+        if(currentFrame == null){
+            throw new RuntimeException("Interpreter Impl error: No stack frame loaded when acessing variable");
+        }
+
+        switch(currentFrame.scopeType){
+            case Frame.Type.LOCAL : {
+                // Iteratively search through parent scopes
+                Iterator<Frame> it = stack.descendingIterator();
+                while (it.hasNext()) {
+                    var targ = it.next().getFunction(fn_id);
+                    if (targ.isPresent()) {
+                        return targ;
+                    }
+                    if(it.next().scopeType == Frame.Type.FUNCTION){
+                        break;
+                    }
+                }
+                // Attempt to find the key in the globals
+                return this.searchGlobalFunctions(fn_id);
+            }
+            case Frame.Type.OBJECT :
+            case Frame.Type.FUNCTION : {
+                // Only search Latest scope (Object scope for objects but handled in frame function)
+                var obj = currentFrame.getFunction(fn_id);
+                if(obj.isPresent()){
+                    return obj;
+                }
+
+                // Search globals as last resort
+                return this.searchGlobalFunctions(fn_id);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    public void popFrame(){
+        this.stack.pop();
+    }
 }
