@@ -7,9 +7,9 @@ import java.util.function.Function;
 
 
 public class ScopeManager{
-    HashMap<String, Value> globals;
-    HashMap<CallableInfo, Function<ArrayList<Value>, Value>> globalFunctions;
-    Deque<Frame>  stack;
+    HashMap<String, Value> globals = new HashMap<>();
+    HashMap<CallableInfo, Function<ArrayList<Value>, Value>> globalFunctions = new HashMap<>();
+    Deque<Frame> stack = new ArrayDeque<>();
 
     public void pushStack(Frame newFrame){
         this.stack.push(newFrame);
@@ -31,6 +31,14 @@ public class ScopeManager{
         else{
             return Optional.empty();
         }
+    }
+
+    public void addGlobalValue(String key, Value val){
+        globals.put(key, val);
+    }
+
+    public void addCallable(CallableInfo key,  Function<ArrayList<Value>, Value> function){
+        this.globalFunctions.put(key, function);
     }
 
     public Optional<Value> getVariable(String valKey){
