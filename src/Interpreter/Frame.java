@@ -26,14 +26,14 @@ public class Frame{
     Optional<TypeInfo> objectTypeInfo = Optional.<TypeInfo>empty();
 
     // Stack frame for function call
-    public Frame(HashMap<String, Value> localMemory, HashMap<CallableInfo, Function<ArrayList<Value>, Value>> callables, Type t){
+    public Frame(HashMap<String, Value> localMemory, Type t){
         this.memory = localMemory;
         this.callables = callables;
         this.scopeType = t;
     }
 
     // Stack frame for method call
-    public Frame(HashMap<String, Value> localMemory, HashMap<CallableInfo, Function<ArrayList<Value>, Value>> callables, Type t, TypeInfo objType){
+    public Frame(HashMap<String, Value> localMemory, Type t, TypeInfo objType){
         this.memory = localMemory;
         this.callables = callables;
         this.scopeType = t;
@@ -45,15 +45,9 @@ public class Frame{
             return Optional.of(this.callables.get(fnid));
         }
         else{
-            if(this.scopeType == Type.OBJECT){
-                if(this.objectTypeInfo.isPresent()) {
-                    if(this.objectTypeInfo.get().hasMethod(fnid)) {
-                        return Optional.of(this.objectTypeInfo.get().getMethod(fnid));
-                    }
-                }
-                else {
-                    throw new RuntimeException("Interpreter Impl Error: Method call not provided with TypeInfo");
-
+            if(this.scopeType == Type.OBJECT && objectTypeInfo.isPresent()) {
+                if (this.objectTypeInfo.get().hasMethod(fnid)) {
+                    return Optional.of(this.objectTypeInfo.get().getMethod(fnid));
                 }
             }
             return Optional.empty();

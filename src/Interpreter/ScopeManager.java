@@ -11,7 +11,7 @@ public class ScopeManager{
     HashMap<CallableInfo, Function<ArrayList<Value>, Value>> globalFunctions = new HashMap<>();
     Deque<Frame> stack = new ArrayDeque<>();
 
-    public void pushStack(Frame newFrame){
+    public void pushFrame(Frame newFrame){
         this.stack.push(newFrame);
     }
 
@@ -21,6 +21,15 @@ public class ScopeManager{
         }
         else{
             return Optional.empty();
+        }
+    }
+
+    public Frame top(){
+        if(!this.stack.isEmpty()){
+            return this.stack.peek();
+        }
+        else{
+            throw new RuntimeException("Interpreter Error: Empty stack");
         }
     }
 
@@ -37,7 +46,7 @@ public class ScopeManager{
         globals.put(key, val);
     }
 
-    public void addCallable(CallableInfo key,  Function<ArrayList<Value>, Value> function){
+    public void addGlobalCallable(CallableInfo key,  Function<ArrayList<Value>, Value> function){
         this.globalFunctions.put(key, function);
     }
 
