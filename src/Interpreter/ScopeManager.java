@@ -44,14 +44,36 @@ public class ScopeManager{
 
     private Optional<Value> getFamilyLocal(String key){
         ScopeNode travNode = this.currentNode;
-        while(travNode.parent.isPresent()){
+        do{
             if(travNode.definedLocal.containsKey(key)){
                 return Optional.of(travNode.definedLocal.get(key));
             }
-            travNode = travNode.parent.get();
-        }
-        throw new RuntimeException("ScopeNode Error: Key Not Found!");
+            
+            if(travNode.parent.isPresent()){
+                travNode = travNode.parent.get();
+            }
+          
+        }while(travNode.parent.isPresent());
+
+        throw new RuntimeException("Value ScopeNode Error: Key Not Found!");
     }
+
+     private Optional<Function<ArrayList<Value>, Value>> getFamilyFunction(CallableInfo key){
+        ScopeNode travNode = this.currentNode;
+
+        do{
+            if(travNode.definedCallables.containsKey(key)){
+                return Optional.of(travNode.definedCallables.get(key));
+            }
+            if(travNode.parent.isPresent()){
+                travNode = travNode.parent.get();
+            }
+
+        }while(travNode.parent.isPresent()); 
+
+        throw new RuntimeException("Function ScopeNode Error: Key Not Found!");
+    }
+
 
 
     public void pushFrame(Frame newFrame){
@@ -176,7 +198,7 @@ public class ScopeManager{
                     }
                 }
                 // Attempt to find the key in the globals
-                return this.searchGlobalCallables(fn_id);
+                return this.getFamilyFunction(fn_id); 
             }
             case Frame.Type.OBJECT :
             case Frame.Type.FUNCTION : {
@@ -187,7 +209,7 @@ public class ScopeManager{
                 }
 
                 // Search globals as last resort
-                return this.searchGlobalCallables(fn_id);
+                return this.getFamilyFunction(fn_id); 
             }
         }
 
