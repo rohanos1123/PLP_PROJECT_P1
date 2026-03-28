@@ -111,10 +111,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
     @Override
     public Value visitProgram(delphiParser.ProgramContext ctx){
         setupBuiltinCallables();
-        // push the initial Stack Frame
-        sm.pushFrame(new Frame(Frame.Type.LOCAL));
         visit(ctx.topLevelBlock());
-        sm.popFrame();
         return new Value(0);
     }
 
@@ -191,7 +188,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         
         if (ctx.classDefinition() != null) {
             this.isPrivate = false;
-            sm.pushFrame(new Frame(Frame.Type.OBJECT));
+            sm.pushFrame(new Frame(Frame.Type.OBJECT)); // abuse scoping to extract all definitions
             visit(ctx.classDefinition());
             for(var entry : sm.top().memory.entrySet()){
                 ti.registerAttribute(entry.getKey(), entry.getValue());

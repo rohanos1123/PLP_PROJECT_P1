@@ -43,7 +43,7 @@ public class ScopeManager{
     }
 
     public void addVariable(Value variable) {
-        if (stack.size() <= 1) { // we only have initial frame or none
+        if (stack.isEmpty()) {
             this.globals.put(variable.identifier, variable);
         }
         else {
@@ -58,7 +58,7 @@ public class ScopeManager{
     }
 
     public void addCallable(CallableInfo key,  Function<ArrayList<Value>, Value> function) {
-        if (stack.size() <= 1) { // we only have initial frame or none
+        if (stack.isEmpty()) {
             this.globalFunctions.put(key, function);
         }
         else {
@@ -68,8 +68,9 @@ public class ScopeManager{
     }
 
     public Optional<Value> getVariable(String valKey){
-        Frame currentFrame = top();
+        if (stack.isEmpty()) return searchGlobalValues(valKey);
 
+        Frame currentFrame = top();
         switch(currentFrame.scopeType){
             case Frame.Type.LOCAL : {
                 // Iteratively search through parent scopes
@@ -104,8 +105,9 @@ public class ScopeManager{
     }
 
     public Optional<Function<ArrayList<Value>, Value>> getFunction(CallableInfo fn_id){
-        Frame currentFrame = top();
+        if (stack.isEmpty()) return searchGlobalFunctions(fn_id);
 
+        Frame currentFrame = top();
         switch(currentFrame.scopeType){
             case Frame.Type.LOCAL : {
                 // Iteratively search through parent scopes
