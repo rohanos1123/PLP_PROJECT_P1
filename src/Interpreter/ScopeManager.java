@@ -42,31 +42,45 @@ public class ScopeManager{
         }
     }
 
-    public void addGlobalValue(String key, Value val){
-        globals.put(key, val);
+    public void addVariable(Value variable) {
+        if (stack.size() <= 1) { // we only have initial frame or none
+            this.globals.put(variable.identifier, variable);
+        }
+        else {
+            Frame currentFrame = top();
+            currentFrame.memory.put(variable.identifier, variable);
+        }
     }
 
-    public void addGlobalCallable(CallableInfo key,  Function<ArrayList<Value>, Value> function){
-        this.globalFunctions.put(key, function);
+    public void addVariable(String identifier, Value variable) {
+        variable.identifier = identifier;
+        addVariable(variable);
+    }
+
+    public void addCallable(CallableInfo key,  Function<ArrayList<Value>, Value> function) {
+        if (stack.size() <= 1) { // we only have initial frame or none
+            this.globalFunctions.put(key, function);
+        }
+        else {
+            Frame currentFrame = top();
+            currentFrame.callables.put(key, function);
+        }
     }
 
     public Optional<Value> getVariable(String valKey){
-        Frame currentFrame = stack.peek();
-
-        if(currentFrame == null){
-            throw new RuntimeException("Interpreter Impl error: No stack frame loaded when acessing variable");
-        }
+        Frame currentFrame = top();
 
         switch(currentFrame.scopeType){
             case Frame.Type.LOCAL : {
                 // Iteratively search through parent scopes
                 Iterator<Frame> it = stack.descendingIterator();
                 while (it.hasNext()) {
-                    Optional<Value> targ = it.next().getValue(valKey);
+                    currentFrame = it.next();
+                    Optional<Value> targ = currentFrame.getValue(valKey);
                     if (targ.isPresent()) {
                         return targ;
                     }
-                    if(it.next().scopeType == Frame.Type.FUNCTION){
+                    if(currentFrame.scopeType == Frame.Type.FUNCTION){
                         break;
                     }
                 }
@@ -90,22 +104,19 @@ public class ScopeManager{
     }
 
     public Optional<Function<ArrayList<Value>, Value>> getFunction(CallableInfo fn_id){
-        Frame currentFrame = stack.peek();
-
-        if(currentFrame == null){
-            throw new RuntimeException("Interpreter Impl error: No stack frame loaded when acessing variable");
-        }
+        Frame currentFrame = top();
 
         switch(currentFrame.scopeType){
             case Frame.Type.LOCAL : {
                 // Iteratively search through parent scopes
                 Iterator<Frame> it = stack.descendingIterator();
                 while (it.hasNext()) {
-                    var targ = it.next().getFunction(fn_id);
+                    currentFrame = it.next();
+                    var targ = currentFrame.getFunction(fn_id);
                     if (targ.isPresent()) {
                         return targ;
                     }
-                    if(it.next().scopeType == Frame.Type.FUNCTION){
+                    if(currentFrame.scopeType == Frame.Type.FUNCTION){
                         break;
                     }
                 }
