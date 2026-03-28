@@ -1,7 +1,7 @@
 import Interpreter.DelphiInterpreter;
 import Interpreter.DelphiInterpreter.delphiRuntimeError;
-import Grammar.DelphiLexer;
-import Grammar.DelphiParser;
+import grammar.DelphiLexer;
+import grammar.DelphiParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.runtime.tree.*;
 import org.antlr.v4.runtime.tree.ParseTree;

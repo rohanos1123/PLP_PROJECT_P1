@@ -1,5 +1,5 @@
-// Generated from /home/tr446/Code/grad/COP5556/PLP_PROJECT_P1/grammar/Delphi.g4 by ANTLR 4.13.2
-package Grammar;
+// Generated from grammar/Delphi.g4 by ANTLR 4.13.2
+package grammar;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;

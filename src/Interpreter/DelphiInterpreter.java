@@ -1,8 +1,8 @@
 package Interpreter;
 
 import org.antlr.v4.runtime.ParserRuleContext;
-import Grammar.DelphiBaseVisitor;
-import Grammar.DelphiParser;
+import grammar.DelphiBaseVisitor;
+import grammar.DelphiParser;
 import Interpreter.TypeInfo.InheritanceType;
 
 import java.util.*;
