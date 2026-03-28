@@ -26,17 +26,13 @@ public class Frame{
     Optional<TypeInfo> objectTypeInfo = Optional.<TypeInfo>empty();
 
     // Stack frame for function call
-    public Frame(HashMap<String, Value> localMemory, Type t){
-        this.memory = localMemory;
-        this.callables = callables;
+    public Frame(Type t) {
         this.scopeType = t;
     }
 
     // Stack frame for method call
-    public Frame(HashMap<String, Value> localMemory, Type t, TypeInfo objType){
-        this.memory = localMemory;
-        this.callables = callables;
-        this.scopeType = t;
+    public Frame(Type t, TypeInfo objType){
+        this(t);
         this.objectTypeInfo = Optional.of(objType);
     }
 
@@ -58,13 +54,15 @@ public class Frame{
         Optional<Value> localValue = this.getLocalMemory(valKey);
         if (localValue.isPresent()) {
             return localValue;
-        } else {
+        }
+        else {
             if (this.scopeType == Type.OBJECT) {
                 // Test to receive from self attribute
-                delphiObject obj = (delphiObject) this.memory.get("self").value;
-                if (obj.attributeMap.containsKey(valKey)) {
-                    return Optional.of(obj.attributeMap.get(valKey));
-                } else {
+                delphiObject obj = (delphiObject) this.memory.get("Self").value;
+                if (obj.hasAttribute(valKey)) {
+                    return Optional.of(obj.getAttribute(valKey));
+                }
+                else {
                     return Optional.empty();
                 }
             }

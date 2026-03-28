@@ -38,7 +38,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
     /* helpers */
 
     private void setupBuiltinCallables() {
-        sm.addGlobalCallable(new CallableInfo("WriteLn", new ArrayList<>(), true),
+        sm.addCallable(new CallableInfo("WriteLn", new ArrayList<>(), true),
         (args) -> {
             for(var arg : args){
                 System.out.print(arg.asString());
@@ -46,7 +46,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
             System.out.println();
             return new Value(0);
         });
-        sm.addGlobalCallable(new CallableInfo("ReadLn", new ArrayList<>(), true),
+        sm.addCallable(new CallableInfo("ReadLn", new ArrayList<>(), true),
         (args) -> {
             Scanner sc = new Scanner(System.in);
             Value obj = args.get(0);
@@ -83,7 +83,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
     private Value registerCallable(delphiParser.FormalParameterListContext paramCtx) {
         String callableName = this.currentType;
         var functionId = createCallableInfo(callableName, paramCtx);
-        sm.addGlobalCallable(functionId, (args) -> {
+        sm.addCallable(functionId, (args) -> {
             throw new delphiRuntimeError("No definition for: " + callableName, paramCtx);
         });
         return new Value(0);
@@ -99,7 +99,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         if (sm.getFunction(callableId).isEmpty()) {
             // try again for variadic functions
             callableId.variadic = true;
-            if (sm.getFunction(callableId).isPresent()) {
+            if (sm.getFunction(callableId).isEmpty()) {
                 throw new delphiRuntimeError(functionName + " not found.", paramCtx);
             }
         }
@@ -112,8 +112,9 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
     public Value visitProgram(delphiParser.ProgramContext ctx){
         setupBuiltinCallables();
         // push the initial Stack Frame
-        sm.pushFrame(new Frame(new HashMap<>(), new HashMap<>(), Frame.Type.LOCAL));
+        sm.pushFrame(new Frame(Frame.Type.LOCAL));
         visit(ctx.topLevelBlock());
+        sm.popFrame();
         return new Value(0);
     }
 
@@ -190,7 +191,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         
         if (ctx.classDefinition() != null) {
             this.isPrivate = false;
-            sm.pushFrame(new Frame(new HashMap<>(), Frame.Type.OBJECT));
+            sm.pushFrame(new Frame(Frame.Type.OBJECT));
             visit(ctx.classDefinition());
             for(var entry : sm.top().memory.entrySet()){
                 ti.registerAttribute(entry.getKey(), entry.getValue());
@@ -274,12 +275,11 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         var procedureId = createCallableInfo(procedureName, ctx.formalParameterList());
         /* might need to eventually check for redefinition dunno if its allowed */
 
-        sm.addGlobalCallable(procedureId, (args) -> {
-            HashMap<String, Value> frame = new HashMap<>();
+        sm.addCallable(procedureId, (args) -> {
+            sm.pushFrame(new Frame(Frame.Type.FUNCTION));
             for (int i = 0; i < args.size(); i++) {
-                frame.put(procedureId.parameterNames.get(i), args.get(i));
+                sm.addVariable(procedureId.parameterNames.get(i), args.get(i));
             }
-            sm.pushFrame(new Frame(frame, Frame.Type.FUNCTION));
             visit(ctx.block());
             sm.popFrame();
             return new Value(0);
@@ -294,14 +294,13 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         var functionId = createCallableInfo(functionName, ctx.formalParameterList());
         /* might need to eventually check for redefinition dunno if its allowed */
 
-        sm.addGlobalCallable(functionId, (args) -> {
-            HashMap<String, Value> frame = new HashMap<>();
+        sm.addCallable(functionId, (args) -> {
+            sm.pushFrame(new Frame(Frame.Type.FUNCTION));
             for (int i = 0; i < args.size(); i++) {
-                frame.put(functionId.parameterNames.get(i), args.get(i));
+                sm.addVariable(functionId.parameterNames.get(i), args.get(i));
             }
             var result = new Value(0);
-            frame.put("Result", result);
-            sm.pushFrame(new Frame(frame, Frame.Type.FUNCTION ));
+            sm.addVariable("Result", result);
             visit(ctx.block());
             sm.popFrame();
             return result;
@@ -322,17 +321,15 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         }
 
         tdata.registerMethod(methodId, (args) -> {
-            HashMap<String, Value> frame = new HashMap<>();
-            for (int i = 1; i < args.size(); i++) {
-                // add index offset to account for object parameter
-                frame.put(methodId.parameterNames.get(i-1), args.get(i));
+            var invokerObject = args.remove(0);
+            var ti = this.typeInfo.get(((delphiObject)invokerObject.value).type);
+            sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
+            sm.addVariable("Self", invokerObject);
+            for (int i = 0; i < args.size(); i++) {
+                sm.addVariable(methodId.parameterNames.get(i), args.get(i));
             }
-            var objectAttributes = ((delphiObject) args.get(0).value).attributeMap;
-            objectAttributes.forEach((attrName, attrVal) -> frame.put(attrName, attrVal));
-            memory.add(frame);
             visit(ctx.block());
-            objectAttributes.forEach((attrName, attrVal) -> objectAttributes.put(attrName, frame.get(attrName)));
-            memory.pop();
+            sm.popFrame();
             return new Value(0);
         });
 
@@ -351,19 +348,17 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         }
 
         tdata.registerMethod(methodId, (args) -> {
-            HashMap<String, Value> frame = new HashMap<>();
-            for (int i = 1; i < args.size(); i++) {
-                // add index offset to account for object parameter
-                frame.put(methodId.parameterNames.get(i-1), args.get(i));
+            var invokerObject = args.remove(0);
+            var ti = this.typeInfo.get(((delphiObject)invokerObject.value).type);
+            sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
+            sm.addVariable("Self", invokerObject);
+            for (int i = 0; i < args.size(); i++) {
+                sm.addVariable(methodId.parameterNames.get(i), args.get(i));
             }
-            var objectAttributes = ((delphiObject) args.get(0).value).attributeMap;
-            objectAttributes.forEach((attrName, attrVal) -> frame.put(attrName, attrVal));
             var result = new Value(0);
-            frame.put("Result", result);
-            memory.add(frame);
+            sm.addVariable("Result", result);
             visit(ctx.block());
-            objectAttributes.forEach((attrName, attrVal) -> objectAttributes.put(attrName, frame.get(attrName)));
-            memory.pop();
+            sm.popFrame();
             return result;
         });
 
@@ -382,20 +377,17 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         }
 
         tdata.registerMethod(constructorId, (args) -> {
-            HashMap<String, Value> frame = new HashMap<>();
-            var invokerClass = (String)args.get(0).value;
-            var objectAttributes = tdata.getAttributes();
-            for (int i = 1; i < args.size(); i++) {
-                // add index offset to account for class parameter
-                frame.put(constructorId.parameterNames.get(i-1), args.get(i));
+            var invokerClass = (String)args.remove(0).value;
+            var ti = this.typeInfo.get(invokerClass);
+            sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
+            sm.addVariable("Self", new Value(new delphiObject(invokerClass, ti.getAttributes()), TYPE.REFERENCE));
+            for (int i = 0; i < args.size(); i++) {
+                sm.addVariable(constructorId.parameterNames.get(i), args.get(i));
             }
-            objectAttributes.forEach((attrName, attrVal) -> frame.put(attrName, attrVal));
-            memory.add(frame);
             visit(ctx.block());
-            objectAttributes.forEach((attrName, attrVal) -> objectAttributes.put(attrName, frame.get(attrName)));
-            var object = new delphiObject(invokerClass, objectAttributes);
-            memory.pop();
-            return new Value(object, TYPE.REFERENCE);
+            var object = sm.getVariable("Self").get();
+            sm.popFrame();
+            return object;
         });
 
         return new Value(0);
@@ -413,19 +405,17 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         }
 
         tdata.registerMethod(destructorId, (args) -> {
-            HashMap<String, Value> frame = new HashMap<>();
-            var object = args.get(0);
-            var resolvedObject = (delphiObject) object.value;
-            var objectAttributes = resolvedObject.attributeMap;
-            for (int i = 1; i < args.size(); i++) {
-                // add index offset to account for object parameter
-                frame.put(destructorId.parameterNames.get(i-1), args.get(i));
+            var invokerObject = args.remove(0);
+            var ti = this.typeInfo.get(((delphiObject)invokerObject.value).type);
+            sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
+            sm.addVariable("Self", invokerObject);
+            for (int i = 0; i < args.size(); i++) {
+                sm.addVariable(destructorId.parameterNames.get(i), args.get(i));
             }
-            objectAttributes.forEach((attrName, attrVal) -> frame.put(attrName, attrVal));
-            memory.add(frame);
             visit(ctx.block());
-            memory.pop();
-            memory.peek().get(object.identifier).type = TYPE.VOID;
+            var object = sm.getVariable("Self").get();
+            object.type = TYPE.VOID;
+            sm.popFrame();
             return object;
         });
 
@@ -438,7 +428,7 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
         @SuppressWarnings("unchecked")
         var identifiers = (ArrayList<String>)visit(ctx.identifierList()).value;
         for(var identifier : identifiers){
-            this.memory.peek().put(identifier, new Value(0, TYPE.INT, identifier, this.isPrivate));
+            sm.addVariable(identifier, new Value(0, TYPE.INT, identifier, this.isPrivate));
         }
         return new Value(0);
     }
@@ -475,21 +465,21 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
     public Value visitMethodCall(delphiParser.MethodCallContext ctx){
         String variableName = (String)visit(ctx.identifier(0)).value;
         String methodName = (String)visit(ctx.identifier(1)).value;
-        var topVariables = this.memory.peek();
         @SuppressWarnings("unchecked")
 		var args = (ctx.parameterList() != null) ? (ArrayList<Value>) visit(ctx.parameterList()).value : new ArrayList<Value>();
         var paramTypes = new ArrayList<TYPE>(args.stream().map(arg -> arg.type).toList());
         var methodId = new CallableInfo(methodName, paramTypes);
+        var variable = sm.getVariable(variableName);
         if (this.typeInfo.containsKey(variableName)) { // class method or constructor
             var method = this.typeInfo.get(variableName).getMethod(methodId);
             args.add(0, new Value(variableName));
             return method.apply(args);
         }
-        else if (topVariables.containsKey(variableName)) {
-            var variable = topVariables.get(variableName);
-            var object = (delphiObject)variable.value;
+        else if (variable.isPresent()) {
+            var resolvedVar = variable.get();
+            var object = (delphiObject)resolvedVar.value;
             var method = this.typeInfo.get(object.type).getMethod(methodId);
-            args.add(0, variable);
+            args.add(0, resolvedVar);
             return method.apply(args);
         }
         else {
@@ -514,32 +504,32 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
 	@Override public Value visitVariable(delphiParser.VariableContext ctx) {
         String variableName = (String)visit(ctx.identifier(0)).value;
         String memberName = (ctx.identifier().size() > 1) ? (String)visit(ctx.identifier(1)).value : "";  
-        var topVariables = this.memory.peek();
-        var callableId = new CallableInfo(variableName);
-        if (topVariables.containsKey(variableName)) {
-            var variable = topVariables.get(variableName);
-            if (variable.type == TYPE.VOID && !(ctx.getParent() instanceof delphiParser.AssignmentStatementContext)) {
+        var variable = sm.getVariable(variableName);
+        var function = sm.getFunction(new CallableInfo(variableName));
+        if (variable.isPresent()) {
+            var resolvedVar = variable.get();
+            if (resolvedVar.type == TYPE.VOID && !(ctx.getParent() instanceof delphiParser.AssignmentStatementContext)) {
                 throw new delphiRuntimeError(variableName + " is uninitialized.", ctx);
             }
             if (!memberName.isEmpty()) {
-                var object = (delphiObject)variable.value;
+                var object = (delphiObject)resolvedVar.value;
                 var ti = this.typeInfo.get(object.type);
                 var methodId = new CallableInfo(memberName);
-                if (ti.hasAttribute(memberName)) {
-                    var attribute = ti.getAttribute(memberName);
+                if (object.hasAttribute(memberName)) {
+                    var attribute = object.getAttribute(memberName);
                     if (attribute.isPrivate()) {
                         throw new delphiRuntimeError("Attempting to access a private member: " + memberName, ctx);
                     }
                     return attribute;
                 }
                 else if (ti.hasMethod(methodId)) {
-                    return ti.getMethod(methodId).apply(new ArrayList<Value>(Arrays.asList(variable)));
+                    return ti.getMethod(methodId).apply(new ArrayList<Value>(Arrays.asList(resolvedVar)));
                 }
                 else {
                     throw new delphiRuntimeError("No such attribute named: " + memberName, ctx);
                 }
             }
-            return variable;
+            return resolvedVar;
         }
         else if (this.typeInfo.containsKey(variableName)) { // class method or constructor
             var methodId = new CallableInfo(memberName);
@@ -549,8 +539,8 @@ public class delphiInterpreter extends delphiBaseVisitor<Value> {
             }
             return ti.getMethod(methodId).apply(new ArrayList<Value>(Arrays.asList(new Value(variableName))));
         }
-        else if (callables.containsKey(callableId)) {
-            return callables.get(callableId).apply(new ArrayList<>());
+        else if (function.isPresent()) {
+            return function.get().apply(new ArrayList<>());
         }
         else {
             throw new delphiRuntimeError("Identifier " + variableName + " not found in context", ctx);

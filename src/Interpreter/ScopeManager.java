@@ -15,7 +15,7 @@ public class ScopeManager{
         this.stack.push(newFrame);
     }
 
-    public Optional<Value> searchGlobalValues(String valKey){
+    private Optional<Value> searchGlobalValues(String valKey){
         if(this.globals.containsKey(valKey)){
             return Optional.of(this.globals.get(valKey));
         }
@@ -33,7 +33,7 @@ public class ScopeManager{
         }
     }
 
-    public Optional<Function<ArrayList<Value>, Value>> searchGlobalFunctions(CallableInfo fn_id){
+    private Optional<Function<ArrayList<Value>, Value>> searchGlobalFunctions(CallableInfo fn_id){
         if(this.globalFunctions.containsKey(fn_id)){
             return Optional.of(this.globalFunctions.get(fn_id));
         }
