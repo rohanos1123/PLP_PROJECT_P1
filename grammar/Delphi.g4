@@ -378,6 +378,7 @@ unlabelledStatement
 
 simpleStatement
     : assignmentStatement
+    | controlStatement
     | procedureStatement
     | methodCall
     | gotoStatement
@@ -386,6 +387,10 @@ simpleStatement
 
 assignmentStatement
     : variable ASSIGN expression
+    ;
+
+controlStatement
+    : BREAK | CONTINUE
     ;
 
 variable
@@ -596,6 +601,10 @@ BOOLEAN
     : 'BOOLEAN'
     ;
 
+BREAK
+    : 'BREAK'
+    ;
+
 CASE
     : 'CASE'
     ;
@@ -614,6 +623,10 @@ CONST
 
 CONSTRUCTOR
     : 'CONSTRUCTOR'
+    ;
+
+CONTINUE
+    : 'CONTINUE'
     ;
 
 CLASS

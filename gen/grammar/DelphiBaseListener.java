@@ -1,4 +1,4 @@
-// Generated from grammar/Delphi.g4 by ANTLR 4.13.2
+// Generated from /home/tr446/Code/grad/COP5556/PLP_PROJECT_P1/grammar/Delphi.g4 by ANTLR 4.13.2
 package grammar;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -984,6 +984,18 @@ public class DelphiBaseListener implements DelphiListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssignmentStatement(DelphiParser.AssignmentStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterControlStatement(DelphiParser.ControlStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitControlStatement(DelphiParser.ControlStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

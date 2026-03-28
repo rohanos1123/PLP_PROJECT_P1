@@ -35,6 +35,20 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         }
     }
 
+    private static class ControlChange extends delphiRuntimeError {
+        enum TYPE {
+            BREAK,
+            CONTINUE
+        };
+
+        public TYPE type;
+
+        public ControlChange(TYPE type, Object msg, ParserRuleContext ctx) {
+            this.type = type;
+            super(msg, ctx);
+        }
+    }
+
     /* helpers */
 
     private void setupBuiltinCallables() {
@@ -445,6 +459,31 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
+    public Value visitWhileStatement(DelphiParser.WhileStatementContext ctx){
+        while ((boolean)visit(ctx.expression()).value) {
+            try {
+                visit(ctx.statement());
+            }
+            catch (ControlChange ctl) {
+                switch (ctl.type) {
+                    case CONTINUE:
+                        continue;
+                
+                    case BREAK:
+                        return new Value(0);
+                }
+            }
+        }
+        return new Value(0);
+    }
+
+    @Override
+    public Value visitControlStatement(DelphiParser.ControlStatementContext ctx){
+        ControlChange.TYPE type = (ctx.BREAK() != null) ? ControlChange.TYPE.BREAK : ControlChange.TYPE.CONTINUE;
+        throw new ControlChange(type, "Invalid location for control statement.", ctx);
+    }
+
+    @Override
     public Value visitFunctionDesignator(DelphiParser.FunctionDesignatorContext ctx){
         var functionName = (String)visit(ctx.identifier()).value;
         return executeCallable(functionName, ctx.parameterList());
@@ -496,6 +535,11 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     @Override
     public Value visitUnsignedInteger(DelphiParser.UnsignedIntegerContext ctx){
         return new Value(Integer.parseInt(ctx.NUM_INT().toString()), TYPE.INT);
+    }
+
+    @Override
+    public Value visitBool_(DelphiParser.Bool_Context ctx){
+        return new Value(ctx.TRUE() != null, TYPE.BOOL);
     }
 
 	@Override public Value visitVariable(DelphiParser.VariableContext ctx) {

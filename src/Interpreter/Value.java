@@ -2,6 +2,7 @@ package Interpreter;
 
 enum TYPE{
     INT,        // Integer
+    BOOL,        // Integer
     STRING,     // String
     ARRAY,      // Array
     REFERENCE,  // Object Reference
