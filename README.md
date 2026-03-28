@@ -1,7 +1,8 @@
 # Delphi Interpreter Group 43
+## Rohan Rao & Tomas Rivera
 
 ## Solution Components
-* Delphi grammar implementation `delphi.g4` is at the root of the project
+* Delphi grammar implementation is found under `grammar/Delphi.g4`.
 * All source files for the Java interpreter are found under `src/Interpreter/`
 * All test example files are in the `samples/` directory, each named `test{n}.pas` *(test files range from test0.pas to test11.pas)*
 
