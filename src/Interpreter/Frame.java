@@ -58,7 +58,7 @@ public class Frame{
         else {
             if (this.scopeType == Type.OBJECT) {
                 // Test to receive from self attribute
-                delphiObject obj = (delphiObject) this.memory.get("Self").value;
+                DelphiObject obj = (DelphiObject) this.memory.get("Self").value;
                 if (obj.hasAttribute(valKey)) {
                     return Optional.of(obj.getAttribute(valKey));
                 }

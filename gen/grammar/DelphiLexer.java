@@ -1,5 +1,5 @@
-// Generated from delphi.g4 by ANTLR 4.13.2
-package Grammar;
+// Generated from grammar/Delphi.g4 by ANTLR 4.13.2
+package grammar;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
-public class delphiLexer extends Lexer {
+public class DelphiLexer extends Lexer {
 	static { RuntimeMetaData.checkVersion("4.13.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -123,13 +123,13 @@ public class delphiLexer extends Lexer {
 	}
 
 
-	public delphiLexer(CharStream input) {
+	public DelphiLexer(CharStream input) {
 		super(input);
 		_interp = new LexerATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 
 	@Override
-	public String getGrammarFileName() { return "delphi.g4"; }
+	public String getGrammarFileName() { return "Delphi.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
