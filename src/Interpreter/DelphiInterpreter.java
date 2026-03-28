@@ -6,6 +6,7 @@ import grammar.DelphiParser;
 import Interpreter.TypeInfo.InheritanceType;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
@@ -460,6 +461,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 
     @Override
     public Value visitWhileStatement(DelphiParser.WhileStatementContext ctx){
+        sm.pushFrame(new Frame(Frame.Type.LOCAL));
         while ((boolean)visit(ctx.expression()).value) {
             try {
                 visit(ctx.statement());
@@ -474,6 +476,40 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
                 }
             }
         }
+        sm.popFrame();
+        return new Value(0);
+    }
+
+    @Override
+    public Value visitForStatement(DelphiParser.ForStatementContext ctx){
+        var counter = visit(ctx.variable());
+        var forList = ctx.forList();
+        counter.value = visit(forList.initialValue()).value;
+        var finalValue = (Integer)visit(forList.finalValue()).value;
+        Function<Integer, Integer> op = (val) -> val + 1;
+        BiFunction<Integer, Integer, Boolean> check = (lhs, rhs) -> lhs <= rhs;
+        if (forList.DOWNTO() != null) {
+            op = (val) -> val - 1;
+            check = (lhs, rhs) -> lhs >= rhs;
+        }
+
+        sm.pushFrame(new Frame(Frame.Type.LOCAL));
+        while (check.apply((Integer)counter.value, finalValue)) {
+            try {
+                visit(ctx.statement());
+                counter.value = op.apply((Integer)counter.value);
+            }
+            catch (ControlChange ctl) {
+                switch (ctl.type) {
+                    case CONTINUE:
+                        continue;
+                
+                    case BREAK:
+                        return new Value(0);
+                }
+            }
+        }
+        sm.popFrame();
         return new Value(0);
     }
 

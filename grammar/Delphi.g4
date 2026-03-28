@@ -554,7 +554,7 @@ repeatStatement
     ;
 
 forStatement
-    : FOR identifier ASSIGN forList DO statement
+    : FOR variable ASSIGN forList DO statement
     ;
 
 forList
