@@ -989,6 +989,18 @@ public class DelphiBaseListener implements DelphiListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterControlStatement(DelphiParser.ControlStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitControlStatement(DelphiParser.ControlStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVariable(DelphiParser.VariableContext ctx) { }
 	/**
 	 * {@inheritDoc}

@@ -497,6 +497,12 @@ public interface DelphiVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignmentStatement(DelphiParser.AssignmentStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link DelphiParser#controlStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitControlStatement(DelphiParser.ControlStatementContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link DelphiParser#variable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

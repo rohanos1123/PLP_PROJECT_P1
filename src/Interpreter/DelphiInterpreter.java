@@ -6,6 +6,7 @@ import grammar.DelphiParser;
 import Interpreter.TypeInfo.InheritanceType;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
@@ -32,6 +33,20 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     public static class delphiRuntimeError extends RuntimeException {
         public delphiRuntimeError(Object msg, ParserRuleContext ctx) {
             super(createLogMsg(msg, ctx));
+        }
+    }
+
+    private static class ControlChange extends delphiRuntimeError {
+        enum TYPE {
+            BREAK,
+            CONTINUE
+        };
+
+        public TYPE type;
+
+        public ControlChange(TYPE type, Object msg, ParserRuleContext ctx) {
+            this.type = type;
+            super(msg, ctx);
         }
     }
 
@@ -445,6 +460,66 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
+    public Value visitWhileStatement(DelphiParser.WhileStatementContext ctx){
+        sm.pushFrame(new Frame(Frame.Type.LOCAL));
+        while ((boolean)visit(ctx.expression()).value) {
+            try {
+                visit(ctx.statement());
+            }
+            catch (ControlChange ctl) {
+                switch (ctl.type) {
+                    case CONTINUE:
+                        continue;
+                
+                    case BREAK:
+                        return new Value(0);
+                }
+            }
+        }
+        sm.popFrame();
+        return new Value(0);
+    }
+
+    @Override
+    public Value visitForStatement(DelphiParser.ForStatementContext ctx){
+        var counter = visit(ctx.variable());
+        var forList = ctx.forList();
+        counter.value = visit(forList.initialValue()).value;
+        var finalValue = (Integer)visit(forList.finalValue()).value;
+        Function<Integer, Integer> op = (val) -> val + 1;
+        BiFunction<Integer, Integer, Boolean> check = (lhs, rhs) -> lhs <= rhs;
+        if (forList.DOWNTO() != null) {
+            op = (val) -> val - 1;
+            check = (lhs, rhs) -> lhs >= rhs;
+        }
+
+        sm.pushFrame(new Frame(Frame.Type.LOCAL));
+        while (check.apply((Integer)counter.value, finalValue)) {
+            try {
+                visit(ctx.statement());
+                counter.value = op.apply((Integer)counter.value);
+            }
+            catch (ControlChange ctl) {
+                switch (ctl.type) {
+                    case CONTINUE:
+                        continue;
+                
+                    case BREAK:
+                        return new Value(0);
+                }
+            }
+        }
+        sm.popFrame();
+        return new Value(0);
+    }
+
+    @Override
+    public Value visitControlStatement(DelphiParser.ControlStatementContext ctx){
+        ControlChange.TYPE type = (ctx.BREAK() != null) ? ControlChange.TYPE.BREAK : ControlChange.TYPE.CONTINUE;
+        throw new ControlChange(type, "Invalid location for control statement.", ctx);
+    }
+
+    @Override
     public Value visitFunctionDesignator(DelphiParser.FunctionDesignatorContext ctx){
         var functionName = (String)visit(ctx.identifier()).value;
         return executeCallable(functionName, ctx.parameterList());
@@ -496,6 +571,11 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     @Override
     public Value visitUnsignedInteger(DelphiParser.UnsignedIntegerContext ctx){
         return new Value(Integer.parseInt(ctx.NUM_INT().toString()), TYPE.INT);
+    }
+
+    @Override
+    public Value visitBool_(DelphiParser.Bool_Context ctx){
+        return new Value(ctx.TRUE() != null, TYPE.BOOL);
     }
 
 	@Override public Value visitVariable(DelphiParser.VariableContext ctx) {
