@@ -4,7 +4,7 @@
 ## Solution Components
 * Delphi grammar implementation is found under `grammar/Delphi.g4`.
 * All source files for the Java interpreter are found under `src/Interpreter/`
-* All test example files are in the `samples/` directory, each named `test{n}.pas` *(test files range from test0.pas to test11.pas)*
+* All test example files are in the `tests/` directory, each named `test{n}.pas` *(test files range from test0.pas to test11.pas)*
 
 ## Working Features
 * Classes and Objects
@@ -24,7 +24,7 @@ To compile all necessary files for the interpreter, run:
 * `javac -d bin/ -cp lib/antlr-4.13.2-complete.jar gen/Grammar/*.java src/Interpreter/*.java src/Main.java`
 
 To run the interpreter against one of the test files, run:
-* `java -cp lib/antlr-4.13.2-complete.jar:bin Main samples/test{n}.pas`
+* `java -cp lib/antlr-4.13.2-complete.jar:bin Main tests/test{n}.pas`
 
 **Note: some of the test files may require user input before displaying anything.*
 
