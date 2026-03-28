@@ -453,7 +453,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     @Override public Value visitParameterList(DelphiParser.ParameterListContext ctx) {
         var resolvedParams = new ArrayList<Value>();
         for (var param : ctx.actualParameter()) {
-            resolvedParams.add(new Value(visit(param)));
+            resolvedParams.add(visit(param));
         }
         return new Value(resolvedParams);
     }

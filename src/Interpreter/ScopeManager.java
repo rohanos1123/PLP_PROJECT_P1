@@ -48,6 +48,7 @@ public class ScopeManager{
             if(travNode.definedLocal.containsKey(key)){
                 return Optional.of(travNode.definedLocal.get(key));
             }
+            travNode = travNode.parent.get();
         }
         throw new RuntimeException("ScopeNode Error: Key Not Found!");
     }
