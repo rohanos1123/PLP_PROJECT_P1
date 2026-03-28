@@ -273,7 +273,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         /* might need to eventually check for redefinition dunno if its allowed */
 
         sm.addCallable(procedureId, (args) -> {
-            sm.pushFrame(new Frame(Frame.Type.FUNCTION));
+            sm.pushFrame(new Frame(Frame.Type.FUNCTION), procedureId);
             for (int i = 0; i < args.size(); i++) {
                 sm.addVariable(procedureId.parameterNames.get(i), args.get(i));
             }
@@ -292,7 +292,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         /* might need to eventually check for redefinition dunno if its allowed */
 
         sm.addCallable(functionId, (args) -> {
-            sm.pushFrame(new Frame(Frame.Type.FUNCTION));
+            sm.pushFrame(new Frame(Frame.Type.FUNCTION), functionId);
             for (int i = 0; i < args.size(); i++) {
                 sm.addVariable(functionId.parameterNames.get(i), args.get(i));
             }
@@ -453,7 +453,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     @Override public Value visitParameterList(DelphiParser.ParameterListContext ctx) {
         var resolvedParams = new ArrayList<Value>();
         for (var param : ctx.actualParameter()) {
-            resolvedParams.add(visit(param));
+            resolvedParams.add(new Value(visit(param)));
         }
         return new Value(resolvedParams);
     }
