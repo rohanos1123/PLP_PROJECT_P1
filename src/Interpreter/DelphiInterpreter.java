@@ -275,7 +275,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         sm.addCallable(procedureId, (args) -> {
             sm.pushFrame(new Frame(Frame.Type.FUNCTION), procedureId);
             for (int i = 0; i < args.size(); i++) {
-                sm.addVariable(procedureId.parameterNames.get(i), args.get(i));
+                sm.addVariable(procedureId.parameterNames.get(i), new Value(args.get(i)));
             }
             visit(ctx.block());
             sm.popFrame();
@@ -294,7 +294,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         sm.addCallable(functionId, (args) -> {
             sm.pushFrame(new Frame(Frame.Type.FUNCTION), functionId);
             for (int i = 0; i < args.size(); i++) {
-                sm.addVariable(functionId.parameterNames.get(i), args.get(i));
+                sm.addVariable(functionId.parameterNames.get(i), new Value(args.get(i)));
             }
             var result = new Value(0);
             sm.addVariable("Result", result);
@@ -323,7 +323,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
             sm.addVariable("Self", invokerObject);
             for (int i = 0; i < args.size(); i++) {
-                sm.addVariable(methodId.parameterNames.get(i), args.get(i));
+                sm.addVariable(methodId.parameterNames.get(i), new Value(args.get(i)));
             }
             visit(ctx.block());
             sm.popFrame();
@@ -350,7 +350,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
             sm.addVariable("Self", invokerObject);
             for (int i = 0; i < args.size(); i++) {
-                sm.addVariable(methodId.parameterNames.get(i), args.get(i));
+                sm.addVariable(methodId.parameterNames.get(i), new Value(args.get(i)));
             }
             var result = new Value(0);
             sm.addVariable("Result", result);
@@ -379,7 +379,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
             sm.addVariable("Self", new Value(new DelphiObject(invokerClass, ti.getAttributes()), TYPE.REFERENCE));
             for (int i = 0; i < args.size(); i++) {
-                sm.addVariable(constructorId.parameterNames.get(i), args.get(i));
+                sm.addVariable(constructorId.parameterNames.get(i), new Value(args.get(i)));
             }
             visit(ctx.block());
             var object = sm.getVariable("Self").get();
@@ -407,7 +407,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
             sm.addVariable("Self", invokerObject);
             for (int i = 0; i < args.size(); i++) {
-                sm.addVariable(destructorId.parameterNames.get(i), args.get(i));
+                sm.addVariable(destructorId.parameterNames.get(i), new Value(args.get(i)));
             }
             visit(ctx.block());
             var object = sm.getVariable("Self").get();
