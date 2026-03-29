@@ -11,7 +11,7 @@ begin
         WriteLn(20);
     end;
 
-    WriteLn(9999);
+    WriteLn('FOR COMPLETE');
 
     for i := 8 downto 2 do
     begin

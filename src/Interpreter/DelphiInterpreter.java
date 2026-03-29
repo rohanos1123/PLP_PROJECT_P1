@@ -577,6 +577,12 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
+    public Value visitString(DelphiParser.StringContext ctx){
+        var literal = ctx.STRING_LITERAL().toString();
+        return new Value(literal.substring(1, literal.length() - 1), TYPE.STRING);
+    }
+
+    @Override
     public Value visitBool_(DelphiParser.Bool_Context ctx){
         return new Value(ctx.TRUE() != null, TYPE.BOOL);
     }
