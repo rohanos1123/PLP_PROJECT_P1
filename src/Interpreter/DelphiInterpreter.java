@@ -73,8 +73,14 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         (args) -> {
             Scanner sc = new Scanner(System.in);
             Value obj = args.get(0);
-            int val = sc.nextInt();
-            obj.copyValue(new Value(val, TYPE.INT));
+            if (sc.hasNextInt()) {
+                int val = sc.nextInt();
+                obj.copyValue(new Value(val, TYPE.INT));
+            }
+            else {
+                String val = sc.next();
+                obj.copyValue(new Value(val, TYPE.STRING));
+            }
             sc.close();
             return new Value(0);
         });
