@@ -5,7 +5,7 @@
 ## Solution Components
 * Delphi grammar implementation is found under `grammar/Delphi.g4`.
 * All source files for the Java interpreter are found under `src/Interpreter/`, the entrypoint/driver program is found under `src/Main.java`.
-* All test example files are in the `tests/` directory, each named `test{n}.pas` *(test files range from test0.pas to test15.pas)*.
+* All test example files are in the `tests/` directory, each named `test{n}.pas` *(test files range from test0.pas to test18.pas)*.
 
 ## Working Features
 * Classes and Objects
