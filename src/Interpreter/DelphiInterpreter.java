@@ -47,7 +47,6 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         public ControlChange(TYPE type, Object msg, ParserRuleContext ctx) {
             super(msg, ctx);
             this.type = type;
-           
         }
     }
 
