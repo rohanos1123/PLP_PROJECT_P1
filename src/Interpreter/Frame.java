@@ -10,19 +10,20 @@ public class Frame{
         OBJECT
     };
 
-    // Only returns the local stack memory
-    private Optional<Value> getLocalMemory(String value){
-        if(this.memory.containsKey(value)){
-            return Optional.of(this.memory.get(value));
-        }
-        else{
-            return Optional.empty();
+    public class ScopeNode{
+        HashMap<String, Value> definedLocal = new HashMap<>();
+        HashMap<CallableInfo, Function<ArrayList<Value>, Value>> definedCallables = new HashMap<>();
+        Optional<ScopeNode> parent = Optional.<ScopeNode>empty();
+
+        public ScopeNode(){}
+
+        public ScopeNode(ScopeNode parent){
+            this.parent = Optional.of(parent);
         }
     }
 
-    HashMap<String, Value> memory = new HashMap<>();
-    HashMap<CallableInfo, Function<ArrayList<Value>, Value>> callables = new HashMap<>();
     Type scopeType = Type.FUNCTION;
+    ScopeNode scope = new ScopeNode();
     Optional<TypeInfo> objectTypeInfo = Optional.<TypeInfo>empty();
 
     // Stack frame for function call
@@ -36,37 +37,59 @@ public class Frame{
         this.objectTypeInfo = Optional.of(objType);
     }
 
-    public Optional<Function<ArrayList<Value>, Value>> getFunction(CallableInfo fnid){
-        if(this.callables.containsKey(fnid)){
-            return Optional.of(this.callables.get(fnid));
+    private ScopeNode getParent(ScopeNode curr, CallableInfo ci){
+        if(curr.definedCallables.containsKey(ci)){
+            return curr;
         }
         else{
-            if(this.scopeType == Type.OBJECT && objectTypeInfo.isPresent()) {
-                if (this.objectTypeInfo.get().hasMethod(fnid)) {
-                    return Optional.of(this.objectTypeInfo.get().getMethod(fnid));
-                }
+            if(curr.parent.isPresent()){
+                return this.getParent(curr.parent.get(), ci);
             }
-            return Optional.empty();
+            throw new RuntimeException("ScopeNode error: Attempting to access parent");
         }
     }
 
-    public Optional<Value> getValue(String valKey) {
-        Optional<Value> localValue = this.getLocalMemory(valKey);
-        if (localValue.isPresent()) {
-            return localValue;
+    private Optional<Value> getFamilyLocal(String key, ScopeNode travNode){
+        if(travNode.definedLocal.containsKey(key)){
+            return Optional.of(travNode.definedLocal.get(key));
         }
-        else {
-            if (this.scopeType == Type.OBJECT) {
-                // Test to receive from self attribute
-                DelphiObject obj = (DelphiObject) this.memory.get("Self").value;
-                if (obj.hasAttribute(valKey)) {
-                    return Optional.of(obj.getAttribute(valKey));
-                }
-                else {
-                    return Optional.empty();
-                }
+        if(travNode.parent.isPresent()){
+            return getFamilyLocal(key, travNode.parent.get());
+        }
+        return Optional.empty();
+    }
+
+    private Optional<Function<ArrayList<Value>, Value>> getFamilyFunction(CallableInfo key, ScopeNode travNode){
+        if(travNode.definedCallables.containsKey(key)){
+            return Optional.of(travNode.definedCallables.get(key));
+        }
+        if(travNode.parent.isPresent()){
+            return getFamilyFunction(key, travNode.parent.get());
+        }
+        return Optional.empty();
+    }
+
+    public Optional<ScopeNode> getParent(CallableInfo ci){
+        return Optional.of(getParent(scope, ci));
+    }
+
+    public Optional<Function<ArrayList<Value>, Value>> getFunction(CallableInfo fnid){
+        if(this.scopeType == Type.OBJECT && objectTypeInfo.isPresent()) {
+            if (this.objectTypeInfo.get().hasMethod(fnid)) {
+                return Optional.of(this.objectTypeInfo.get().getMethod(fnid));
             }
-            return Optional.empty();
         }
+        return getFamilyFunction(fnid, scope);
+    }
+
+    public Optional<Value> getValue(String valKey) {
+        if (this.scopeType == Type.OBJECT) {
+            // Test to receive from self attribute
+            DelphiObject obj = (DelphiObject) getFamilyLocal("Self", scope).get().value;
+            if (obj.hasAttribute(valKey)) {
+                return Optional.of(obj.getAttribute(valKey));
+            }
+        }
+        return getFamilyLocal(valKey, scope);
     }
 };
