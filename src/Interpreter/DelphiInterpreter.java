@@ -53,6 +53,13 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     /* helpers */
 
     private void setupBuiltinCallables() {
+        sm.addCallable(new CallableInfo("Write", new ArrayList<>(), true),
+        (args) -> {
+            for(var arg : args){
+                System.out.print(arg.asString());
+            }
+            return new Value(0);
+        });
         sm.addCallable(new CallableInfo("WriteLn", new ArrayList<>(), true),
         (args) -> {
             for(var arg : args){
@@ -61,6 +68,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             System.out.println();
             return new Value(0);
         });
+        
         sm.addCallable(new CallableInfo("ReadLn", new ArrayList<>(), true),
         (args) -> {
             Scanner sc = new Scanner(System.in);
@@ -462,6 +470,20 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     }
 
     @Override
+    public Value visitIfStatement(DelphiParser.IfStatementContext ctx){
+        sm.pushFrame(new Frame(Frame.Type.LOCAL));
+        var blocks = ctx.statement();
+        if ((boolean)visit(ctx.expression()).value) {
+            visit(blocks.get(0));
+        }
+        else if (blocks.size() > 1) {
+            visit(blocks.get(1));
+        }
+        sm.popFrame();
+        return new Value(0);
+    }
+
+    @Override
     public Value visitWhileStatement(DelphiParser.WhileStatementContext ctx){
         sm.pushFrame(new Frame(Frame.Type.LOCAL));
         while ((boolean)visit(ctx.expression()).value) {
@@ -560,6 +582,63 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         else {
             throw new delphiRuntimeError("Invalid method invocation: " + variableName + "." + methodName, ctx);
         }
+    }
+
+    @Override
+    public Value visitExpression(DelphiParser.ExpressionContext ctx){
+        var lhs = visit(ctx.simpleExpression());
+        var op = ctx.relationaloperator();
+        if (op == null) return lhs;
+        var rhs = visit(ctx.expression());
+        if (op.EQUAL() != null) {
+            return new Value(lhs.value.equals(rhs.value), TYPE.BOOL);
+        }
+        else if (op.NOT_EQUAL() != null) {
+            return new Value(!lhs.value.equals(rhs.value), TYPE.BOOL);
+        }
+        else if (op.LT() != null) {
+            return new Value(lhs.asInteger() < rhs.asInteger(), TYPE.BOOL);
+        }
+        else if (op.LE() != null) {
+            return new Value(lhs.asInteger() <= rhs.asInteger(), TYPE.BOOL);
+        }
+        else if (op.GE() != null) {
+            return new Value(lhs.asInteger() >= rhs.asInteger(), TYPE.BOOL);
+        }
+        else if (op.GT() != null) {
+            return new Value(lhs.asInteger() > rhs.asInteger(), TYPE.BOOL);
+        }
+        return lhs;
+    }
+
+    @Override
+    public Value visitSimpleExpression(DelphiParser.SimpleExpressionContext ctx){
+        var lhs = visit(ctx.term());
+        var op = ctx.additiveoperator();
+        if (op == null) return lhs;
+        var rhs = visit(ctx.simpleExpression());
+        if (op.PLUS() != null) {
+            return new Value(lhs.asInteger() + rhs.asInteger(), TYPE.INT);
+        }
+        else if (op.MINUS() != null) {
+            return new Value(lhs.asInteger() - rhs.asInteger(), TYPE.INT);
+        }
+        return lhs;
+    }
+
+    @Override
+    public Value visitTerm(DelphiParser.TermContext ctx){
+        var lhs = visit(ctx.signedFactor());
+        var op = ctx.multiplicativeoperator();
+        if (op == null) return lhs;
+        var rhs = visit(ctx.term());
+        if (op.STAR() != null) {
+            return new Value(lhs.asInteger() * rhs.asInteger(), TYPE.INT);
+        }
+        else if (op.SLASH() != null) {
+            return new Value(lhs.asInteger() / rhs.asInteger(), TYPE.INT);
+        }
+        return lhs;
     }
 
     @Override
