@@ -1,0 +1,19 @@
+{
+    "java.project.sourcePaths": ["src", "gen"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ],
+    "antlr4.generation": {
+        "outputDir": "/home/rrao/Desktop/PLP_PROJECT_P1/gen/grammar",
+        "alternativeJar": "/home/rrao/Desktop/PLP_PROJECT_P1/lib/antlr-4.13.2-complete.jar",
+        "package": "grammar",
+        "language": "Java",
+        "listeners": true,
+        "visitors": true,
+        "mode": "external"
+    },
+    "terminal.integrated.env.linux": {
+        "CLASSPATH": "lib/antlr-4.13.2-complete.jar:bin"
+    }
+}

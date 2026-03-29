@@ -30,6 +30,6 @@ begin
 
     test.Destroy;
 
-    writeLn(test.value);
+    WriteLn(test.value);
 
 end.

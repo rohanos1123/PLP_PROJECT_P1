@@ -1,7 +1,7 @@
-import Interpreter.delphiInterpreter;
-import Interpreter.delphiInterpreter.delphiRuntimeError;
-import Grammar.delphiLexer;
-import Grammar.delphiParser;
+import Interpreter.DelphiInterpreter;
+import Interpreter.DelphiInterpreter.delphiRuntimeError;
+import grammar.DelphiLexer;
+import grammar.DelphiParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.runtime.tree.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -15,13 +15,13 @@ public class Main{
 
         CharStream input = CharStreams.fromFileName(args[0]);
 
-        delphiLexer lexer = new delphiLexer(input);
+        DelphiLexer lexer = new DelphiLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
-        delphiParser parser = new delphiParser(tokens);
+        DelphiParser parser = new DelphiParser(tokens);
 
         ParseTree tree = parser.program();
 
-        delphiInterpreter interpreter = new delphiInterpreter();
+        DelphiInterpreter interpreter = new DelphiInterpreter();
         try {
             interpreter.visit(tree);
         } catch (delphiRuntimeError e) {

@@ -1,0 +1,1 @@
+{"rule":"PUNCTUATION_PARAGRAPH_END","sentence":"^\\QTo compile all necessary files for the interpreter, run:\n\\E(?:Dummy|Ina|Jimmy-)[0-9]+$"}

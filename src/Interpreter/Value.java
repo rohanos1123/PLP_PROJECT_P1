@@ -2,6 +2,7 @@ package Interpreter;
 
 enum TYPE{
     INT,        // Integer
+    BOOL,        // Integer
     STRING,     // String
     ARRAY,      // Array
     REFERENCE,  // Object Reference
@@ -55,7 +56,16 @@ public class Value {
         }
 
         String asString(){
-            return String.valueOf(this.asInteger());
+            switch (type) {
+                case INT:
+                    return String.valueOf(this.asInteger());
+            
+                case STRING:
+                    return this.value.toString();
+                default:
+                    return "";
+            }
+            
         }
 
         void setAccess(boolean isPrivate){
