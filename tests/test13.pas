@@ -1,4 +1,4 @@
-program Infinite;
+program BasicLoops;
 
 var
     i : Integer;
@@ -11,12 +11,14 @@ begin
         WriteLn(20);
     end;
 
-    WriteLn('FOR COMPLETE');
+    WriteLn('FOR TO COMPLETE');
 
     for i := 8 downto 2 do
     begin
         WriteLn(i);
     end;
+
+    WriteLn('FOR DOWNTO COMPLETE');
 
     while true do
     begin
