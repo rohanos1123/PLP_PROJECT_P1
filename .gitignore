@@ -24,6 +24,9 @@ bin/
 /nbdist/
 /.nb-gradle/
 
+### Generated Files
+gen/**
+
 ### VS Code ###
 .antlr
 
