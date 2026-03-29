@@ -7,6 +7,8 @@ begin
     for i := 0 to 10 do
     begin
         WriteLn(i);
+        continue;
+        WriteLn(20);
     end;
 
     WriteLn(9999);

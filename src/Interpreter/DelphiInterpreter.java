@@ -504,6 +504,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             catch (ControlChange ctl) {
                 switch (ctl.type) {
                     case CONTINUE:
+                        counter.value = op.apply((Integer)counter.value);
                         continue;
                 
                     case BREAK:
