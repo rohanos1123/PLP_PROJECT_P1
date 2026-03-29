@@ -25,7 +25,6 @@ bin/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/settings.json
 .antlr
 
 ### Mac OS ###
