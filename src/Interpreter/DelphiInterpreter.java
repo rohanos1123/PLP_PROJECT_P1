@@ -3,7 +3,12 @@ package Interpreter;
 import org.antlr.v4.runtime.ParserRuleContext;
 import grammar.DelphiBaseVisitor;
 import grammar.DelphiParser;
-import Interpreter.TypeInfo.InheritanceType;
+import Util.CallableInfo;
+import Util.Frame;
+import Util.ScopeManager;
+import Util.TypeInfo;
+import Util.TypeInfo.InheritanceType;
+import Util.TYPE;
 
 import java.util.*;
 import java.util.function.BiFunction;

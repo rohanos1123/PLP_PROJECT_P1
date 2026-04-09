@@ -1,23 +1,26 @@
-package Interpreter;
+package Util;
 
 import java.util.*;
 import java.util.function.Function;
 
+import Interpreter.Value;
+
 public class TypeInfo {
-    enum InheritanceType {
+    public enum InheritanceType {
         ABSTRACT,
         SEALED,
         DEFAULT
     }
 
-    enum Type {
+    public enum Type {
         CLASS,
         INTERFACE
     }
 
-    Type type = Type.CLASS;
-    InheritanceType inheritanceType = InheritanceType.DEFAULT;
-    ArrayList<TypeInfo> parents = new ArrayList<>(); // first element is parent, all others are interfaces
+    public Type type = Type.CLASS;
+    public InheritanceType inheritanceType = InheritanceType.DEFAULT;
+    public ArrayList<TypeInfo> parents = new ArrayList<>(); // first element is parent, all others are interfaces
+    
     private HashMap<String, Value> attributeMap = new HashMap<>();
     private HashMap<CallableInfo, Function<ArrayList<Value>, Value>> methodMap = new HashMap<>();
 
@@ -25,15 +28,15 @@ public class TypeInfo {
         this.type = type;
     }
 
-    void registerAttribute(String name, Value value) {
+    public void registerAttribute(String name, Value value) {
         attributeMap.put(name, value);
     }
 
-    void registerMethod(CallableInfo name, Function<ArrayList<Value>, Value> method) {
+    public void registerMethod(CallableInfo name, Function<ArrayList<Value>, Value> method) {
         methodMap.put(name, method);
     }
 
-    Value getAttribute(String attributeName) {
+    public Value getAttribute(String attributeName) {
         if (attributeMap.containsKey(attributeName)) {
             return attributeMap.get(attributeName);
         }
@@ -43,7 +46,7 @@ public class TypeInfo {
         return null;
     }
 
-    HashMap<String, Value> getAttributes() {
+    public HashMap<String, Value> getAttributes() {
         HashMap<String, Value> attributes = new HashMap<>();
         attributes.putAll(attributeMap);
         if (!parents.isEmpty()) {
@@ -52,7 +55,7 @@ public class TypeInfo {
         return attributes;
     }
 
-    Function<ArrayList<Value>, Value> getMethod(CallableInfo methodId) {
+    public Function<ArrayList<Value>, Value> getMethod(CallableInfo methodId) {
         if (methodMap.containsKey(methodId)) {
             return methodMap.get(methodId);
         }
@@ -65,19 +68,19 @@ public class TypeInfo {
         return null;
     }
 
-    boolean hasAttribute(String attributeName) {
+    public boolean hasAttribute(String attributeName) {
         return getAttribute(attributeName) != null;
     }
 
-    boolean hasMethod(CallableInfo methodId) {
+    public boolean hasMethod(CallableInfo methodId) {
         return getMethod(methodId) != null;
     }
     
-    boolean hasUninheritedAttribute(String attributeName) {
+    public boolean hasUninheritedAttribute(String attributeName) {
         return attributeMap.containsKey(attributeName);
     }
 
-    boolean hasUninheritedMethod(CallableInfo methodId) {
+    public boolean hasUninheritedMethod(CallableInfo methodId) {
         return methodMap.containsKey(methodId);
     }
 }

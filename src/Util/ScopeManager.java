@@ -1,13 +1,13 @@
-package Interpreter;
+package Util;
 
-
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Function;
 
+import Interpreter.Value;
+
 
 public class ScopeManager{
-    Deque<Frame> stack = new ArrayDeque<>();
+    private Deque<Frame> stack = new ArrayDeque<>();
 
     public void pushFrame(Frame newFrame){
         if (!stack.isEmpty()) {

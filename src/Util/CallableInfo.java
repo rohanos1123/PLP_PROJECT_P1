@@ -1,14 +1,14 @@
-package Interpreter;
+package Util;
 
 import java.util.*;
 
 public class CallableInfo {
-    String name;
-    ArrayList<TYPE> parameterTypes = new ArrayList<>();
-    boolean variadic = false;
+    public String name;
+    public ArrayList<TYPE> parameterTypes = new ArrayList<>();
+    public boolean variadic = false;
     /* not relevant for identification */
-    ArrayList<String> parameterNames = new ArrayList<>();
-    TYPE returnType = TYPE.VOID;
+    public ArrayList<String> parameterNames = new ArrayList<>();
+    public TYPE returnType = TYPE.VOID;
 
     public CallableInfo(String name) {
         this.name = name;

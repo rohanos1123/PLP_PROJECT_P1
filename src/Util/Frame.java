@@ -1,7 +1,10 @@
-package Interpreter; 
+package Util; 
 
 import java.util.*;
 import java.util.function.Function;
+
+import Interpreter.DelphiObject;
+import Interpreter.Value;
 
 public class Frame{
     public enum Type {
@@ -11,9 +14,9 @@ public class Frame{
     };
 
     public class ScopeNode{
-        HashMap<String, Value> definedLocal = new HashMap<>();
-        HashMap<CallableInfo, Function<ArrayList<Value>, Value>> definedCallables = new HashMap<>();
-        Optional<ScopeNode> parent = Optional.<ScopeNode>empty();
+        public HashMap<String, Value> definedLocal = new HashMap<>();
+        public HashMap<CallableInfo, Function<ArrayList<Value>, Value>> definedCallables = new HashMap<>();
+        public Optional<ScopeNode> parent = Optional.<ScopeNode>empty();
 
         public ScopeNode(){}
 
@@ -22,9 +25,9 @@ public class Frame{
         }
     }
 
-    Type scopeType = Type.FUNCTION;
-    ScopeNode scope = new ScopeNode();
-    Optional<TypeInfo> objectTypeInfo = Optional.<TypeInfo>empty();
+    public Type scopeType = Type.FUNCTION;
+    public ScopeNode scope = new ScopeNode();
+    public Optional<TypeInfo> objectTypeInfo = Optional.<TypeInfo>empty();
 
     // Stack frame for function call
     public Frame(Type t) {
