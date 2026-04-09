@@ -1,5 +1,5 @@
 import Interpreter.DelphiInterpreter;
-import Interpreter.DelphiInterpreter.delphiRuntimeError;
+import Util.DelphiError;
 import grammar.DelphiLexer;
 import grammar.DelphiParser;
 import org.antlr.v4.runtime.*;
@@ -26,15 +26,19 @@ public class Main{
             DelphiInterpreter interpreter = new DelphiInterpreter();
             try {
                 interpreter.visit(tree);
-            } catch (delphiRuntimeError e) {
-                System.err.println("delphi Runtime Error: " + e.getMessage());
+            } catch (DelphiError e) {
+                System.err.println("Delphi Runtime Error: " + e.getMessage());
             }
         }
         else if (args[0].equals("compile")) {
-            // compile here
+            try {
+                // compile here
+            } catch (DelphiError e) {
+                System.err.println("Delphi Compilation Error: " + e.getMessage());
+            }
         }
         else {
-            throw new RuntimeException("Bad execution mode provided.");
+            throw new RuntimeException("Invalid execution mode: " + args[0]);
         }
     }
 
