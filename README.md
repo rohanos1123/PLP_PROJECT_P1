@@ -14,18 +14,24 @@
 * Inheritance
 * Interfaces
 * Functions, Procedures, and Methods
-* Variables of integer type only
+* Variables of integer and string type
 * Reading from stdin with ReadLn
 * Writing to stdout with WriteLn
+* While and For loops
+* Recursion
+* Break and Continue
+* Nested Functions and Procedures
 
 ## Compiling and Running the Interpreter
 This project was compiled and tested using the OpenJDK implementation of java, version 25.0.2. Other versions should work but if there are any issues, use that version to compile and run.
 To compile all necessary files for the interpreter, run:
-* `java -jar lib/antlr-4.13.2-complete.jar -Dlanguage=Java -visitor -o gen -package grammar grammar/Delphi.g4`
-* `javac -d bin/ -cp lib/antlr-4.13.2-complete.jar gen/grammar/*.java src/Interpreter/*.java src/Main.java`
+* `javac -d bin/ -cp lib/antlr-4.13.2-complete.jar gen/grammar/*.java src/**/*.java`
 
 To run the interpreter against one of the test files, run:
-* `java -cp lib/antlr-4.13.2-complete.jar:bin Main tests/test{n}.pas`
+* `java -cp lib/antlr-4.13.2-complete.jar:bin Main interpret tests/test{n}.pas`
+
+To run the compiler against one of the test files, run:
+* `java -cp lib/antlr-4.13.2-complete.jar:bin Main compile tests/test{n}.pas`
 
 **Note: some of the test files may require user input before displaying anything.*
 
