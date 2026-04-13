@@ -6,17 +6,17 @@ import java.util.function.Function;
 import Interpreter.Value;
 
 
-public class ScopeManager{
-    private Deque<Frame> stack = new ArrayDeque<>();
+public class ScopeManager<T> {
+    private Deque<Frame<T>> stack = new ArrayDeque<>();
 
-    public void pushFrame(Frame newFrame){
+    public void pushFrame(Frame<T> newFrame){
         if (!stack.isEmpty()) {
             newFrame.scope.parent = Optional.of(stack.peek().scope);
         }
         this.stack.push(newFrame);
     }
 
-    public void pushFrame(Frame newFrame, CallableInfo ci){
+    public void pushFrame(Frame<T> newFrame, CallableInfo ci){
         if (!stack.isEmpty()) {
             newFrame.scope.parent = stack.peek().getParent(ci);
         }
@@ -27,7 +27,7 @@ public class ScopeManager{
         this.stack.pop();
     }
 
-    public Frame top(){
+    public Frame<T> top(){
         if(!this.stack.isEmpty()){
             return this.stack.peek();
         }
@@ -36,26 +36,31 @@ public class ScopeManager{
         }
     }
 
-    public void addVariable(Value variable) {
-        Frame currentFrame = top();
-        currentFrame.scope.definedLocal.put(variable.identifier, variable);
+    public boolean empty() {
+        return this.stack.isEmpty();
     }
 
-    public void addVariable(String identifier, Value variable) {
-        variable.identifier = identifier;
-        addVariable(variable);
+    public int size() {
+        return this.stack.size();
     }
 
-    public void addCallable(CallableInfo key,  Function<ArrayList<Value>, Value> function) {
-        Frame currentFrame = top();
+    public void addVariable(String identifier, T variable) {
+        if (variable instanceof Value) {
+            ((Value)variable).identifier = identifier;
+        }
+        top().scope.definedLocal.put(identifier, variable);
+    }
+
+    public void addCallable(CallableInfo key,  Function<ArrayList<T>, T> function) {
+        Frame<T> currentFrame = top();
         currentFrame.scope.definedCallables.put(key, function);
     }
 
-    public Optional<Value> getVariable(String valKey){
+    public Optional<T> getVariable(String valKey){
         return top().getValue(valKey);
     }
 
-    public Optional<Function<ArrayList<Value>, Value>> getFunction(CallableInfo fn_id){
+    public Optional<Function<ArrayList<T>, T>> getFunction(CallableInfo fn_id){
         return top().getFunction(fn_id);
     }
 }

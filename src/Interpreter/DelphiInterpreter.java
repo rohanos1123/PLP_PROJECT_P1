@@ -16,8 +16,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
-    ScopeManager sm = new ScopeManager();
-    HashMap<String, TypeInfo> typeInfo = new HashMap<>();
+    ScopeManager<Value> sm = new ScopeManager<Value>();
+    HashMap<String, TypeInfo<Value>> typeInfo = new HashMap<>();
 
     // Keeps track of information between visitors
     boolean isPrivate = false;
@@ -124,7 +124,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 
     @Override
     public Value visitProgram(DelphiParser.ProgramContext ctx){
-        sm.pushFrame(new Frame(Frame.Type.FUNCTION));
+        sm.pushFrame(new Frame<Value>(Frame.Type.FUNCTION));
         setupBuiltinCallables();
         visit(ctx.topLevelBlock());
         sm.popFrame();
@@ -147,7 +147,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 
     @Override
     public Value visitInterfaceType(DelphiParser.InterfaceTypeContext ctx){
-        TypeInfo ti = new TypeInfo(TypeInfo.Type.INTERFACE);
+        var ti = new TypeInfo<Value>(TypeInfo.Type.INTERFACE);
         this.typeInfo.put(this.currentType, ti);
 
         if (ctx.identifier() != null) {
@@ -168,7 +168,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 
     @Override
     public Value visitClassType(DelphiParser.ClassTypeContext ctx){
-        TypeInfo ti = new TypeInfo(TypeInfo.Type.CLASS);
+        var ti = new TypeInfo<Value>(TypeInfo.Type.CLASS);
         this.typeInfo.put(this.currentType, ti);
         if (ctx.ABSTRACT() != null) {
             ti.inheritanceType = InheritanceType.ABSTRACT;
@@ -204,7 +204,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         
         if (ctx.classDefinition() != null) {
             this.isPrivate = false;
-            sm.pushFrame(new Frame(Frame.Type.OBJECT)); // abuse scoping to extract all definitions
+            sm.pushFrame(new Frame<Value>(Frame.Type.OBJECT)); // abuse scoping to extract all definitions
             visit(ctx.classDefinition());
             for(var entry : sm.top().scope.definedLocal.entrySet()){
                 ti.registerAttribute(entry.getKey(), entry.getValue());
@@ -289,7 +289,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         /* might need to eventually check for redefinition dunno if its allowed */
 
         sm.addCallable(procedureId, (args) -> {
-            sm.pushFrame(new Frame(Frame.Type.FUNCTION), procedureId);
+            sm.pushFrame(new Frame<Value>(Frame.Type.FUNCTION), procedureId);
             for (int i = 0; i < args.size(); i++) {
                 sm.addVariable(procedureId.parameterNames.get(i), new Value(args.get(i)));
             }
@@ -308,7 +308,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         /* might need to eventually check for redefinition dunno if its allowed */
 
         sm.addCallable(functionId, (args) -> {
-            sm.pushFrame(new Frame(Frame.Type.FUNCTION), functionId);
+            sm.pushFrame(new Frame<Value>(Frame.Type.FUNCTION), functionId);
             for (int i = 0; i < args.size(); i++) {
                 sm.addVariable(functionId.parameterNames.get(i), new Value(args.get(i)));
             }
@@ -326,7 +326,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     public Value visitMethodProcedureDeclaration(DelphiParser.MethodProcedureDeclarationContext ctx){
         String className = (String)visit(ctx.identifier(0)).value;
         String methodName = (String)visit(ctx.identifier(1)).value;
-        TypeInfo tdata = this.typeInfo.get(className);
+        var tdata = this.typeInfo.get(className);
         var methodId = createCallableInfo(methodName, ctx.formalParameterList());
 
         if(!tdata.hasMethod(methodId)){
@@ -336,7 +336,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         tdata.registerMethod(methodId, (args) -> {
             var invokerObject = args.remove(0);
             var ti = this.typeInfo.get(((DelphiObject)invokerObject.value).type);
-            sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
+            sm.pushFrame(new Frame<Value>(Frame.Type.OBJECT, ti));
             sm.addVariable("Self", invokerObject);
             for (int i = 0; i < args.size(); i++) {
                 sm.addVariable(methodId.parameterNames.get(i), new Value(args.get(i)));
@@ -353,7 +353,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     public Value visitMethodFunctionDeclaration(DelphiParser.MethodFunctionDeclarationContext ctx){
         String className = (String)visit(ctx.identifier(0)).value;
         String methodName = (String)visit(ctx.identifier(1)).value;
-        TypeInfo tdata = this.typeInfo.get(className);
+        var tdata = this.typeInfo.get(className);
         var methodId = createCallableInfo(methodName, ctx.formalParameterList());
 
         if(!tdata.hasMethod(methodId)){
@@ -363,7 +363,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         tdata.registerMethod(methodId, (args) -> {
             var invokerObject = args.remove(0);
             var ti = this.typeInfo.get(((DelphiObject)invokerObject.value).type);
-            sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
+            sm.pushFrame(new Frame<Value>(Frame.Type.OBJECT, ti));
             sm.addVariable("Self", invokerObject);
             for (int i = 0; i < args.size(); i++) {
                 sm.addVariable(methodId.parameterNames.get(i), new Value(args.get(i)));
@@ -382,7 +382,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     public Value visitConstructorDeclaration(DelphiParser.ConstructorDeclarationContext ctx){
         String className = (String)visit(ctx.identifier(0)).value;
         String constructorName = (String)visit(ctx.identifier(1)).value;
-        TypeInfo tdata = this.typeInfo.get(className);
+        var tdata = this.typeInfo.get(className);
         var constructorId = createCallableInfo(constructorName, ctx.formalParameterList());
 
         if(!tdata.hasMethod(constructorId)){
@@ -392,7 +392,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         tdata.registerMethod(constructorId, (args) -> {
             var invokerClass = (String)args.remove(0).value;
             var ti = this.typeInfo.get(invokerClass);
-            sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
+            sm.pushFrame(new Frame<Value>(Frame.Type.OBJECT, ti));
             sm.addVariable("Self", new Value(new DelphiObject(invokerClass, ti.getAttributes()), TYPE.REFERENCE));
             for (int i = 0; i < args.size(); i++) {
                 sm.addVariable(constructorId.parameterNames.get(i), new Value(args.get(i)));
@@ -410,7 +410,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     public Value visitDestructorDeclaration(DelphiParser.DestructorDeclarationContext ctx){
         String className = (String)visit(ctx.identifier(0)).value;
         String destructorName = (String)visit(ctx.identifier(1)).value;
-        TypeInfo tdata = this.typeInfo.get(className);
+        var tdata = this.typeInfo.get(className);
         var destructorId = createCallableInfo(destructorName, ctx.formalParameterList());
 
         if(!tdata.hasMethod(destructorId)){
@@ -420,7 +420,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         tdata.registerMethod(destructorId, (args) -> {
             var invokerObject = args.remove(0);
             var ti = this.typeInfo.get(((DelphiObject)invokerObject.value).type);
-            sm.pushFrame(new Frame(Frame.Type.OBJECT, ti));
+            sm.pushFrame(new Frame<Value>(Frame.Type.OBJECT, ti));
             sm.addVariable("Self", invokerObject);
             for (int i = 0; i < args.size(); i++) {
                 sm.addVariable(destructorId.parameterNames.get(i), new Value(args.get(i)));
@@ -462,7 +462,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 
     @Override
     public Value visitIfStatement(DelphiParser.IfStatementContext ctx){
-        sm.pushFrame(new Frame(Frame.Type.LOCAL));
+        sm.pushFrame(new Frame<Value>(Frame.Type.LOCAL));
         var blocks = ctx.statement();
         if ((boolean)visit(ctx.expression()).value) {
             visit(blocks.get(0));
@@ -476,7 +476,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
 
     @Override
     public Value visitWhileStatement(DelphiParser.WhileStatementContext ctx){
-        sm.pushFrame(new Frame(Frame.Type.LOCAL));
+        sm.pushFrame(new Frame<Value>(Frame.Type.LOCAL));
         while ((boolean)visit(ctx.expression()).value) {
             try {
                 visit(ctx.statement());
@@ -508,7 +508,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
             check = (lhs, rhs) -> lhs >= rhs;
         }
 
-        sm.pushFrame(new Frame(Frame.Type.LOCAL));
+        sm.pushFrame(new Frame<Value>(Frame.Type.LOCAL));
         while (check.apply((Integer)counter.value, finalValue)) {
             try {
                 visit(ctx.statement());

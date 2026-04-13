@@ -6,28 +6,29 @@ import java.util.function.Function;
 import Interpreter.DelphiObject;
 import Interpreter.Value;
 
-public class Frame{
+public class Frame<T> {
     public enum Type {
         FUNCTION,
+        CLASS,
         LOCAL,
         OBJECT
     };
 
-    public class ScopeNode{
-        public HashMap<String, Value> definedLocal = new HashMap<>();
-        public HashMap<CallableInfo, Function<ArrayList<Value>, Value>> definedCallables = new HashMap<>();
-        public Optional<ScopeNode> parent = Optional.<ScopeNode>empty();
+    public class ScopeNode<U> {
+        public HashMap<String, U> definedLocal = new HashMap<>();
+        public HashMap<CallableInfo, Function<ArrayList<U>, U>> definedCallables = new HashMap<>();
+        public Optional<ScopeNode<U>> parent = Optional.<ScopeNode<U>>empty();
 
         public ScopeNode(){}
 
-        public ScopeNode(ScopeNode parent){
+        public ScopeNode(ScopeNode<U> parent){
             this.parent = Optional.of(parent);
         }
     }
 
     public Type scopeType = Type.FUNCTION;
-    public ScopeNode scope = new ScopeNode();
-    public Optional<TypeInfo> objectTypeInfo = Optional.<TypeInfo>empty();
+    public ScopeNode<T> scope = new ScopeNode<T>();
+    public Optional<TypeInfo<T>> objectTypeInfo = Optional.empty();
 
     // Stack frame for function call
     public Frame(Type t) {
@@ -35,12 +36,12 @@ public class Frame{
     }
 
     // Stack frame for method call
-    public Frame(Type t, TypeInfo objType){
+    public Frame(Type t, TypeInfo<T> objType){
         this(t);
         this.objectTypeInfo = Optional.of(objType);
     }
 
-    private ScopeNode getParent(ScopeNode curr, CallableInfo ci){
+    private ScopeNode<T> getParent(ScopeNode<T> curr, CallableInfo ci){
         if(curr.definedCallables.containsKey(ci)){
             return curr;
         }
@@ -52,7 +53,7 @@ public class Frame{
         }
     }
 
-    private Optional<Value> getFamilyLocal(String key, ScopeNode travNode){
+    private Optional<T> getFamilyLocal(String key, ScopeNode<T> travNode){
         if(travNode.definedLocal.containsKey(key)){
             return Optional.of(travNode.definedLocal.get(key));
         }
@@ -62,7 +63,7 @@ public class Frame{
         return Optional.empty();
     }
 
-    private Optional<Function<ArrayList<Value>, Value>> getFamilyFunction(CallableInfo key, ScopeNode travNode){
+    private Optional<Function<ArrayList<T>, T>> getFamilyFunction(CallableInfo key, ScopeNode<T> travNode){
         if(travNode.definedCallables.containsKey(key)){
             return Optional.of(travNode.definedCallables.get(key));
         }
@@ -72,11 +73,11 @@ public class Frame{
         return Optional.empty();
     }
 
-    public Optional<ScopeNode> getParent(CallableInfo ci){
+    public Optional<ScopeNode<T>> getParent(CallableInfo ci){
         return Optional.of(getParent(scope, ci));
     }
 
-    public Optional<Function<ArrayList<Value>, Value>> getFunction(CallableInfo fnid){
+    public Optional<Function<ArrayList<T>, T>> getFunction(CallableInfo fnid){
         if(this.scopeType == Type.OBJECT && objectTypeInfo.isPresent()) {
             if (this.objectTypeInfo.get().hasMethod(fnid)) {
                 return Optional.of(this.objectTypeInfo.get().getMethod(fnid));
@@ -85,12 +86,17 @@ public class Frame{
         return getFamilyFunction(fnid, scope);
     }
 
-    public Optional<Value> getValue(String valKey) {
+    public Optional<T> getValue(String valKey) {
         if (this.scopeType == Type.OBJECT) {
             // Test to receive from self attribute
-            DelphiObject obj = (DelphiObject) getFamilyLocal("Self", scope).get().value;
-            if (obj.hasAttribute(valKey)) {
-                return Optional.of(obj.getAttribute(valKey));
+            T val = getFamilyLocal("Self", scope).get();
+            if (val instanceof Value) {
+                DelphiObject obj = (DelphiObject)((Value)val).value;
+                if (obj.hasAttribute(valKey)) {
+                    @SuppressWarnings("unchecked")
+                    var attribute = (T)obj.getAttribute(valKey);
+                    return Optional.of(attribute);
+                }
             }
         }
         return getFamilyLocal(valKey, scope);

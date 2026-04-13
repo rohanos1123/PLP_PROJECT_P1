@@ -3,8 +3,11 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 public class DelphiError extends RuntimeException {
     private static String createLogMsg(Object msg, ParserRuleContext ctx) {
-        int line = ctx.getStart().getLine();
-        int column = ctx.getStart().getCharPositionInLine();
+        int line = 0, column = 0;
+        if (ctx != null) {
+            line = ctx.getStart().getLine();
+            column = ctx.getStart().getCharPositionInLine();
+        }
         return "Line: " + line + ", Column: " + column + ": " + msg.toString();
     }
 

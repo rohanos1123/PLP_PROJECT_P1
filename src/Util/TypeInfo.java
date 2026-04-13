@@ -3,9 +3,7 @@ package Util;
 import java.util.*;
 import java.util.function.Function;
 
-import Interpreter.Value;
-
-public class TypeInfo {
+public class TypeInfo<T> {
     public enum InheritanceType {
         ABSTRACT,
         SEALED,
@@ -19,24 +17,24 @@ public class TypeInfo {
 
     public Type type = Type.CLASS;
     public InheritanceType inheritanceType = InheritanceType.DEFAULT;
-    public ArrayList<TypeInfo> parents = new ArrayList<>(); // first element is parent, all others are interfaces
+    public ArrayList<TypeInfo<T>> parents = new ArrayList<>(); // first element is parent, all others are interfaces
     
-    private HashMap<String, Value> attributeMap = new HashMap<>();
-    private HashMap<CallableInfo, Function<ArrayList<Value>, Value>> methodMap = new HashMap<>();
+    private HashMap<String, T> attributeMap = new HashMap<>();
+    private HashMap<CallableInfo, Function<ArrayList<T>, T>> methodMap = new HashMap<>();
 
     public TypeInfo(Type type) {
         this.type = type;
     }
 
-    public void registerAttribute(String name, Value value) {
+    public void registerAttribute(String name, T value) {
         attributeMap.put(name, value);
     }
 
-    public void registerMethod(CallableInfo name, Function<ArrayList<Value>, Value> method) {
+    public void registerMethod(CallableInfo name, Function<ArrayList<T>, T> method) {
         methodMap.put(name, method);
     }
 
-    public Value getAttribute(String attributeName) {
+    public T getAttribute(String attributeName) {
         if (attributeMap.containsKey(attributeName)) {
             return attributeMap.get(attributeName);
         }
@@ -46,8 +44,8 @@ public class TypeInfo {
         return null;
     }
 
-    public HashMap<String, Value> getAttributes() {
-        HashMap<String, Value> attributes = new HashMap<>();
+    public HashMap<String, T> getAttributes() {
+        HashMap<String, T> attributes = new HashMap<>();
         attributes.putAll(attributeMap);
         if (!parents.isEmpty()) {
             attributes.putAll(parents.get(0).getAttributes());
@@ -55,7 +53,7 @@ public class TypeInfo {
         return attributes;
     }
 
-    public Function<ArrayList<Value>, Value> getMethod(CallableInfo methodId) {
+    public Function<ArrayList<T>, T> getMethod(CallableInfo methodId) {
         if (methodMap.containsKey(methodId)) {
             return methodMap.get(methodId);
         }
