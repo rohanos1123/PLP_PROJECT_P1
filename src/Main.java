@@ -6,6 +6,8 @@ import org.antlr.v4.runtime.*;
 import org.antlr.runtime.tree.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import Generator.DelphiGenerator;
+
 public class Main{
 
     public static void main(String[] args) throws Exception{
@@ -32,7 +34,8 @@ public class Main{
         }
         else if (args[0].equals("compile")) {
             try {
-                // compile here
+                DelphiGenerator generator = new DelphiGenerator("output.ll");
+                generator.visit(tree);
             } catch (DelphiError e) {
                 System.err.println("Delphi Compilation Error: " + e.getMessage());
             }
