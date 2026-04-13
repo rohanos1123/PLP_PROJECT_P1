@@ -111,48 +111,50 @@ public class IRWriter {
         writeln(declaration, true);
     }
 
-    public void addCallableCall(CallableInfo ci, ArrayList<Immediate> args, int immediateIndex) {
+    public Immediate addCallableCall(CallableInfo ci, ArrayList<Immediate> args, int immediateIndex) {
         if (ci.returnType == TYPE.VOID) { // special syntax for void functions
             writeln("call " + createFunctionSignature(ci));
-            return;
+            return new Immediate();
         }
-        String call = "%" + immediateIndex + " = call " + createFunctionSignature(ci) + "(";
+        var ret = new Immediate(ci.returnType, "%" + immediateIndex);
+        String call = ret.id + " = call " + createFunctionSignature(ci) + "(";
         for (Immediate arg : args) {
-            call += convertType(arg.type) + " %" + arg.id + ", ";
+            call += convertType(arg.type) + " " + arg.id + ", ";
         }
         if (!args.isEmpty()) {
             call = call.substring(0, call.length() - 1); // strip trailing ','
         }
         call += ")";
         writeln(call);
+        return ret;
     }
 
-    public void addVariableDeclaration(Immediate variable) {
+    public Immediate addVariableDeclaration(TYPE type, int immediateIndex) {
+        var variable = new Immediate(type, "");
         String declaration = "";
-        if (sm.size() < 2) { // global scope or main scope
-            declaration += "@" + variable.id + " = global " + convertType(variable.type) + getDefaultValue(variable.type); 
+        if (sm.global()) { // global scope or main scope
+            variable.id = "@" + immediateIndex;
+            declaration += variable.id + " = global " + convertType(variable.type) + getDefaultValue(variable.type); 
         }
         else {
-            declaration += "%" + variable.id + " = alloca " + convertType(variable.type);
+            variable.id = "%" + immediateIndex;
+            declaration += variable.id + " = alloca " + convertType(variable.type);
         }
         writeln(declaration);
+        return variable;
     }
 
-    public void addVariableAccess(Immediate variable, int immediateIndex) {
-        String access = "%" + immediateIndex + " = load " + convertType(variable.type) + ", ptr %" + variable.id;
+    public Immediate addVariableAccess(Immediate variable, int immediateIndex) {
+        var immediate = new Immediate(variable.type, "%" + immediateIndex); // guaranteed to be a local
+        String access = immediate.id + " = load " + convertType(variable.type) + ", ptr " + variable.id;
         writeln(access);
-    }
-
-    public void addLiteralAccess(int literal, int immediateIndex) {
-        /* use a self bitcast to create immediate literals */
-        String access = "%" + immediateIndex + " = bitcast i32 " + literal + " to i32";
-        writeln(access);
+        return immediate;
     }
 
     public void addReturnStatement(Immediate result) {
         String ret = "ret " + convertType(result.type);
         if (result.type != TYPE.VOID) {
-            ret += " %" + result.id;
+            ret += " " + result.id;
         }
         writeln(ret);
     }

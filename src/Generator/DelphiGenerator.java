@@ -53,32 +53,32 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     private Immediate getImmediate(GeneratorResult result) {
         return switch(result) {
             case Immediate i -> i;
-            default -> throw new RuntimeException("Bad generator result");
+            default -> throw new RuntimeException("Wrong type for GeneratorResult; probably missed a visited branch");
         };
     }
 
     private ArrayList<Immediate> getImmediateList(GeneratorResult result) {
         return switch(result) {
             case ImmediateList i -> i.value();
-            default -> throw new RuntimeException("Bad generator result");
+            default -> throw new RuntimeException("Wrong type for GeneratorResult; probably missed a visited branch");
         };
     }
 
     private String getIdentifier(GeneratorResult result) {
         return switch(result) {
             case Identifier i -> i.value();
-            default -> throw new RuntimeException("Bad generator result");
+            default -> throw new RuntimeException("Wrong type for GeneratorResult; probably missed a visited branch");
         };
     }
 
     private ArrayList<String> getIdentifierList(GeneratorResult result) {
         return switch(result) {
             case IdentifierList i -> i.value();
-            default -> throw new RuntimeException("Bad generator result");
+            default -> throw new RuntimeException("Wrong type for GeneratorResult; probably missed a visited branch");
         };
     }
 
-    private boolean loadingReference() {
+    private boolean readAsReference() {
         return !immediateReferenceStack.isEmpty() && immediateReferenceStack.peek();
     }
 
@@ -93,23 +93,23 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
                 switch (arg.type) {
                     case INT:
                         formatString += "%d ";
-                        type = (loadingReference()) ? type : "i32";
+                        type = (readAsReference()) ? type : "i32";
                         break;
 
                     case BOOL:
                         formatString += "%d ";
-                        type = (loadingReference()) ? type : "i1";
+                        type = (readAsReference()) ? type : "i1";
                         break;
                     
                     case STRING:
                         formatString += "%s ";
-                        type = (loadingReference()) ? type : "ptr";
+                        type = (readAsReference()) ? type : "ptr";
                         break;
                 
                     default:
                         break;
                 }
-                inputString += type + " %" + arg.id + " ";
+                inputString += type + " " + arg.id + " ";
             }
             String end = (addNewline) ? "\\0A\\00" : "\\00";
             int endLength = end.length() / 3;
@@ -123,14 +123,15 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             return new String[] {formatString, inputString};
         };
 
+        /* manually write printf and scanf calls since they are slightly different from normal internal function calls */
         sm.addCallable(new CallableInfo("Write", new ArrayList<>(), true),
         (args) -> {
             String[] out = addFormatString.apply(args, false);
             String formatString = out[0];
             String inputString = out[1];
             var count = immediateCounts.pop();
-            writer.writeln("%" + count++ + " = call i32 (ptr, ...) @printf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
-            immediateCounts.push(count);
+            writer.writeln("%" + count + " = call i32 (ptr, ...) @printf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
+            immediateCounts.push(count + 1);
             return new Immediate();
         }
         );
@@ -140,8 +141,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             String formatString = out[0];
             String inputString = out[1];
             var count = immediateCounts.pop();
-            writer.writeln("%" + count++ + " = call i32 (ptr, ...) @printf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
-            immediateCounts.push(count);
+            writer.writeln("%" + count + " = call i32 (ptr, ...) @printf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
+            immediateCounts.push(count + 1);
             return new Immediate();
         }
         );
@@ -151,8 +152,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             String formatString = out[0];
             String inputString = out[1];
             var count = immediateCounts.pop();
-            writer.writeln("%" + count++ + " = call i32 (ptr, ...) @scanf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
-            immediateCounts.push(count);
+            writer.writeln("%" + count + " = call i32 (ptr, ...) @scanf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
+            immediateCounts.push(count + 1);
             return new Immediate();
         }
         );
@@ -163,7 +164,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         if (paramCtx != null) {
             var params = getImmediateList(visit(paramCtx));
             for (var param : params) {
-                callableId.parameterNames.add(param.identifier);
+                callableId.parameterNames.add(param.id);
                 callableId.parameterTypes.add(param.type);
             }
         }
@@ -186,10 +187,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         addFrame(Frame.Type.FUNCTION, main);
         generateBuiltinCallables();
         visit(ctx.topLevelBlock());
-        var count = immediateCounts.pop();
-        writer.addLiteralAccess(0, count++);
-        immediateCounts.push(count);
-        writer.addReturnStatement(new Immediate(TYPE.INT, count - 1));
+        writer.addReturnStatement(new Immediate(TYPE.INT, "0"));
         popFrame();
         return null;
     }
@@ -224,8 +222,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         String procedureName = getIdentifier(visit(ctx.identifier()));
         var procedureId = createCallableInfo(procedureName, ctx.formalParameterList());
         sm.addCallable(procedureId, (args) -> {
-            writer.addCallableCall(procedureId, args, 0);
-            return new Immediate();
+            return writer.addCallableCall(procedureId, args, 0);
         });
 
         addFrame(Frame.Type.FUNCTION, procedureId);
@@ -241,9 +238,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         TYPE type = getImmediate(visit(ctx.type_())).type;
         var count = immediateCounts.pop();
         for(var identifier : identifiers){
-            var variable = new Immediate(type, count++);
+            var variable = writer.addVariableDeclaration(type, count++);
             sm.addVariable(identifier, variable);
-            writer.addVariableDeclaration(variable);
         }
         immediateCounts.push(count);
         return new Immediate();
@@ -252,12 +248,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     @Override
     public GeneratorResult visitProcedureStatement(DelphiParser.ProcedureStatementContext ctx){
         var procedureName = getIdentifier(visit(ctx.identifier()));
-        if (procedureName.equals("ReadLn")) { // load by reference for readline
-            immediateReferenceStack.push(true);
-        }
-        else {
-            immediateReferenceStack.push(false);
-        }
+        boolean readAsReference = procedureName.equals("ReadLn"); // load by reference for readline (scanf)
+        immediateReferenceStack.push(readAsReference);
         var args = (ctx.parameterList() != null) ? getImmediateList(visit(ctx.parameterList())) : new ArrayList<Immediate>();
         var paramTypes = new ArrayList<TYPE>(args.stream().map(arg -> arg.type).toList());
         var callableId = new CallableInfo(procedureName, paramTypes);
@@ -271,20 +263,19 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         var result = sm.getFunction(callableId).get().apply(args);
         immediateReferenceStack.pop();
         return result;
-        // return executeCallable(procedureName, ctx.parameterList());
     }
 
     @Override
     public GeneratorResult visitVariable(DelphiParser.VariableContext ctx) {
         var variableName = getIdentifier(visit(ctx.identifier(0)));
         var variable = sm.getVariable(variableName);
-        if (loadingReference()) {
+        if (readAsReference()) {
             return variable.get();
         }
         var count = immediateCounts.pop();
-        writer.addVariableAccess(variable.get(), count++);
-        immediateCounts.push(count);
-        return new Immediate(variable.get().type, count - 1);
+        var result = writer.addVariableAccess(variable.get(), count);
+        immediateCounts.push(count + 1);
+        return result;
     }
 
     @Override
@@ -336,6 +327,6 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
 
 	@Override
     public GeneratorResult visitTypeIdentifier(DelphiParser.TypeIdentifierContext ctx) {
-        return new Immediate(TYPE.INT, -1);
+        return new Immediate(TYPE.INT, "");
     }
 }

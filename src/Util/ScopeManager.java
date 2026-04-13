@@ -44,6 +44,10 @@ public class ScopeManager<T> {
         return this.stack.size();
     }
 
+    public boolean global() {
+        return size() < 2;
+    }
+
     public void addVariable(String identifier, T variable) {
         if (variable instanceof Value) {
             ((Value)variable).identifier = identifier;
