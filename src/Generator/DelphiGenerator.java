@@ -32,13 +32,13 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         writer = new IRWriter(outputFile, sm);
     }
 
-    private void addFrame(Frame.Type type) {
+    private void addFrame(Frame.Type type, int count) {
         sm.pushFrame(new Frame<Immediate>(type));
-        immediateCounts.push(1);
+        immediateCounts.push(count);
     }
 
     private void addFrame(Frame.Type type, CallableInfo ci) {
-        addFrame(type);
+        addFrame(type, ci.parameterNames.size() + 1);
         writer.addFunction(ci);
     }
 
@@ -48,6 +48,11 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         }
         immediateCounts.pop();
         sm.popFrame();
+    }
+
+    private void addVariable(String identifier, TYPE type, int id) {
+        var variable = writer.addVariableDeclaration(type, id);
+        sm.addVariable(identifier, variable);
     }
 
     private Immediate getImmediate(GeneratorResult result) {
@@ -109,7 +114,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
                     default:
                         break;
                 }
-                inputString += type + " " + arg.id + " ";
+                inputString += type + " " + arg.id + ", ";
             }
             String end = (addNewline) ? "\\0A\\00" : "\\00";
             int endLength = end.length() / 3;
@@ -119,7 +124,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
                                (3*fmtArgs.size() - 1 + endLength) + " x i8] c\"" + formatString + "\", align 1", true);
                 formatStrings.put(formatString, "@.str." + formatStrings.size());
             }
-            inputString = inputString.substring(0, inputString.length() - 1); // strip trailing ' '
+            inputString = inputString.substring(0, inputString.length() - 2); // strip trailing ', '
             return new String[] {formatString, inputString};
         };
 
@@ -180,6 +185,24 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         return new Immediate();
     }
 
+    private Immediate generateCall(String functionName, DelphiParser.ParameterListContext paramCtx) {
+        boolean readAsReference = functionName.equals("ReadLn"); // load by reference for readline (scanf)
+        immediateReferenceStack.push(readAsReference);
+        var args = (paramCtx != null) ? getImmediateList(visit(paramCtx)) : new ArrayList<Immediate>();
+        var paramTypes = new ArrayList<TYPE>(args.stream().map(arg -> arg.type).toList());
+        var callableId = new CallableInfo(functionName, paramTypes);
+        if (sm.getFunction(callableId).isEmpty()) {
+            // try again for variadic functions
+            callableId.variadic = true;
+            if (sm.getFunction(callableId).isEmpty()) {
+                throw new DelphiError(functionName + " not found.", paramCtx);
+            }
+        }
+        var result = sm.getFunction(callableId).get().apply(args);
+        immediateReferenceStack.pop();
+        return result;
+    }
+
     @Override
     public GeneratorResult visitProgram(DelphiParser.ProgramContext ctx){
         var main = new CallableInfo("!!main");
@@ -226,10 +249,60 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         });
 
         addFrame(Frame.Type.FUNCTION, procedureId);
+        var count = immediateCounts.pop();
+        for (int i = 0; i < procedureId.parameterNames.size(); i++) {
+            var paramName = procedureId.parameterNames.get(i);
+            var paramType = procedureId.parameterTypes.get(i);
+            addVariable(paramName, paramType, count++);
+            writer.addVariableStore(sm.getVariable(paramName).get(), new Immediate(paramType, "%" + i));
+        }
+        immediateCounts.push(count);
         visit(ctx.block());
         writer.addReturnStatement(new Immediate());
         popFrame();
         return new Immediate();
+    }
+
+    @Override
+    public GeneratorResult visitFunctionDeclaration(DelphiParser.FunctionDeclarationContext ctx){
+        /* might need to eventually check for redefinition dunno if its allowed */
+        String functionName = getIdentifier(visit(ctx.identifier()));
+        var functionId = createCallableInfo(functionName, ctx.formalParameterList());
+        functionId.returnType = getImmediate(visit(ctx.resultType())).type;
+        sm.addCallable(functionId, (args) -> {
+            var count = immediateCounts.pop();
+            var result = writer.addCallableCall(functionId, args, count);
+            immediateCounts.push(count + 1);
+            return result;
+        });
+
+        addFrame(Frame.Type.FUNCTION, functionId);
+        var count = immediateCounts.pop();
+        for (int i = 0; i < functionId.parameterNames.size(); i++) {
+            var paramName = functionId.parameterNames.get(i);
+            var paramType = functionId.parameterTypes.get(i);
+            addVariable(paramName, paramType, count++);
+            writer.addVariableStore(sm.getVariable(paramName).get(), new Immediate(paramType, "%" + i));
+        }
+        addVariable("Result", functionId.returnType, count++);
+        immediateCounts.push(count);
+        visit(ctx.block());
+        count = immediateCounts.pop();
+        var result = writer.addVariableAccess(sm.getVariable("Result").get(), count++);
+        immediateCounts.push(count);
+        writer.addReturnStatement(result);
+        popFrame();
+        return new Immediate();
+    }
+
+    @Override
+    public GeneratorResult visitAssignmentStatement(DelphiParser.AssignmentStatementContext ctx){
+        immediateReferenceStack.push(true);
+        var storeTarget = getImmediate(visit(ctx.variable()));
+        immediateReferenceStack.pop();
+        var value = getImmediate(visit(ctx.expression()));
+        writer.addVariableStore(storeTarget, value);
+        return storeTarget;
     }
 
     @Override
@@ -238,8 +311,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         TYPE type = getImmediate(visit(ctx.type_())).type;
         var count = immediateCounts.pop();
         for(var identifier : identifiers){
-            var variable = writer.addVariableDeclaration(type, count++);
-            sm.addVariable(identifier, variable);
+            addVariable(identifier, type, count++);
         }
         immediateCounts.push(count);
         return new Immediate();
@@ -248,34 +320,34 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     @Override
     public GeneratorResult visitProcedureStatement(DelphiParser.ProcedureStatementContext ctx){
         var procedureName = getIdentifier(visit(ctx.identifier()));
-        boolean readAsReference = procedureName.equals("ReadLn"); // load by reference for readline (scanf)
-        immediateReferenceStack.push(readAsReference);
-        var args = (ctx.parameterList() != null) ? getImmediateList(visit(ctx.parameterList())) : new ArrayList<Immediate>();
-        var paramTypes = new ArrayList<TYPE>(args.stream().map(arg -> arg.type).toList());
-        var callableId = new CallableInfo(procedureName, paramTypes);
-        if (sm.getFunction(callableId).isEmpty()) {
-            // try again for variadic functions
-            callableId.variadic = true;
-            if (sm.getFunction(callableId).isEmpty()) {
-                throw new DelphiError(procedureName + " not found.", ctx);
-            }
-        }
-        var result = sm.getFunction(callableId).get().apply(args);
-        immediateReferenceStack.pop();
-        return result;
+        return generateCall(procedureName, ctx.parameterList());
+    }
+
+    @Override
+    public GeneratorResult visitFunctionDesignator(DelphiParser.FunctionDesignatorContext ctx) {
+        var functionName = getIdentifier(visit(ctx.identifier()));
+        return generateCall(functionName, ctx.parameterList());
     }
 
     @Override
     public GeneratorResult visitVariable(DelphiParser.VariableContext ctx) {
         var variableName = getIdentifier(visit(ctx.identifier(0)));
+        var memberName = (ctx.identifier().size() > 1) ? getIdentifier(visit(ctx.identifier(1))) : "";
         var variable = sm.getVariable(variableName);
-        if (readAsReference()) {
-            return variable.get();
+        var function = sm.getFunction(new CallableInfo(variableName));
+        if (variable.isPresent() && memberName.isEmpty()) {
+            if (readAsReference()) return variable.get();
+            var count = immediateCounts.pop();
+            var result = writer.addVariableAccess(variable.get(), count);
+            immediateCounts.push(count + 1);
+            return result;
         }
-        var count = immediateCounts.pop();
-        var result = writer.addVariableAccess(variable.get(), count);
-        immediateCounts.push(count + 1);
-        return result;
+        else if (function.isPresent()) {
+            return function.get().apply(new ArrayList<>());
+        }
+        else {
+            throw new DelphiError("Identifier " + variableName + " not found in context", ctx);
+        }
     }
 
     @Override
@@ -328,5 +400,30 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
 	@Override
     public GeneratorResult visitTypeIdentifier(DelphiParser.TypeIdentifierContext ctx) {
         return new Immediate(TYPE.INT, "");
+    }
+
+    @Override
+    public GeneratorResult visitSignedFactor(DelphiParser.SignedFactorContext ctx){
+        var factor = getImmediate(visit(ctx.factor()));
+        if(ctx.MINUS() != null) {
+            // add immediate value binary op sub 0 factor and return that
+        }
+        return factor;
+    }
+
+    @Override
+    public GeneratorResult visitUnsignedInteger(DelphiParser.UnsignedIntegerContext ctx){
+        return new Immediate(TYPE.INT, ctx.NUM_INT().toString());
+    }
+
+    @Override
+    public GeneratorResult visitString(DelphiParser.StringContext ctx){
+        var literal = ctx.STRING_LITERAL().toString();
+        return new Immediate(TYPE.STRING, literal.substring(1, literal.length() - 1));
+    }
+
+    @Override
+    public GeneratorResult visitBool_(DelphiParser.Bool_Context ctx){
+        return new Immediate(TYPE.BOOL, ctx.getText());
     }
 }

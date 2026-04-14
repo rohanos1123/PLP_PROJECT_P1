@@ -56,18 +56,23 @@ public class IRWriter {
         }
     }
 
-    private String createFunctionSignature(CallableInfo ci) {
+    private String createFunctionSignature(CallableInfo ci, boolean includeParams) {
         var returnType = convertType(ci.returnType);
         var callableName = (ci.name == "!!main") ? "main" : "Delphi_" + ci.name;
-        String signature = returnType + " @" + callableName + "(";
+        String signature = returnType + " @" + callableName;
+        if (!includeParams) return signature;
+
+        signature += "(";
         if (ci.variadic) {
             signature += "ptr, ...";
         }
-        for (var type : ci.parameterTypes) {
-            signature += convertType(type) + ",";
+        for (int i = 0; i < ci.parameterTypes.size(); i++) {
+            signature += convertType(ci.parameterTypes.get(i));
+            signature += " %" + i;
+            signature += ", ";
         }
         if (!ci.parameterTypes.isEmpty()) {
-            signature = signature.substring(0, signature.length() - 1); // strip trailing ','
+            signature = signature.substring(0, signature.length() - 2); // strip trailing ', '
         }
         signature += ")";
         return signature;
@@ -96,7 +101,7 @@ public class IRWriter {
 
     public void addFunction(CallableInfo ci) {
         functionStreams.push(new StreamWriter(new StringWriter()));
-        String definition = "define " + createFunctionSignature(ci) + " {";
+        String definition = "define " + createFunctionSignature(ci, true) + " {";
         writeln(definition, false, "");
     }
 
@@ -107,22 +112,19 @@ public class IRWriter {
     }
 
     public void addCallableDeclaration(CallableInfo ci) {
-        String declaration = "declare " + createFunctionSignature(ci);
+        String declaration = "declare " + createFunctionSignature(ci, false);
         writeln(declaration, true);
     }
 
     public Immediate addCallableCall(CallableInfo ci, ArrayList<Immediate> args, int immediateIndex) {
-        if (ci.returnType == TYPE.VOID) { // special syntax for void functions
-            writeln("call " + createFunctionSignature(ci));
-            return new Immediate();
-        }
         var ret = new Immediate(ci.returnType, "%" + immediateIndex);
-        String call = ret.id + " = call " + createFunctionSignature(ci) + "(";
+        String call = (ci.returnType == TYPE.VOID) ? "" : ret.id + " = ";
+        call += "call " + createFunctionSignature(ci, false) + "(";
         for (Immediate arg : args) {
             call += convertType(arg.type) + " " + arg.id + ", ";
         }
         if (!args.isEmpty()) {
-            call = call.substring(0, call.length() - 1); // strip trailing ','
+            call = call.substring(0, call.length() - 2); // strip trailing ', '
         }
         call += ")";
         writeln(call);
@@ -134,13 +136,13 @@ public class IRWriter {
         String declaration = "";
         if (sm.global()) { // global scope or main scope
             variable.id = "@" + immediateIndex;
-            declaration += variable.id + " = global " + convertType(variable.type) + getDefaultValue(variable.type); 
+            declaration += variable.id + " = global " + convertType(variable.type) + " " + getDefaultValue(variable.type); 
         }
         else {
             variable.id = "%" + immediateIndex;
             declaration += variable.id + " = alloca " + convertType(variable.type);
         }
-        writeln(declaration);
+        writeln(declaration, sm.global());
         return variable;
     }
 
@@ -149,6 +151,12 @@ public class IRWriter {
         String access = immediate.id + " = load " + convertType(variable.type) + ", ptr " + variable.id;
         writeln(access);
         return immediate;
+    }
+
+    public void addVariableStore(Immediate variable, Immediate value) {
+        String store = "store " + convertType(value.type) + " " + value.id
+                     + ", ptr " + variable.id;
+        writeln(store);
     }
 
     public void addReturnStatement(Immediate result) {
