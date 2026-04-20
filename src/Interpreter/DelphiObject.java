@@ -1,16 +1,17 @@
 package Interpreter;
 
 import java.util.HashMap;
+import Util.TypeInfo.ClassMember;
 
 public class DelphiObject {
 
     public String type;
     private HashMap<String, Value> attributeMap = new HashMap<>();
 
-    public DelphiObject(String type, HashMap<String, Value> initAttr){
+    public DelphiObject(String type, HashMap<String, ClassMember<Value>> initAttr){
         this.type = type;
         for(var entry : initAttr.entrySet()){
-            this.attributeMap.put(entry.getKey(), new Value(entry.getValue()));
+            this.attributeMap.put(entry.getKey(), new Value(entry.getValue().member()));
         }
     }
 

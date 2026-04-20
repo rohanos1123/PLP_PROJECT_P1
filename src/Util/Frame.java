@@ -15,8 +15,8 @@ public class Frame<T> {
     };
 
     public class ScopeNode<U> {
-        public HashMap<String, U> definedLocal = new HashMap<>();
-        public HashMap<CallableInfo, Function<ArrayList<U>, U>> definedCallables = new HashMap<>();
+        public LinkedHashMap<String, U> definedLocal = new LinkedHashMap<>();
+        public LinkedHashMap<CallableInfo, Function<ArrayList<U>, U>> definedCallables = new LinkedHashMap<>();
         public Optional<ScopeNode<U>> parent = Optional.<ScopeNode<U>>empty();
 
         public ScopeNode(){}
@@ -95,6 +95,13 @@ public class Frame<T> {
                 if (obj.hasAttribute(valKey)) {
                     @SuppressWarnings("unchecked")
                     var attribute = (T)obj.getAttribute(valKey);
+                    return Optional.of(attribute);
+                }
+            }
+            else if (objectTypeInfo.isPresent()) {
+                var ti = objectTypeInfo.get();
+                if (ti.hasAttribute(valKey)) {
+                    var attribute = ti.getAttribute(valKey);
                     return Optional.of(attribute);
                 }
             }

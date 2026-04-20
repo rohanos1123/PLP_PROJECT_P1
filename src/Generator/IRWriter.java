@@ -9,10 +9,13 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 
+import Util.CLASS;
 import Util.CallableInfo;
 import Util.ScopeManager;
 import Util.TYPE;
+import Util.TypeInfo;
 import Util.Frame;
+import Util.GenericType;
 
 public class IRWriter {
     private class StreamWriter extends PrintWriter {
@@ -31,34 +34,42 @@ public class IRWriter {
     private StreamWriter outputFile;
     private ScopeManager<Immediate> sm;
     private Deque<StreamWriter> functionStreams = new ArrayDeque<>();
+    private boolean writingClass = false;
 
     public IRWriter(String outputFile, ScopeManager<Immediate> sm) throws IOException {
         this.outputFile = new StreamWriter(new FileWriter(outputFile));
         this.sm = sm;
     }
 
-    private String convertType(TYPE t) {
-        switch (t) {
-            case INT: return "i32";
-            case BOOL: return "i1";
-            case STRING: return "i8*";
-            case VOID: return "void";
-            default: return "";
-        }
+    private String convertType(GenericType t) {
+        return switch (t) {
+            case TYPE tp -> switch (tp) {
+                case INT -> "i32";
+                case BOOL -> "i1";
+                case STRING -> "i8*";
+                case VOID -> "void";
+                case REFERENCE -> "ptr";
+                default -> "";
+            };
+            case CLASS cp -> cp.name();
+        };
     }
 
-    private String getDefaultValue(TYPE t) {
-        switch (t) {
-            case INT: return "0";
-            case BOOL: return "0";
-            case STRING: return "zeroinitializer";
-            default: return "";
-        }
+    private String getDefaultValue(GenericType t) {
+        return switch (t) {
+            case TYPE tp -> switch (tp) {
+                case INT -> "0";
+                case BOOL -> "0";
+                case STRING -> "zeroinitializer";
+                default -> "";
+            };
+            default -> "null";
+        };
     }
 
     private String createFunctionSignature(CallableInfo ci, boolean includeParams) {
         var returnType = convertType(ci.returnType);
-        var callableName = (ci.name == "!!main") ? "main" : "Delphi_" + ci.name;
+        var callableName = (ci.name.startsWith("!!")) ? ci.name.substring(2) : "Delphi_" + ci.name;
         String signature = returnType + " @" + callableName;
         if (!includeParams) return signature;
 
@@ -79,7 +90,7 @@ public class IRWriter {
     }
 
     private void writeln(String s, boolean global, String tab) {
-        if (sm.top().scopeType == Frame.Type.CLASS) return; // handle classes separately through dedicated function
+        if (sm.top().scopeType == Frame.Type.CLASS && !writingClass) return; // handle classes separately through dedicated function
         if (global) {
             outputFile.println(s);
             outputFile.flush();
@@ -99,6 +110,22 @@ public class IRWriter {
         writeln(s, false);
     }
 
+    public void addClass(TypeInfo<Immediate> ti) {
+        writingClass = true;
+        String classDeclaration = "%" + ti.name + " = type { ";
+        var attributes = ti.getOrderedAttributes();
+        for (var entry : attributes.entrySet()) {
+            var attribute = entry.getValue().member();
+            classDeclaration += convertType(attribute.type) + ", ";
+        }
+        if (!attributes.isEmpty()) {
+            classDeclaration = classDeclaration.substring(0, classDeclaration.length() - 2); // strip trailing ', '
+        }
+        classDeclaration += " }";
+        writeln(classDeclaration, true);
+        writingClass = false;
+    }
+
     public void addFunction(CallableInfo ci) {
         functionStreams.push(new StreamWriter(new StringWriter()));
         String definition = "define " + createFunctionSignature(ci, true) + " {";
@@ -109,11 +136,6 @@ public class IRWriter {
         writeln("}", false, ""); // write scope end
         outputFile.print(functionStreams.pop().toString());
         outputFile.flush();
-    }
-
-    public void addCallableDeclaration(CallableInfo ci) {
-        String declaration = "declare " + createFunctionSignature(ci, false);
-        writeln(declaration, true);
     }
 
     public Immediate addCallableCall(CallableInfo ci, ArrayList<Immediate> args, int immediateIndex) {
@@ -131,7 +153,7 @@ public class IRWriter {
         return ret;
     }
 
-    public Immediate addVariableDeclaration(TYPE type, int immediateIndex) {
+    public Immediate addVariableDeclaration(GenericType type, int immediateIndex) {
         var variable = new Immediate(type, "");
         String declaration = "";
         if (sm.global()) { // global scope or main scope
@@ -149,6 +171,15 @@ public class IRWriter {
     public Immediate addVariableAccess(Immediate variable, int immediateIndex) {
         var immediate = new Immediate(variable.type, "%" + immediateIndex); // guaranteed to be a local
         String access = immediate.id + " = load " + convertType(variable.type) + ", ptr " + variable.id;
+        writeln(access);
+        return immediate;
+    }
+
+    public Immediate addMemberAccess(Immediate object, Immediate classMember, int immediateIndex) {
+        var immediate = new Immediate(classMember.type, "%" + immediateIndex); // guaranteed to be local
+        String access = immediate.id + " = getelementptr inbounds "
+                      + convertType(object.type) + ", ptr " + object.id
+                      + ", i32 " + classMember.id.substring(1); // strip 'c' to get idx
         writeln(access);
         return immediate;
     }

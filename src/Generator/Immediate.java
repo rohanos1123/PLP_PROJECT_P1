@@ -1,14 +1,15 @@
 package Generator;
 
+import Util.GenericType;
 import Util.TYPE;
 
 public non-sealed class Immediate implements GeneratorResult {
-    public TYPE type = TYPE.VOID;
+    public GenericType type = TYPE.VOID;
     public String id = "";
 
     public Immediate() { }
 
-    public Immediate(TYPE type, String id) {
+    public Immediate(GenericType type, String id) {
         this.type = type;
         this.id = id;
     }

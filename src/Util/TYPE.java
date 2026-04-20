@@ -1,6 +1,6 @@
 package Util;
 
-public enum TYPE {
+public enum TYPE implements GenericType {
     INT,        // Integer
     BOOL,        // Boolean
     STRING,     // String

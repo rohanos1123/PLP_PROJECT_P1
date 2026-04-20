@@ -15,19 +15,31 @@ public class TypeInfo<T> {
         INTERFACE
     }
 
+    public record ClassMember<E>(boolean isPrivate, E member) {}
+
+    public String name = "";
     public Type type = Type.CLASS;
     public InheritanceType inheritanceType = InheritanceType.DEFAULT;
     public ArrayList<TypeInfo<T>> parents = new ArrayList<>(); // first element is parent, all others are interfaces
     
-    private HashMap<String, T> attributeMap = new HashMap<>();
-    private HashMap<CallableInfo, Function<ArrayList<T>, T>> methodMap = new HashMap<>();
+    private LinkedHashMap<String, ClassMember<T>> attributeMap = new LinkedHashMap<>();
+    private LinkedHashMap<CallableInfo, Function<ArrayList<T>, T>> methodMap = new LinkedHashMap<>();
+
+    public TypeInfo(Type type, String name) {
+        this.type = type;
+        this.name = name;
+    }
 
     public TypeInfo(Type type) {
-        this.type = type;
+        this(type, "");
+    }
+
+    public void registerAttribute(String name, T value, boolean isPrivate) {
+        attributeMap.put(name, new ClassMember<>(isPrivate, value));
     }
 
     public void registerAttribute(String name, T value) {
-        attributeMap.put(name, value);
+        registerAttribute(name, value, false);
     }
 
     public void registerMethod(CallableInfo name, Function<ArrayList<T>, T> method) {
@@ -36,7 +48,7 @@ public class TypeInfo<T> {
 
     public T getAttribute(String attributeName) {
         if (attributeMap.containsKey(attributeName)) {
-            return attributeMap.get(attributeName);
+            return attributeMap.get(attributeName).member;
         }
         if (!parents.isEmpty()) {
             return parents.get(0).getAttribute(attributeName);
@@ -44,8 +56,17 @@ public class TypeInfo<T> {
         return null;
     }
 
-    public HashMap<String, T> getAttributes() {
-        HashMap<String, T> attributes = new HashMap<>();
+    public HashMap<String, ClassMember<T>> getAttributes() {
+        HashMap<String, ClassMember<T>> attributes = new HashMap<>();
+        attributes.putAll(attributeMap);
+        if (!parents.isEmpty()) {
+            attributes.putAll(parents.get(0).getAttributes());
+        }
+        return attributes;
+    }
+
+    public LinkedHashMap<String, ClassMember<T>> getOrderedAttributes() {
+        LinkedHashMap<String, ClassMember<T>> attributes = new LinkedHashMap<>();
         attributes.putAll(attributeMap);
         if (!parents.isEmpty()) {
             attributes.putAll(parents.get(0).getAttributes());

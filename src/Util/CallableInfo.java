@@ -4,24 +4,32 @@ import java.util.*;
 
 public class CallableInfo {
     public String name;
-    public ArrayList<TYPE> parameterTypes = new ArrayList<>();
+    public ArrayList<GenericType> parameterTypes = new ArrayList<>();
     public boolean variadic = false;
     /* not relevant for identification */
     public ArrayList<String> parameterNames = new ArrayList<>();
-    public TYPE returnType = TYPE.VOID;
+    public GenericType returnType = TYPE.VOID;
 
     public CallableInfo(String name) {
         this.name = name;
     }
 
-    public CallableInfo(String name, ArrayList<TYPE> parameterTypes) {
+    public CallableInfo(String name, ArrayList<GenericType> parameterTypes) {
         this(name);
         this.parameterTypes = parameterTypes;
     }
 
-    public CallableInfo(String name, ArrayList<TYPE> parameterTypes, boolean variadic) {
+    public CallableInfo(String name, ArrayList<GenericType> parameterTypes, boolean variadic) {
         this(name, parameterTypes);
         this.variadic = variadic;
+    }
+
+    public CallableInfo(CallableInfo ci) {
+        this.name = ci.name;
+        this.parameterTypes.addAll(ci.parameterTypes);
+        this.variadic = ci.variadic;
+        this.parameterNames.addAll(ci.parameterNames);
+        this.returnType = ci.returnType;
     }
 
     @Override

@@ -6,6 +6,7 @@ import grammar.DelphiParser;
 import Util.CallableInfo;
 import Util.DelphiError;
 import Util.Frame;
+import Util.GenericType;
 import Util.ScopeManager;
 import Util.TypeInfo;
 import Util.TypeInfo.InheritanceType;
@@ -106,7 +107,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
     private Value executeCallable(String functionName, DelphiParser.ParameterListContext paramCtx) {
         @SuppressWarnings("unchecked")
         var args = (paramCtx != null) ? (ArrayList<Value>) visit(paramCtx).value : new ArrayList<Value>();
-        var paramTypes = new ArrayList<TYPE>(args.stream().map(arg -> arg.type).toList());
+        var paramTypes = new ArrayList<GenericType>(args.stream().map(arg -> arg.type).toList());
         var callableId = new CallableInfo(functionName, paramTypes);
 
 
@@ -555,7 +556,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         String methodName = (String)visit(ctx.identifier(1)).value;
         @SuppressWarnings("unchecked")
 		var args = (ctx.parameterList() != null) ? (ArrayList<Value>) visit(ctx.parameterList()).value : new ArrayList<Value>();
-        var paramTypes = new ArrayList<TYPE>(args.stream().map(arg -> arg.type).toList());
+        var paramTypes = new ArrayList<GenericType>(args.stream().map(arg -> arg.type).toList());
         var methodId = new CallableInfo(methodName, paramTypes);
         var variable = sm.getVariable(variableName);
         if (this.typeInfo.containsKey(variableName)) { // class method or constructor
