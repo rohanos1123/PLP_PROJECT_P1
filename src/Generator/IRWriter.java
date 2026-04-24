@@ -48,12 +48,14 @@ public class IRWriter {
                 case BOOL -> "i1";
                 case STRING -> "i8*";
                 case VOID -> "void";
+                case INTPTR -> "i32*";
+                case BOOLPTR -> "i1*";
                 case REFERENCE -> "ptr";
                 default -> "";
             };
             case CLASS cp -> cp.name();
         };
-    }
+    }   
 
     private String getDefaultValue(GenericType t) {
         return switch (t) {
@@ -164,21 +166,22 @@ public class IRWriter {
             variable.id = "%" + immediateIndex;
             declaration += variable.id + " = alloca " + convertType(variable.type);
         }
+        variable.type = GenericType.getPtrType(type); // new allocated variable is a ptr to a value
         writeln(declaration, sm.global());
         return variable;
     }
 
     public Immediate addVariableAccess(Immediate variable, int immediateIndex) {
-        var immediate = new Immediate(variable.type, "%" + immediateIndex); // guaranteed to be a local
-        String access = immediate.id + " = load " + convertType(variable.type) + ", ptr " + variable.id;
+        var immediate = new Immediate(GenericType.getValueType(variable.type), "%" + immediateIndex); // guaranteed to be a local
+        String access = immediate.id + " = load " + convertType(immediate.type) + ", ptr " + variable.id;
         writeln(access);
         return immediate;
     }
 
     public Immediate addMemberAccess(Immediate object, Immediate classMember, int immediateIndex) {
-        var immediate = new Immediate(classMember.type, "%" + immediateIndex); // guaranteed to be local
+        var immediate = new Immediate(GenericType.getPtrType(classMember.type), "%" + immediateIndex); // guaranteed to be local
         String access = immediate.id + " = getelementptr inbounds "
-                      + convertType(object.type) + ", ptr " + object.id
+                      + convertType(GenericType.getValueType(object.type)) + ", ptr " + object.id
                       + ", i32 " + classMember.id.substring(1); // strip 'c' to get idx
         writeln(access);
         return immediate;
@@ -196,5 +199,13 @@ public class IRWriter {
             ret += " " + result.id;
         }
         writeln(ret);
+    }
+
+    public Immediate addBitCast(Immediate toCast, GenericType newType, int immediateIndex) {
+        var result = new Immediate(newType, "%" + immediateIndex);
+        String bitcast = result.id + " = bitcast " + convertType(toCast.type) + " " + toCast.id
+                       + " to " + convertType(newType);
+        writeln(bitcast);
+        return result;
     }
 }

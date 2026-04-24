@@ -709,7 +709,7 @@ public class DelphiInterpreter extends DelphiBaseVisitor<Value> {
         for (var identifier : ctx.identifier()) {
             identifiers.add((String) visit(identifier).value);
         }
-        return new Value(identifiers, TYPE.ARRAY);
+        return new Value(identifiers, TYPE.STRING);
     }
 
     @Override

@@ -77,6 +77,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     }
 
     private void addVariable(String identifier, GenericType type, int id) {
+
         var variable = writer.addVariableDeclaration(type, id);
         if (sm.top().scopeType == Frame.Type.CLASS) {
             variable.id += "_" + accessSpecifierStack.peek().toString();
@@ -127,11 +128,13 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
                 switch (arg.type) {
                     case TYPE tp: { switch (tp) {
                         case INT:
+                        case INTPTR:
                             formatString += "%d ";
                             type = (readAsReference()) ? type : "i32";
                             break;
     
                         case BOOL:
+                        case BOOLPTR:
                             formatString += "%d ";
                             type = (readAsReference()) ? type : "i1";
                             break;
@@ -316,6 +319,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
                 var member = entry.getValue();
                 boolean isPrivate = member.id.endsWith(ACCESS_SPECIFIER.PRIVATE.toString());
                 member.id = "c" + member.id.split("_")[0].substring(1); // remove access specifier component and strip leading '%'
+                member.type = GenericType.getValueType(member.type);
                 ti.registerAttribute(entry.getKey(), member, isPrivate);
             }
             popFrame();
@@ -373,6 +377,39 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         return registerCallable(ctx.formalParameterList());
     }
 
+    private void createCallableEntrypoint(CallableInfo ci) {
+        var count = immediateCounts.pop();
+        for (int i = 0; i < ci.parameterNames.size(); i++) {
+            var paramName = ci.parameterNames.get(i);
+            var paramType = ci.parameterTypes.get(i);
+            var param = new Immediate(paramType, "%" + i);
+            if ((GenericType.isPtr(paramType))) {
+                var alias = writer.addBitCast(param, paramType, count++);
+                sm.addVariable(paramName, alias);
+            }
+            else {
+                addVariable(paramName, paramType, count++);
+                writer.addVariableStore(sm.getVariable(paramName).get(), param);
+            }
+        }
+        if (ci.returnType != TYPE.VOID) {
+            addVariable("Result", ci.returnType, count++);
+        }
+        immediateCounts.push(count);
+    }
+
+    private void createCallableReturn(CallableInfo ci) {
+        if (ci.returnType == TYPE.VOID) {
+            writer.addReturnStatement(new Immediate());
+        }
+        else {
+            var count = immediateCounts.pop();
+            var result = writer.addVariableAccess(sm.getVariable("Result").get(), count++);
+            immediateCounts.push(count);
+            writer.addReturnStatement(result);
+        }
+    }
+
     @Override
     public GeneratorResult visitProcedureDeclaration(DelphiParser.ProcedureDeclarationContext ctx){
         /* might need to eventually check for redefinition dunno if its allowed */
@@ -383,16 +420,9 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         });
 
         addFrame(Frame.Type.FUNCTION, procedureId);
-        var count = immediateCounts.pop();
-        for (int i = 0; i < procedureId.parameterNames.size(); i++) {
-            var paramName = procedureId.parameterNames.get(i);
-            var paramType = procedureId.parameterTypes.get(i);
-            addVariable(paramName, paramType, count++);
-            writer.addVariableStore(sm.getVariable(paramName).get(), new Immediate(paramType, "%" + i));
-        }
-        immediateCounts.push(count);
+        createCallableEntrypoint(procedureId);
         visit(ctx.block());
-        writer.addReturnStatement(new Immediate());
+        createCallableReturn(procedureId);
         popFrame();
         return new Immediate();
     }
@@ -411,20 +441,9 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         });
 
         addFrame(Frame.Type.FUNCTION, functionId);
-        var count = immediateCounts.pop();
-        for (int i = 0; i < functionId.parameterNames.size(); i++) {
-            var paramName = functionId.parameterNames.get(i);
-            var paramType = functionId.parameterTypes.get(i);
-            addVariable(paramName, paramType, count++);
-            writer.addVariableStore(sm.getVariable(paramName).get(), new Immediate(paramType, "%" + i));
-        }
-        addVariable("Result", functionId.returnType, count++);
-        immediateCounts.push(count);
+        createCallableEntrypoint(functionId);
         visit(ctx.block());
-        count = immediateCounts.pop();
-        var result = writer.addVariableAccess(sm.getVariable("Result").get(), count++);
-        immediateCounts.push(count);
-        writer.addReturnStatement(result);
+        createCallableReturn(functionId);
         popFrame();
         return new Immediate();
     }
@@ -445,16 +464,9 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             return writer.addCallableCall(qualifiedMethod, args, 0);
         });
 
-        var count = immediateCounts.pop();
-        for (int i = 0; i < qualifiedMethod.parameterNames.size(); i++) {
-            var paramName = qualifiedMethod.parameterNames.get(i);
-            var paramType = qualifiedMethod.parameterTypes.get(i);
-            addVariable(paramName, paramType, count++);
-            writer.addVariableStore(sm.getVariable(paramName).get(), new Immediate(paramType, "%" + i));
-        }
-        immediateCounts.push(count);
+        createCallableEntrypoint(qualifiedMethod);
         visit(ctx.block());
-        writer.addReturnStatement(new Immediate());
+        createCallableReturn(qualifiedMethod);
         popFrame();
 
         return new Immediate();
@@ -480,20 +492,9 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             return result;
         });
 
-        var count = immediateCounts.pop();
-        for (int i = 0; i < qualifiedMethod.parameterNames.size(); i++) {
-            var paramName = qualifiedMethod.parameterNames.get(i);
-            var paramType = qualifiedMethod.parameterTypes.get(i);
-            addVariable(paramName, paramType, count++);
-            writer.addVariableStore(sm.getVariable(paramName).get(), new Immediate(paramType, "%" + i));
-        }
-        addVariable("Result", qualifiedMethod.returnType, count++);
-        immediateCounts.push(count);
+        createCallableEntrypoint(qualifiedMethod);
         visit(ctx.block());
-        count = immediateCounts.pop();
-        var result = writer.addVariableAccess(sm.getVariable("Result").get(), count++);
-        immediateCounts.push(count);
-        writer.addReturnStatement(result);
+        createCallableReturn(qualifiedMethod);
         popFrame();
 
         return new Immediate();
@@ -514,22 +515,18 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         var qualifiedConstructor = addFrame(tdata, constructorId);
         tdata.registerMethod(constructorId, (args) -> {
             var count = immediateCounts.pop();
-            var result = writer.addCallableCall(qualifiedConstructor, args, count);
-            immediateCounts.push(count + 1);
+            var newObjectPtr = writer.addVariableDeclaration(new CLASS("%" + args.get(0).id), count++);
+            args.set(0, newObjectPtr);
+            var result = writer.addCallableCall(qualifiedConstructor, args, count++);
+            immediateCounts.push(count);
             return result;
         });
 
-        var count = immediateCounts.pop();
-        for (int i = 0; i < qualifiedConstructor.parameterNames.size(); i++) {
-            var paramName = qualifiedConstructor.parameterNames.get(i);
-            var paramType = qualifiedConstructor.parameterTypes.get(i);
-            addVariable(paramName, paramType, count++);
-            writer.addVariableStore(sm.getVariable(paramName).get(), new Immediate(paramType, "%" + i));
-        }
-        immediateCounts.push(count);
+        createCallableEntrypoint(qualifiedConstructor);
         visit(ctx.block());
         var object = sm.getVariable("Self").get();
-        writer.addReturnStatement(object);
+        writer.addVariableStore(sm.getVariable("Result").get(), object);
+        createCallableReturn(qualifiedConstructor);
         popFrame();
 
         return new Immediate();
@@ -551,18 +548,11 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             return writer.addCallableCall(qualifiedDestructor, args, 0);
         });
 
-        var count = immediateCounts.pop();
-        for (int i = 0; i < qualifiedDestructor.parameterNames.size(); i++) {
-            var paramName = qualifiedDestructor.parameterNames.get(i);
-            var paramType = qualifiedDestructor.parameterTypes.get(i);
-            addVariable(paramName, paramType, count++);
-            writer.addVariableStore(sm.getVariable(paramName).get(), new Immediate(paramType, "%" + i ));
-        }
-        immediateCounts.push(count);
+        createCallableEntrypoint(qualifiedDestructor);
         visit(ctx.block());
         var object = sm.getVariable("Self").get();
         writer.addVariableStore(object, new Immediate(TYPE.REFERENCE, "null"));
-        writer.addReturnStatement(new Immediate());
+        createCallableReturn(qualifiedDestructor);
         popFrame();
 
         return new Immediate();
@@ -632,7 +622,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         }
         else if (variable.isPresent() && !memberName.isEmpty()) { // object member or method
             var object = variable.get();
-            String type = switch(object.type) { case CLASS cp -> cp.name(); default -> ""; };
+            String type = switch(object.type) { case CLASS cp -> cp.name().substring(0, cp.name().length() - 1); default -> ""; };
             type = type.substring(1); // remove leading %
             return accessObjectMember.apply(object, typeInfo.get(type).getAttribute(memberName));
         }

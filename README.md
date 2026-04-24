@@ -22,9 +22,9 @@
 * Break and Continue
 * Nested Functions and Procedures
 
-## Compiling and Running the Interpreter
+## Compiling and Running the Interpreter Or Compiler
 This project was compiled and tested using the OpenJDK implementation of java, version 25.0.2. Other versions should work but if there are any issues, use that version to compile and run.
-To compile all necessary files for the interpreter, run:
+To compile all necessary files for the interpreter and compiler, run:
 * `javac -d bin/ -cp lib/antlr-4.13.2-complete.jar gen/grammar/*.java src/**/*.java`
 
 To run the interpreter against one of the test files, run:
