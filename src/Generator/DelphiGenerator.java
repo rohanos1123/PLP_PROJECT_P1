@@ -29,7 +29,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
 
     private ScopeManager<Immediate> sm = new ScopeManager<>();
     HashMap<String, TypeInfo<Immediate>> typeInfo = new HashMap<>();
-    Deque<Integer> immediateCounts = new ArrayDeque<>();
+    Deque<MutableInteger> immediateCounts = new ArrayDeque<>();
     private HashMap<String, String> formatStrings = new HashMap<>();
     private IRWriter writer;
 
@@ -45,7 +45,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     private void addFrame(Frame.Type type, int count, Optional<TypeInfo<Immediate>> ti) {
         Frame<Immediate> newFrame = (ti.isPresent()) ? new Frame<>(type, ti.get()) : new Frame<>(type);
         sm.pushFrame(newFrame);
-        immediateCounts.push(count);
+        immediateCounts.push(new MutableInteger(count));
     }
 
     private void addFrame(Frame.Type type) {
@@ -169,9 +169,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             String[] out = addFormatString.apply(args, false);
             String formatString = out[0];
             String inputString = out[1];
-            var count = immediateCounts.pop();
-            writer.writeln("%" + count + " = call i32 (ptr, ...) @printf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
-            immediateCounts.push(count + 1);
+            var count = immediateCounts.peek();
+            writer.writeln("%" + count.inc() + " = call i32 (ptr, ...) @printf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
             return new Immediate();
         }
         );
@@ -180,9 +179,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             String[] out = addFormatString.apply(args, true);
             String formatString = out[0];
             String inputString = out[1];
-            var count = immediateCounts.pop();
-            writer.writeln("%" + count + " = call i32 (ptr, ...) @printf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
-            immediateCounts.push(count + 1);
+            var count = immediateCounts.peek();
+            writer.writeln("%" + count.inc() + " = call i32 (ptr, ...) @printf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
             return new Immediate();
         }
         );
@@ -191,9 +189,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             String[] out = addFormatString.apply(args, false);
             String formatString = out[0];
             String inputString = out[1];
-            var count = immediateCounts.pop();
-            writer.writeln("%" + count + " = call i32 (ptr, ...) @scanf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
-            immediateCounts.push(count + 1);
+            var count = immediateCounts.peek();
+            writer.writeln("%" + count.inc() + " = call i32 (ptr, ...) @scanf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
             return new Immediate();
         }
         );
@@ -378,24 +375,23 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     }
 
     private void createCallableEntrypoint(CallableInfo ci) {
-        var count = immediateCounts.pop();
+        var count = immediateCounts.peek();
         for (int i = 0; i < ci.parameterNames.size(); i++) {
             var paramName = ci.parameterNames.get(i);
             var paramType = ci.parameterTypes.get(i);
             var param = new Immediate(paramType, "%" + i);
             if ((GenericType.isPtr(paramType))) {
-                var alias = writer.addBitCast(param, paramType, count++);
+                var alias = writer.addBitCast(param, paramType, count.inc());
                 sm.addVariable(paramName, alias);
             }
             else {
-                addVariable(paramName, paramType, count++);
+                addVariable(paramName, paramType, count.inc());
                 writer.addVariableStore(sm.getVariable(paramName).get(), param);
             }
         }
         if (ci.returnType != TYPE.VOID) {
-            addVariable("Result", ci.returnType, count++);
+            addVariable("Result", ci.returnType, count.inc());
         }
-        immediateCounts.push(count);
     }
 
     private void createCallableReturn(CallableInfo ci) {
@@ -403,9 +399,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             writer.addReturnStatement(new Immediate());
         }
         else {
-            var count = immediateCounts.pop();
-            var result = writer.addVariableAccess(sm.getVariable("Result").get(), count++);
-            immediateCounts.push(count);
+            var count = immediateCounts.peek();
+            var result = writer.addVariableAccess(sm.getVariable("Result").get(), count.inc());
             writer.addReturnStatement(result);
         }
     }
@@ -434,10 +429,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         var functionId = createCallableInfo(functionName, ctx.formalParameterList());
         functionId.returnType = getImmediate(visit(ctx.resultType())).type;
         sm.addCallable(functionId, (args) -> {
-            var count = immediateCounts.pop();
-            var result = writer.addCallableCall(functionId, args, count);
-            immediateCounts.push(count + 1);
-            return result;
+            var count = immediateCounts.peek();
+            return writer.addCallableCall(functionId, args, count.inc());
         });
 
         addFrame(Frame.Type.FUNCTION, functionId);
@@ -486,10 +479,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
 
         var qualifiedMethod = addFrame(tdata, methodId);
         tdata.registerMethod(methodId, (args) -> {
-            var count = immediateCounts.pop();
-            var result = writer.addCallableCall(qualifiedMethod, args, count);
-            immediateCounts.push(count + 1);
-            return result;
+            var count = immediateCounts.peek();
+            return writer.addCallableCall(qualifiedMethod, args, count.inc());
         });
 
         createCallableEntrypoint(qualifiedMethod);
@@ -514,12 +505,10 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
 
         var qualifiedConstructor = addFrame(tdata, constructorId);
         tdata.registerMethod(constructorId, (args) -> {
-            var count = immediateCounts.pop();
-            var newObjectPtr = writer.addVariableDeclaration(new CLASS("%" + args.get(0).id), count++);
+            var count = immediateCounts.peek();
+            var newObjectPtr = writer.addVariableDeclaration(new CLASS("%" + args.get(0).id), count.inc());
             args.set(0, newObjectPtr);
-            var result = writer.addCallableCall(qualifiedConstructor, args, count++);
-            immediateCounts.push(count);
-            return result;
+            return writer.addCallableCall(qualifiedConstructor, args, count.inc());
         });
 
         createCallableEntrypoint(qualifiedConstructor);
@@ -572,11 +561,10 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     public GeneratorResult visitVariableDeclaration(DelphiParser.VariableDeclarationContext ctx){
         var identifiers = getIdentifierList(visit(ctx.identifierList()));
         GenericType type = getImmediate(visit(ctx.type_())).type;
-        var count = immediateCounts.pop();
+        var count = immediateCounts.peek();
         for(var identifier : identifiers){
-            addVariable(identifier, type, count++);
+            addVariable(identifier, type, count.inc());
         }
-        immediateCounts.push(count);
         return new Immediate();
     }
 
@@ -595,14 +583,10 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     @Override
     public GeneratorResult visitVariable(DelphiParser.VariableContext ctx) {
         BiFunction<Immediate, Immediate, Immediate> accessObjectMember = (object, classMember) -> {
-            var count = immediateCounts.pop();
-            var member = writer.addMemberAccess(object, classMember, count++);
-            if (readAsReference()) {
-                immediateCounts.push(count);
-                return member;
-            }
-            var result = writer.addVariableAccess(member, count++);
-            immediateCounts.push(count);
+            var count = immediateCounts.peek();
+            var member = writer.addMemberAccess(object, classMember, count.inc());
+            if (readAsReference()) return member;
+            var result = writer.addVariableAccess(member, count.inc());
             return result;
         };
         var variableName = getIdentifier(visit(ctx.identifier(0)));
@@ -615,9 +599,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
                 return accessObjectMember.apply(sm.getVariable("Self").get(), resolvedVariable);
             }
             if (readAsReference()) return resolvedVariable;
-            var count = immediateCounts.pop();
-            var result = writer.addVariableAccess(resolvedVariable, count);
-            immediateCounts.push(count + 1);
+            var count = immediateCounts.peek();
+            var result = writer.addVariableAccess(resolvedVariable, count.inc());
             return result;
         }
         else if (variable.isPresent() && !memberName.isEmpty()) { // object member or method
