@@ -717,10 +717,16 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             var object = variable.get();
             String type = getObjectClass(object);
             var ti = typeInfo.get(type); 
-            if (!ti.hasAttribute(memberName, true)) {
+            var methodId = new CallableInfo(memberName);
+            if (ti.hasAttribute(memberName, true)) {
+                return accessObjectMember.apply(object, ti.getAttribute(memberName));
+            }
+            else if (ti.hasMethod(methodId)) {
+                return ti.getMethod(methodId).apply(new ArrayList<>(Arrays.asList(object)));
+            }
+            else {
                 throw new DelphiError("Attempting to access a nonexistent or private member: " + memberName, ctx);
             }
-            return accessObjectMember.apply(object, ti.getAttribute(memberName));
         }
         else if (typeInfo.containsKey(variableName) && !memberName.isEmpty()) { // class member or method
             var methodId = new CallableInfo(memberName);
