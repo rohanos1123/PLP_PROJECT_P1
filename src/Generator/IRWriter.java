@@ -340,7 +340,14 @@ public class IRWriter {
         addLabel(currIndex); 
     }
 
-
+    public Immediate addString(String literal, int size, int id) {
+        var reference = new Immediate(TYPE.STRING, "@.str." + id);
+        String constant = reference.id + " = private unnamed_addr constant ["
+                        + (size + 1) + " x i8] c\"" + literal + "\\00\", align 1";
+        writeln(constant, true);
+        return reference;
+    }
+    
     public Immediate addVariableAccess(Immediate variable, int immediateIndex) {
         var immediate = new Immediate(GenericType.getValueType(variable.type), "%" + immediateIndex); // guaranteed to be a local
         String access = immediate.id + " = load " + convertType(immediate.type) + ", ptr " + variable.id;
