@@ -35,7 +35,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     private ScopeManager<Immediate> sm = new ScopeManager<>();
     HashMap<String, TypeInfo<Immediate>> typeInfo = new HashMap<>();
     Deque<MutableInteger> immediateCounts = new ArrayDeque<>();
-    private HashMap<String, String> formatStrings = new HashMap<>();
+    private HashMap<String, Immediate> strings = new HashMap<>();
     private IRWriter writer;
 
     // Keeps track of information between visitors
@@ -161,13 +161,12 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
                 }
                 inputString += type + " " + arg.id + ", ";
             }
-            String end = (addNewline) ? "\\0A\\00" : "\\00";
+            String end = (addNewline) ? "\\0A" : "";
             int endLength = end.length() / 3;
             formatString = formatString.substring(0, formatString.length() - 1) + end; // strip trailing ' '
-            if (!formatStrings.containsKey(formatString)) {
-                writer.writeln("@.str." + formatStrings.size() + " = private unnamed_addr constant [" +
-                               (3*fmtArgs.size() - 1 + endLength) + " x i8] c\"" + formatString + "\", align 1", true);
-                formatStrings.put(formatString, "@.str." + formatStrings.size());
+            if (!strings.containsKey(formatString)) {
+                var formatRef = writer.addString(formatString, 3*fmtArgs.size() - 1 + endLength, strings.size());
+                strings.put(formatString, formatRef);
             }
             inputString = inputString.substring(0, inputString.length() - 2); // strip trailing ', '
             return new String[] {formatString, inputString};
@@ -180,7 +179,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             String formatString = out[0];
             String inputString = out[1];
             var count = immediateCounts.peek();
-            writer.writeln("%" + count.inc() + " = call i32 (ptr, ...) @printf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
+            writer.writeln("%" + count.inc() + " = call i32 (ptr, ...) @printf(ptr " + strings.get(formatString).id + ", " + inputString + ")");
             return new Immediate();
         }
         );
@@ -190,7 +189,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             String formatString = out[0];
             String inputString = out[1];
             var count = immediateCounts.peek();
-            writer.writeln("%" + count.inc() + " = call i32 (ptr, ...) @printf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
+            writer.writeln("%" + count.inc() + " = call i32 (ptr, ...) @printf(ptr " + strings.get(formatString).id + ", " + inputString + ")");
             return new Immediate();
         }
         );
@@ -200,7 +199,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             String formatString = out[0];
             String inputString = out[1];
             var count = immediateCounts.peek();
-            writer.writeln("%" + count.inc() + " = call i32 (ptr, ...) @scanf(ptr " + formatStrings.get(formatString) + ", " + inputString + ")");
+            writer.writeln("%" + count.inc() + " = call i32 (ptr, ...) @scanf(ptr " + strings.get(formatString).id + ", " + inputString + ")");
             return new Immediate();
         }
         );
@@ -964,7 +963,10 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     @Override
     public GeneratorResult visitString(DelphiParser.StringContext ctx){
         var literal = ctx.STRING_LITERAL().toString();
-        return new Immediate(TYPE.STRING, literal.substring(1, literal.length() - 1));
+        literal = literal.substring(1, literal.length() - 1); // need to do some extra conversions here if we want escape sequences
+        var stringRef = writer.addString(literal, literal.length(), strings.size());
+        strings.put(literal, stringRef);
+        return stringRef;
     }
 
     @Override
