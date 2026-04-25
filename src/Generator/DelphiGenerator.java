@@ -447,7 +447,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         String procedureName = getIdentifier(visit(ctx.identifier()));
         var procedureId = createCallableInfo(procedureName, ctx.formalParameterList());
 
-        var localAliases = sm.getLocalAliases();
+        var localAliases = sm.getLocalAliases(true);
         var qualifiedId = new CallableInfo(procedureId);
         qualifiedId.name += "_" + (sm.size() - 1);
         qualifiedId.parameterNames.addAll(Collections.nCopies(localAliases.size(), "!!tlocal")); // !! to signal as a transferred local
@@ -458,6 +458,10 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         });
         
         addFrame(Frame.Type.FUNCTION, qualifiedId);
+        sm.addCallable(procedureId, (args) -> { // recursive calls need to reference locally qualified names without transferring current locals
+            args.addAll(0, sm.getLocalAliases(false));
+            return writer.addCallableCall(qualifiedId, args, 0);
+        });
         createCallableEntrypoint(qualifiedId);
         visit(ctx.block());
         createCallableReturn(qualifiedId);
@@ -472,7 +476,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         var functionId = createCallableInfo(functionName, ctx.formalParameterList());
         functionId.returnType = getImmediate(visit(ctx.resultType())).type;
 
-        var localAliases = sm.getLocalAliases();
+        var localAliases = sm.getLocalAliases(true);
         var qualifiedId = new CallableInfo(functionId);
         qualifiedId.name += "_" + (sm.size() - 1);
         qualifiedId.parameterNames.addAll(Collections.nCopies(localAliases.size(), "!!tlocal")); // !! to signal as a transferred local
@@ -484,6 +488,10 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         });
 
         addFrame(Frame.Type.FUNCTION, qualifiedId);
+        sm.addCallable(functionId, (args) -> { // recursive calls need to reference locally qualified names without transferring current locals
+            args.addAll(0, sm.getLocalAliases(false));
+            return writer.addCallableCall(qualifiedId, args, 0);
+        });
         createCallableEntrypoint(qualifiedId);
         visit(ctx.block());
         createCallableReturn(qualifiedId);
