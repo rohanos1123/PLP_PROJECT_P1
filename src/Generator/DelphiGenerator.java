@@ -438,14 +438,17 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         /* might need to eventually check for redefinition dunno if its allowed */
         String procedureName = getIdentifier(visit(ctx.identifier()));
         var procedureId = createCallableInfo(procedureName, ctx.formalParameterList());
-        sm.addCallable(procedureId, (args) -> {
-            return writer.addCallableCall(procedureId, args, 0);
-        });
 
-        addFrame(Frame.Type.FUNCTION, procedureId);
-        createCallableEntrypoint(procedureId);
+        var enumeratedId = new CallableInfo(procedureId);
+        enumeratedId.name += "_" + (sm.size() - 1);
+        sm.addCallable(procedureId, (args) -> {
+            return writer.addCallableCall(enumeratedId, args, 0);
+        });
+        
+        addFrame(Frame.Type.FUNCTION, enumeratedId);
+        createCallableEntrypoint(enumeratedId);
         visit(ctx.block());
-        createCallableReturn(procedureId);
+        createCallableReturn(enumeratedId);
         popFrame();
         return new Immediate();
     }
@@ -456,15 +459,18 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         String functionName = getIdentifier(visit(ctx.identifier()));
         var functionId = createCallableInfo(functionName, ctx.formalParameterList());
         functionId.returnType = getImmediate(visit(ctx.resultType())).type;
+
+        var enumeratedId = new CallableInfo(functionId);
+        enumeratedId.name += "_" + (sm.size() - 1);
         sm.addCallable(functionId, (args) -> {
             var count = immediateCounts.peek();
-            return writer.addCallableCall(functionId, args, count.inc());
+            return writer.addCallableCall(enumeratedId, args, count.inc());
         });
 
-        addFrame(Frame.Type.FUNCTION, functionId);
-        createCallableEntrypoint(functionId);
+        addFrame(Frame.Type.FUNCTION, enumeratedId);
+        createCallableEntrypoint(enumeratedId);
         visit(ctx.block());
-        createCallableReturn(functionId);
+        createCallableReturn(enumeratedId);
         popFrame();
         return new Immediate();
     }
