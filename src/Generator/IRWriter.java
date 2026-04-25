@@ -301,6 +301,13 @@ public class IRWriter {
         writeln(branchInstr);
     }
 
+
+    public void addConditionalBranch(Immediate conImmediate, int trueBrIndex, int falseBrIndex){
+        String condBranch = "br i1 " + conImmediate.id + ", label %" + trueBrIndex + ", label %" + falseBrIndex; 
+        writeln(condBranch); 
+    }
+
+
     public void addWhileLoop(Immediate condImmediate, int loopBackIndex, int bodyIndex,  int jumpIndex){
         var bodyPart = functionStreams.peek(); 
         functionStreams.pop(); 
@@ -313,6 +320,24 @@ public class IRWriter {
         writeln(bodyPart.toString());
         addUnconditionalBranch(loopBackIndex);
         addLabel(jumpIndex); 
+    }
+
+    public void addForLoop(Immediate forCmp, int bodyIndex, int currIndex){
+        var incrementBlock = functionStreams.peek(); 
+        functionStreams.pop(); 
+        var bodyBlock = functionStreams.peek(); 
+        functionStreams.pop(); 
+        var comparisonBlock = functionStreams.peek(); 
+        functionStreams.pop(); 
+        var intialBlock = functionStreams.peek(); 
+        functionStreams.pop(); 
+
+        writeln(intialBlock.toString());
+        writeln(comparisonBlock.toString());
+        addConditionalBranch(forCmp, currIndex, bodyIndex);
+        writeln(bodyBlock.toString()); 
+        writeln(incrementBlock.toString());
+        addLabel(currIndex); 
     }
 
 

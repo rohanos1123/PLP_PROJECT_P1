@@ -10,6 +10,9 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
+import org.antlr.v4.runtime.CodePointBuffer.Type;
+import org.stringtemplate.v4.compiler.Bytecode.OperandType;
+
 import Util.CLASS;
 import Util.CallableInfo;
 import Util.DelphiError;
@@ -718,19 +721,62 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         var blockStart = curr.value(); 
         writer.addLabel(curr.inc()); 
         visit(ctx.statement()); 
-        var jumpIndex = curr.value(); 
-        writer.addWhileLoop(condImmediate, loopBackIndex, blockStart, jumpIndex);
-        curr.inc(); 
+        writer.addWhileLoop(condImmediate, loopBackIndex, blockStart, curr.inc());
         return new Immediate(); 
     }
 
-    /* 
     @Override
     public GeneratorResult visitForStatement(DelphiParser.ForStatementContext ctx){
-        var counter = visit(ctx.variable()); 
+        var curr = immediateCounts.peek(); 
+        int initialAddress = curr.value(); 
+        writer.addUnconditionalBranch(initialAddress);
+      
+
+        // Adding a variable store where counter is equal to initial
+        writer.addBlock(); 
+        writer.addLabel(curr.inc()); 
+        immediateReferenceStack.push(true); 
+        var counter = getImmediate(visit(ctx.variable())); 
+        immediateReferenceStack.pop(); 
         var forList = ctx.forList(); 
+        var initial = getImmediate(visit(forList.initialValue())); 
+        if(initial.type != TYPE.VOID){
+            writer.addVariableStore(counter, initial);
+        }
+        writer.addUnconditionalBranch(curr.value());
+
+
+        // Variable Comparison
+        writer.addBlock();
+        int compBranch = curr.value(); 
+        writer.addLabel(curr.inc()); 
+        var finVal = getImmediate(visit(forList.finalValue())); 
+        var mainValue = getImmediate(visit(ctx.variable())); 
+        var forCmp = writer.addComparisonExpressions(mainValue, finVal, CmpOperations.EQ, curr.inc());
+        
+        // Body
+        writer.addBlock();
+        int bodyBranchLC = curr.value(); 
+        writer.addLabel(curr.inc()); 
+        visit(ctx.statement()); 
+        writer.addUnconditionalBranch(curr.value());
+
+        // Increment
+        writer.addBlock(); 
+        writer.addLabel(curr.inc());
+        var newVar = getImmediate(visit(ctx.variable())); 
+        var incResult = writer.addBinaryExpression(newVar, new Immediate(TYPE.INT, "1"), MathOperations.ADD, curr.inc()); 
+        immediateReferenceStack.push(true);
+        var grabbedVariable = getImmediate(visit(ctx.variable())); 
+        immediateReferenceStack.pop(); 
+        writer.addVariableStore(grabbedVariable, incResult);
+        writer.addUnconditionalBranch(compBranch);
+
+        writer.addForLoop(forCmp, bodyBranchLC, curr.inc()); 
+
+        return new Immediate(); 
     }
-    */ 
+
 
     @Override
     public GeneratorResult visitProcedureStatement(DelphiParser.ProcedureStatementContext ctx){
