@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
@@ -408,9 +409,10 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             var paramName = ci.parameterNames.get(i);
             var paramType = ci.parameterTypes.get(i);
             var param = new Immediate(paramType, "%" + i);
-            if ((GenericType.isPtr(paramType))) {
-                var alias = writer.addBitCast(param, paramType, count.inc());
-                sm.addVariable(paramName, alias);
+            if (paramName.startsWith("!!")) continue; // skip transferred outer locals
+
+            if (GenericType.isPtr(paramType)) { // no need to alloca since its already a ptr
+                sm.addVariable(paramName, param);
             }
             else {
                 addVariable(paramName, paramType, count.inc());
@@ -439,16 +441,20 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         String procedureName = getIdentifier(visit(ctx.identifier()));
         var procedureId = createCallableInfo(procedureName, ctx.formalParameterList());
 
-        var enumeratedId = new CallableInfo(procedureId);
-        enumeratedId.name += "_" + (sm.size() - 1);
+        LinkedHashMap<String, Immediate> orderedLocals = sm.getAllLocals();
+        var qualifiedId = new CallableInfo(procedureId);
+        qualifiedId.name += "_" + (sm.size() - 1);
+        qualifiedId.parameterNames.addAll(0, orderedLocals.keySet().stream().map(arg -> "!!" + arg).toList()); // !! to signal as a transferred local
+        qualifiedId.parameterTypes.addAll(0, orderedLocals.values().stream().map(arg -> arg.type).toList());
         sm.addCallable(procedureId, (args) -> {
-            return writer.addCallableCall(enumeratedId, args, 0);
+            args.addAll(0, orderedLocals.values());
+            return writer.addCallableCall(qualifiedId, args, 0);
         });
         
-        addFrame(Frame.Type.FUNCTION, enumeratedId);
-        createCallableEntrypoint(enumeratedId);
+        addFrame(Frame.Type.FUNCTION, qualifiedId);
+        createCallableEntrypoint(qualifiedId);
         visit(ctx.block());
-        createCallableReturn(enumeratedId);
+        createCallableReturn(qualifiedId);
         popFrame();
         return new Immediate();
     }
@@ -460,17 +466,21 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         var functionId = createCallableInfo(functionName, ctx.formalParameterList());
         functionId.returnType = getImmediate(visit(ctx.resultType())).type;
 
-        var enumeratedId = new CallableInfo(functionId);
-        enumeratedId.name += "_" + (sm.size() - 1);
+        LinkedHashMap<String, Immediate> orderedLocals = sm.getAllLocals();
+        var qualifiedId = new CallableInfo(functionId);
+        qualifiedId.name += "_" + (sm.size() - 1);
+        qualifiedId.parameterNames.addAll(0, orderedLocals.keySet().stream().map(arg -> "!!" + arg).toList()); // !! to signal as a transferred local
+        qualifiedId.parameterTypes.addAll(0, orderedLocals.values().stream().map(arg -> arg.type).toList());
         sm.addCallable(functionId, (args) -> {
             var count = immediateCounts.peek();
-            return writer.addCallableCall(enumeratedId, args, count.inc());
+            args.addAll(0, orderedLocals.values());
+            return writer.addCallableCall(qualifiedId, args, count.inc());
         });
 
-        addFrame(Frame.Type.FUNCTION, enumeratedId);
-        createCallableEntrypoint(enumeratedId);
+        addFrame(Frame.Type.FUNCTION, qualifiedId);
+        createCallableEntrypoint(qualifiedId);
         visit(ctx.block());
-        createCallableReturn(enumeratedId);
+        createCallableReturn(qualifiedId);
         popFrame();
         return new Immediate();
     }
