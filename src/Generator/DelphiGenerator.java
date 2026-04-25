@@ -681,13 +681,13 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         writer.addBlock();
         var cnt = immediateCounts.peek();
         thenLabel = cnt.value(); 
-        writer.addThenLabel(cnt.inc());
+        writer.addLabel(cnt.inc());
         
         visit(blocks.get(0)); 
         if(blocks.size() > 1){
             writer.addBlock(); 
             elseLabel = cnt.value();  
-            writer.addElseLabel(cnt.inc()); 
+            writer.addLabel(cnt.inc()); 
             visit(blocks.get(1)); 
         }
 
@@ -696,6 +696,31 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         return new Immediate();  
     }
 
+    @Override
+    public GeneratorResult visitWhileStatement(DelphiParser.WhileStatementContext ctx){
+        var curr = immediateCounts.peek();
+        int loopBackIndex = curr.value(); 
+        writer.addUnconditionalBranch(loopBackIndex); 
+        writer.addLabel(curr.inc()); 
+        writer.addBlock();
+        var condImmediate = getImmediate(visit(ctx.expression())); 
+        writer.addBlock();
+        var blockStart = curr.value(); 
+        writer.addLabel(curr.inc()); 
+        visit(ctx.statement()); 
+        var jumpIndex = curr.value(); 
+        writer.addWhileLoop(condImmediate, loopBackIndex, blockStart, jumpIndex);
+        curr.inc(); 
+        return new Immediate(); 
+    }
+
+    /* 
+    @Override
+    public GeneratorResult visitForStatement(DelphiParser.ForStatementContext ctx){
+        var counter = visit(ctx.variable()); 
+        var forList = ctx.forList(); 
+    }
+    */ 
 
     @Override
     public GeneratorResult visitProcedureStatement(DelphiParser.ProcedureStatementContext ctx){

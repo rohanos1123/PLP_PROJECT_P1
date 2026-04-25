@@ -256,13 +256,6 @@ public class IRWriter {
         functionStreams.push(new StreamWriter(new StringWriter()));
     }
 
-    public void popBlock(){
-        var obj = functionStreams.peek();  
-        functionStreams.pop(); 
-        writeln(obj.toString());
-    }
-
-
     public void addBranchStatementAndFlush(Immediate target, int thenIndex, int elseIndex, int immediateIndex){
       
         String mergeBranch = "br label %" + immediateIndex; 
@@ -296,26 +289,30 @@ public class IRWriter {
         }
     }
 
-    public void addMergeBranch(int immediateIndex){
-        String mergeBranch = "br label" + " %merge_" + immediateIndex; 
-        writeln(mergeBranch); 
-    }
-
-
-    public void addThenLabel(int immediateIndex){
-        String thenLabel =   immediateIndex + ":"; 
+   
+    public void addLabel(int immediateIndex){
+        String thenLabel = immediateIndex + ":"; 
         writeln(thenLabel);
     }
 
-    public void addElseLabel(int immediateIndex){
-        String elseLabel = immediateIndex + ":"; 
-        writeln(elseLabel); 
+
+    public void addUnconditionalBranch(int branchTarget){
+        String branchInstr = "br label %" + branchTarget; 
+        writeln(branchInstr);
     }
 
- 
-    public void addMergeLabel(int immediateIndex){
-        String mergeLabel = immediateIndex + ":"; 
-        writeln(mergeLabel); 
+    public void addWhileLoop(Immediate condImmediate, int loopBackIndex, int bodyIndex,  int jumpIndex){
+        var bodyPart = functionStreams.peek(); 
+        functionStreams.pop(); 
+        var condPart = functionStreams.peek(); 
+        functionStreams.pop(); 
+
+        writeln(condPart.toString());
+        String jumpConditional = "br i1 " + condImmediate.id + ", label %" + bodyIndex + ", label %" + jumpIndex; 
+        writeln(jumpConditional);
+        writeln(bodyPart.toString());
+        addUnconditionalBranch(loopBackIndex);
+        addLabel(jumpIndex); 
     }
 
 
