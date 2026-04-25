@@ -488,8 +488,9 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
 
         addFrame(Frame.Type.FUNCTION, qualifiedId);
         sm.addCallable(functionId, (args) -> { // recursive calls need to reference locally qualified names without transferring current locals
+            var count = immediateCounts.peek();
             args.addAll(0, sm.getLocalAliases(false));
-            return writer.addCallableCall(qualifiedId, args, 0);
+            return writer.addCallableCall(qualifiedId, args, count.inc());
         });
         createCallableEntrypoint(qualifiedId);
         visit(ctx.block());
