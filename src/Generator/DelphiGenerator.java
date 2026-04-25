@@ -763,7 +763,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         writer.addLabel(curr.inc()); 
         var finVal = getImmediate(visit(forList.finalValue())); 
         var mainValue = getImmediate(visit(ctx.variable())); 
-        var forCmp = writer.addComparisonExpressions(mainValue, finVal, CmpOperations.EQ, curr.inc());
+        var forCmp = writer.addComparisonExpressions(mainValue, finVal, CmpOperations.GT, curr.inc());
         
         // Body
         writer.addBlock();
