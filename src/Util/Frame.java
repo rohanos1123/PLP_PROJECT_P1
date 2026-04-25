@@ -3,6 +3,7 @@ package Util;
 import java.util.*;
 import java.util.function.Function;
 
+import Generator.Immediate;
 import Interpreter.DelphiObject;
 import Interpreter.Value;
 
@@ -18,6 +19,7 @@ public class Frame<T> {
         public LinkedHashMap<String, U> definedLocal = new LinkedHashMap<>();
         public LinkedHashMap<CallableInfo, Function<ArrayList<U>, U>> definedCallables = new LinkedHashMap<>();
         public Optional<ScopeNode<U>> parent = Optional.<ScopeNode<U>>empty();
+        public LinkedHashMap<U, U> localAliasMap = new LinkedHashMap<>();
 
         public ScopeNode(){}
 
@@ -39,6 +41,17 @@ public class Frame<T> {
     public Frame(Type t, TypeInfo<T> objType){
         this(t);
         this.objectTypeInfo = Optional.of(objType);
+    }
+
+    public void populateAliasMap(ArrayList<T> locals) {
+        int idx = 0;
+        for (var local : locals) {
+            if (local instanceof Immediate immLocal) {
+                @SuppressWarnings("unchecked") // never called in interpreter
+                T alias = (T)new Immediate(immLocal.type, "%" + idx++);
+                scope.localAliasMap.put(local, alias);
+            }
+        }
     }
 
     private ScopeNode<T> getParent(ScopeNode<T> curr, CallableInfo ci){
@@ -106,6 +119,10 @@ public class Frame<T> {
                 }
             }
         }
-        return getFamilyLocal(valKey, scope);
+        var local = getFamilyLocal(valKey, scope);
+        if (local.isPresent() && scope.localAliasMap.containsKey(local.get())) { // convert to alias representation
+            return Optional.of(scope.localAliasMap.get(local.get()));
+        }
+        return local;
     }
 };
