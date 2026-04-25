@@ -103,6 +103,13 @@ public class TypeInfo<T> {
         return true;
     }
 
+    public int getParentAttributeCount() {
+        if (parents.isEmpty()) {
+            return 0;
+        }
+        return parents.get(0).attributeMap.size();
+    }
+
     public boolean hasMethod(CallableInfo methodId) {
         return getMethod(methodId) != null;
     }

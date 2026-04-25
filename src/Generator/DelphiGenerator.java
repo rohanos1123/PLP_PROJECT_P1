@@ -319,7 +319,9 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             for(var entry : sm.top().scope.definedLocal.entrySet()){
                 var member = entry.getValue();
                 boolean isPrivate = member.id.endsWith(ACCESS_SPECIFIER.PRIVATE.toString());
-                member.id = "c" + member.id.split("_")[0].substring(1); // remove access specifier component and strip leading '%'
+                int idx = Integer.parseInt(member.id.split("_")[0].substring(1)); // remove access specifier component and strip leading '%'
+                idx += ti.getParentAttributeCount();
+                member.id = "c" +  idx;
                 member.type = GenericType.getValueType(member.type);
                 ti.registerAttribute(entry.getKey(), member, isPrivate);
             }
@@ -803,7 +805,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     public GeneratorResult visitSignedFactor(DelphiParser.SignedFactorContext ctx){
         var factor = getImmediate(visit(ctx.factor()));
         if(ctx.MINUS() != null) {
-            // add immediate value binary op sub 0 factor and return that
+            var count = immediateCounts.peek();
+            return writer.addBinaryExpression(new Immediate(TYPE.INT, "0"), factor, MathOperations.SUB, count.inc());
         }
         return factor;
     }
