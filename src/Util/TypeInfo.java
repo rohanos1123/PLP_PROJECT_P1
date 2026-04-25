@@ -46,14 +46,19 @@ public class TypeInfo<T> {
         methodMap.put(name, method);
     }
 
-    public T getAttribute(String attributeName) {
+    private ClassMember<T> getAttributeWithAccessSpecifier(String attributeName) {
         if (attributeMap.containsKey(attributeName)) {
-            return attributeMap.get(attributeName).member;
+            return attributeMap.get(attributeName);
         }
         if (!parents.isEmpty()) {
-            return parents.get(0).getAttribute(attributeName);
+            return parents.get(0).getAttributeWithAccessSpecifier(attributeName);
         }
         return null;
+    }
+
+    public T getAttribute(String attributeName) {
+        var attribute = getAttributeWithAccessSpecifier(attributeName);
+        return (attribute != null) ? attribute.member : null;
     }
 
     public HashMap<String, ClassMember<T>> getAttributes() {
@@ -88,7 +93,14 @@ public class TypeInfo<T> {
     }
 
     public boolean hasAttribute(String attributeName) {
-        return getAttribute(attributeName) != null;
+        return hasAttribute(attributeName, false);
+    }
+
+    public boolean hasAttribute(String attributeName, boolean checkAccess) {
+        var member = getAttributeWithAccessSpecifier(attributeName);
+        if (member == null) return false;
+        if (checkAccess && member.isPrivate) return false;
+        return true;
     }
 
     public boolean hasMethod(CallableInfo methodId) {

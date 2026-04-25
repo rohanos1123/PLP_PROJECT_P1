@@ -82,7 +82,7 @@ public class IRWriter {
                 case STRING -> "zeroinitializer";
                 default -> "";
             };
-            default -> "null";
+            default -> "zeroinitializer";
         };
     }
 
