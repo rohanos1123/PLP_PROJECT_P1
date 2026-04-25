@@ -88,7 +88,7 @@ public class IRWriter {
 
     private String createFunctionSignature(CallableInfo ci, boolean includeParams) {
         var returnType = convertType(ci.returnType);
-        var callableName = (ci.name.startsWith("!!")) ? ci.name.substring(2) : "Delphi_" + ci.name;
+        var callableName = (ci.name.startsWith("!!")) ? ci.name.substring(2) : "Delphi_" + ci.name + ci.parameterTypes.size(); // for now add the param count to differentiate between overloads
         String signature = returnType + " @" + callableName;
         if (!includeParams) return signature;
 

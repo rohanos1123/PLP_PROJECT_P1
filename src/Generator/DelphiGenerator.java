@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
-import Interpreter.Value;
 import Util.CLASS;
 import Util.CallableInfo;
 import Util.DelphiError;
@@ -274,6 +273,29 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         String typeName = getIdentifier(visit(ctx.identifier()));
         this.typeStack.push(typeName);
         return visitChildren(ctx);
+    }
+
+    @Override
+    public GeneratorResult visitInterfaceType(DelphiParser.InterfaceTypeContext ctx){
+        String interfaceName = this.typeStack.peek();
+        var ti = new TypeInfo<Immediate>(TypeInfo.Type.INTERFACE);
+        this.typeInfo.put(interfaceName, ti);
+
+        if (ctx.identifier() != null) {
+			var anscestor = getIdentifier(visit(ctx.identifier()));
+            if (!this.typeInfo.containsKey(anscestor)) {
+                throw new DelphiError("No such interface: " + anscestor, ctx);
+            }
+            var parentInfo = this.typeInfo.get(anscestor);
+            if (parentInfo.type != TypeInfo.Type.INTERFACE) {
+                throw new DelphiError("Cannot extend non interface type: " + anscestor, ctx);
+            }
+            ti.parents.add(parentInfo);
+        }
+        visitChildren(ctx);
+        this.typeStack.pop();
+        
+        return new Immediate();
     }
 
     @Override
