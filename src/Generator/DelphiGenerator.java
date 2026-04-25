@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -60,7 +61,9 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     }
 
     private void addFrame(Frame.Type type, CallableInfo ci) {
-        addFrame(type, ci.parameterNames.size() + 1, Optional.empty());
+        int immediateOffset = ci.parameterNames.size() + 1;
+        addFrame(type, immediateOffset, Optional.empty());
+        sm.populateAliasMap();
         writer.addFunction(ci);
     }
 
@@ -444,13 +447,13 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         String procedureName = getIdentifier(visit(ctx.identifier()));
         var procedureId = createCallableInfo(procedureName, ctx.formalParameterList());
 
-        LinkedHashMap<String, Immediate> orderedLocals = sm.getAllLocals();
+        var localAliases = sm.getLocalAliases();
         var qualifiedId = new CallableInfo(procedureId);
         qualifiedId.name += "_" + (sm.size() - 1);
-        qualifiedId.parameterNames.addAll(0, orderedLocals.keySet().stream().map(arg -> "!!" + arg).toList()); // !! to signal as a transferred local
-        qualifiedId.parameterTypes.addAll(0, orderedLocals.values().stream().map(arg -> arg.type).toList());
+        qualifiedId.parameterNames.addAll(Collections.nCopies(localAliases.size(), "!!tlocal")); // !! to signal as a transferred local
+        qualifiedId.parameterTypes.addAll(0, localAliases.stream().map(arg -> arg.type).toList());
         sm.addCallable(procedureId, (args) -> {
-            args.addAll(0, orderedLocals.values());
+            args.addAll(0, localAliases);
             return writer.addCallableCall(qualifiedId, args, 0);
         });
         
@@ -469,14 +472,14 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         var functionId = createCallableInfo(functionName, ctx.formalParameterList());
         functionId.returnType = getImmediate(visit(ctx.resultType())).type;
 
-        LinkedHashMap<String, Immediate> orderedLocals = sm.getAllLocals();
+        var localAliases = sm.getLocalAliases();
         var qualifiedId = new CallableInfo(functionId);
         qualifiedId.name += "_" + (sm.size() - 1);
-        qualifiedId.parameterNames.addAll(0, orderedLocals.keySet().stream().map(arg -> "!!" + arg).toList()); // !! to signal as a transferred local
-        qualifiedId.parameterTypes.addAll(0, orderedLocals.values().stream().map(arg -> arg.type).toList());
+        qualifiedId.parameterNames.addAll(Collections.nCopies(localAliases.size(), "!!tlocal")); // !! to signal as a transferred local
+        qualifiedId.parameterTypes.addAll(0, localAliases.stream().map(arg -> arg.type).toList());
         sm.addCallable(functionId, (args) -> {
             var count = immediateCounts.peek();
-            args.addAll(0, orderedLocals.values());
+            args.addAll(0, localAliases);
             return writer.addCallableCall(qualifiedId, args, count.inc());
         });
 

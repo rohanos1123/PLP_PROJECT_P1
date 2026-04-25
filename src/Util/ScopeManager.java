@@ -49,22 +49,35 @@ public class ScopeManager<T> {
         return size() < 2;
     }
     
-    public LinkedHashMap<String, T> getAllLocals() {
-        LinkedHashMap<String, T> orderedLocals = new LinkedHashMap<>();
+    public ArrayList<T> getLocalAliases() {
+        ArrayList<T> aliases = new ArrayList<>();
         if (!global()) {
             var currScope = top().scope;
-            LinkedHashMap<String, T> transferLocals = new LinkedHashMap<>();
-            while (currScope.parent.isPresent()) {
-                transferLocals.putAll(currScope.definedLocal.reversed()); // reverse each subgroup to prepare for final reversal
-                currScope = currScope.parent.get();
-            }
-            // ensures parameter %0 is mapped to something since no locals can be mapped to %0 due to entrypoint block
-            @SuppressWarnings("unchecked") // never call in interpreter so this is ok
-            T placeholder = (T)new Immediate(TYPE.REFERENCE, "null");
-            orderedLocals.put("0placeholder", placeholder);
-            orderedLocals.putAll(transferLocals.reversed());
+            // add all aliases for previous scopes
+            var prevAliases = currScope.localAliasMap;
+            aliases.addAll(prevAliases.values());
+            // add all current locals
+            var currLocals = currScope.definedLocal;
+            aliases.addAll(currLocals.values());
         }
-        return orderedLocals;
+        return aliases;
+    }
+
+    public void populateAliasMap() {
+        ArrayList<T> transferredLocals = new ArrayList<>();
+        if (!global()) {
+            var currScope = top().scope;
+            var prevScope = currScope.parent.get(); // guaranteed since size() >= 2
+            // add all variables from prior scope's alias map
+            var grandfatherLocals = prevScope.localAliasMap;
+            transferredLocals.addAll(grandfatherLocals.keySet());
+            // add all locals from last scope (excluding global scope)
+            if (size() > 2) {
+                var prevLocals = prevScope.definedLocal;
+                transferredLocals.addAll(prevLocals.values());
+            }
+        }
+        top().populateAliasMap(transferredLocals);
     }
 
     public void addVariable(String identifier, T variable) {
