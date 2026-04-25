@@ -220,11 +220,11 @@ public class IRWriter {
 
     public Immediate addComparisonExpressions(Immediate lhs, Immediate rhs, CmpOperations op, int immediateIndex){
         GenericType resType = lhs.type;
-        if(lhs.type == rhs.type){
-            throw new RuntimeException("Binary expression with mismatched types!"); 
+        if(lhs.type != rhs.type){
+            throw new RuntimeException("Comparison expression with mismatched types!"); 
         }
         var compRes = new Immediate(resType, "%" + immediateIndex); 
-        String production = compRes.id + " icmp "; 
+        String production = compRes.id + " = icmp"; 
 
         switch(op){
             case LT:
@@ -252,6 +252,71 @@ public class IRWriter {
         return compRes; 
     }
 
+    public void addBlock(){
+        functionStreams.push(new StreamWriter(new StringWriter()));
+    }
+
+    public void popBlock(){
+        var obj = functionStreams.peek();  
+        functionStreams.pop(); 
+        writeln(obj.toString());
+    }
+
+
+    public void addBranchStatementAndFlush(Immediate target, int thenIndex, int elseIndex, int immediateIndex){
+      
+        String mergeBranch = "br label %" + immediateIndex; 
+        String mergeLabel =  immediateIndex + ":"; 
+
+        if(elseIndex != -1){
+            String branchProd = "br i1 " + target.id + ", label %" + thenIndex + ", label %" + elseIndex;
+            var elseBlock = functionStreams.peek();
+            functionStreams.pop(); 
+
+            var thenBlock = functionStreams.peek(); 
+            functionStreams.pop(); 
+
+            thenBlock.println(mergeBranch);
+            elseBlock.println(mergeBranch);
+
+            writeln(branchProd); 
+            writeln(thenBlock.toString());
+            writeln(elseBlock.toString());
+            writeln(mergeLabel);
+        }
+        else{
+            String branchProd = "br i1 " + target.id + ", label %" + thenIndex + ", label %" + immediateIndex;
+            var thenBlock = functionStreams.peek(); 
+            functionStreams.pop(); 
+            thenBlock.println(mergeBranch);
+
+            writeln(branchProd); 
+            writeln(thenBlock.toString());
+            writeln(mergeLabel);
+        }
+    }
+
+    public void addMergeBranch(int immediateIndex){
+        String mergeBranch = "br label" + " %merge_" + immediateIndex; 
+        writeln(mergeBranch); 
+    }
+
+
+    public void addThenLabel(int immediateIndex){
+        String thenLabel =   immediateIndex + ":"; 
+        writeln(thenLabel);
+    }
+
+    public void addElseLabel(int immediateIndex){
+        String elseLabel = immediateIndex + ":"; 
+        writeln(elseLabel); 
+    }
+
+ 
+    public void addMergeLabel(int immediateIndex){
+        String mergeLabel = immediateIndex + ":"; 
+        writeln(mergeLabel); 
+    }
 
 
     public Immediate addVariableAccess(Immediate variable, int immediateIndex) {

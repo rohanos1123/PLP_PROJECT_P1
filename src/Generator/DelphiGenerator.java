@@ -665,7 +665,32 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         return lhs; 
     }
 
-  
+    @Override
+    public GeneratorResult visitIfStatement(DelphiParser.IfStatementContext ctx){
+        int thenLabel = -1; 
+        int elseLabel = -1; 
+
+        var conditionImmediate = getImmediate(visit(ctx.expression())); 
+        var blocks = ctx.statement(); 
+        writer.addBlock();
+        var cnt = immediateCounts.peek();
+        thenLabel = cnt.value(); 
+        writer.addThenLabel(cnt.inc());
+        
+        visit(blocks.get(0)); 
+        if(blocks.size() > 1){
+            writer.addBlock(); 
+            elseLabel = cnt.value();  
+            writer.addElseLabel(cnt.inc()); 
+            visit(blocks.get(1)); 
+        }
+
+        var curr = immediateCounts.peek(); 
+        writer.addBranchStatementAndFlush(conditionImmediate, thenLabel, elseLabel, curr.inc());
+        return new Immediate();  
+    }
+
+
     @Override
     public GeneratorResult visitProcedureStatement(DelphiParser.ProcedureStatementContext ctx){
         var procedureName = getIdentifier(visit(ctx.identifier()));
