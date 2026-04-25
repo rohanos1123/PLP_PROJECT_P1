@@ -17,6 +17,23 @@ import Util.TypeInfo;
 import Util.Frame;
 import Util.GenericType;
 
+enum MathOperations{
+    ADD,
+    SUB, 
+    MUL, 
+    DIV, 
+}; 
+
+enum CmpOperations{
+    LT, 
+    GT,
+    LTE,
+    GTE, 
+    EQ,
+    NEQ, 
+}; 
+
+
 public class IRWriter {
     private class StreamWriter extends PrintWriter {
         private final Writer underlyingStream;
@@ -171,6 +188,72 @@ public class IRWriter {
         return variable;
     }
 
+    public Immediate addBinaryExpression(Immediate lhs, Immediate rhs, MathOperations op, int immediateIndex){
+        GenericType resType = lhs.type; 
+        if(lhs.type != rhs.type){
+            throw new RuntimeException("Binary expression with mismatched types!"); 
+        }
+       
+        var immediate = new Immediate(resType, "%" + immediateIndex); 
+        String production = immediate.id + " = "; 
+
+        switch(op){
+            case ADD: 
+                production += "add "; 
+                break; 
+            case SUB:
+                production += "sub "; 
+                break; 
+            case DIV: 
+                production += "sdiv "; 
+                break; 
+            case MUL: 
+                production += "mul "; 
+                break; 
+        }
+
+        production += convertType(resType); 
+        production += " " + lhs.id + ", " + rhs.id; 
+        writeln(production);
+        return immediate; 
+    }
+
+    public Immediate addComparisonExpressions(Immediate lhs, Immediate rhs, CmpOperations op, int immediateIndex){
+        GenericType resType = lhs.type;
+        if(lhs.type == rhs.type){
+            throw new RuntimeException("Binary expression with mismatched types!"); 
+        }
+        var compRes = new Immediate(resType, "%" + immediateIndex); 
+        String production = compRes.id + " icmp "; 
+
+        switch(op){
+            case LT:
+                production += " slt "; 
+                break;
+            case GT:
+                production += " sgt "; 
+                break; 
+            case LTE:
+                production += " sle ";
+                break; 
+            case GTE: 
+                production += " sge ";
+                break; 
+            case EQ:
+                production += " eq ";
+                break; 
+            case NEQ:
+                break; 
+        }
+
+        production += convertType(resType); 
+        production += " " + lhs.id + ", " + rhs.id;  
+        writeln(production);
+        return compRes; 
+    }
+
+
+
     public Immediate addVariableAccess(Immediate variable, int immediateIndex) {
         var immediate = new Immediate(GenericType.getValueType(variable.type), "%" + immediateIndex); // guaranteed to be a local
         String access = immediate.id + " = load " + convertType(immediate.type) + ", ptr " + variable.id;
@@ -208,4 +291,6 @@ public class IRWriter {
         writeln(bitcast);
         return result;
     }
+
+
 }

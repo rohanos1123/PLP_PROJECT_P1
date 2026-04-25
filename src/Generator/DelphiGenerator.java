@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.function.BiFunction;
 
+import Interpreter.Value;
 import Util.CLASS;
 import Util.CallableInfo;
 import Util.DelphiError;
@@ -568,6 +569,73 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         return new Immediate();
     }
 
+  
+    @Override
+    public GeneratorResult visitTerm(DelphiParser.TermContext ctx){
+        var lhs = getImmediate(visit(ctx.signedFactor())); 
+        var op = ctx.multiplicativeoperator(); 
+        if(op == null) return lhs; 
+        var rhs = getImmediate(visit(ctx.term())); 
+        MutableInteger count = immediateCounts.peek();
+        if(op.STAR() != null){
+            return writer.addBinaryExpression(lhs, rhs, MathOperations.MUL, count.inc()); 
+        }
+        else if(op.SLASH() != null){
+            return writer.addBinaryExpression(lhs, rhs, MathOperations.DIV, count.inc());
+        }
+    
+        return lhs; 
+
+    }
+    
+    @Override
+    public GeneratorResult visitSimpleExpression(DelphiParser.SimpleExpressionContext ctx){
+        var lhs = getImmediate(visit(ctx.term()));
+        var op = ctx.additiveoperator(); 
+        if(op == null) return lhs; 
+        var rhs = getImmediate(visit(ctx.simpleExpression())); 
+        var count = immediateCounts.peek(); 
+        if(op.PLUS() != null){
+            return writer.addBinaryExpression(lhs, rhs, MathOperations.ADD, count.inc()); 
+        }
+        else if(op.MINUS() != null){
+            return writer.addBinaryExpression(lhs, rhs, MathOperations.SUB, count.inc()); 
+        }
+        return lhs; 
+    }
+
+
+    @Override
+    public GeneratorResult visitExpression(DelphiParser.ExpressionContext ctx){
+        var lhs = getImmediate(visit(ctx.simpleExpression())); 
+        var op = ctx.relationaloperator(); 
+        if (op == null) return lhs; 
+        var rhs = getImmediate(visit(ctx.expression())); 
+        var count = immediateCounts.peek(); 
+
+        if(op.EQUAL() != null){
+            return writer.addComparisonExpressions(lhs, rhs, CmpOperations.EQ, count.inc());
+        }
+        else if(op.NOT_EQUAL() != null){
+            return writer.addComparisonExpressions(lhs, rhs, CmpOperations.NEQ, count.inc());
+        }
+        else if(op.LT() != null){
+            return writer.addComparisonExpressions(lhs, rhs, CmpOperations.LT, count.inc()); 
+        }
+        else if(op.LE() != null){
+            return writer.addComparisonExpressions(lhs, rhs, CmpOperations.LTE, count.inc()); 
+        }
+        else if(op.GE() != null){
+            return writer.addComparisonExpressions(lhs, rhs, CmpOperations.GTE, count.inc()); 
+        }
+        else if (op.GT() != null){
+            return writer.addComparisonExpressions(lhs, rhs, CmpOperations.GT, count.inc()); 
+        }
+
+        return lhs; 
+    }
+
+  
     @Override
     public GeneratorResult visitProcedureStatement(DelphiParser.ProcedureStatementContext ctx){
         var procedureName = getIdentifier(visit(ctx.identifier()));
