@@ -49,7 +49,7 @@ public class ScopeManager<T> {
         return size() < 2;
     }
     
-    public ArrayList<T> getLocalAliases() {
+    public ArrayList<T> getLocalAliases(boolean includeCurrentLocals) {
         ArrayList<T> aliases = new ArrayList<>();
         if (!global()) {
             var currScope = top().scope;
@@ -57,8 +57,10 @@ public class ScopeManager<T> {
             var prevAliases = currScope.localAliasMap;
             aliases.addAll(prevAliases.values());
             // add all current locals
-            var currLocals = currScope.definedLocal;
-            aliases.addAll(currLocals.values());
+            if (includeCurrentLocals) {
+                var currLocals = currScope.definedLocal;
+                aliases.addAll(currLocals.values());
+            }
         }
         return aliases;
     }
