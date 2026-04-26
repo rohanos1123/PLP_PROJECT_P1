@@ -766,7 +766,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         var finVal = getImmediate(visit(forList.finalValue())); 
         var mainValue = getImmediate(visit(ctx.variable())); 
 
-        CmpOperations cmp_operation = forList.DOWNTO() != null ?  CmpOperations.LTE : CmpOperations.GTE; 
+        CmpOperations cmp_operation = forList.DOWNTO() != null ?  CmpOperations.LT : CmpOperations.GT; 
         MathOperations math_operation = forList.DOWNTO() != null ? MathOperations.SUB : MathOperations.ADD; 
 
         var forCmp = writer.addComparisonExpressions(mainValue, finVal, cmp_operation, curr.inc());
