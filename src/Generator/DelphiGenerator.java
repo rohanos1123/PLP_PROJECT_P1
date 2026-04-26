@@ -643,6 +643,9 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         else if(op.SLASH() != null){
             return writer.addBinaryExpression(lhs, rhs, MathOperations.DIV, count.inc());
         }
+        else if(op.MOD() != null){
+            return writer.addBinaryExpression(lhs, rhs, MathOperations.MOD, count.inc()); 
+        }
     
         return lhs; 
 
@@ -691,7 +694,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         else if (op.GT() != null){
             return writer.addComparisonExpressions(lhs, rhs, CmpOperations.GT, count.inc()); 
         }
-
+    
         return lhs; 
     }
 
@@ -741,8 +744,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         var curr = immediateCounts.peek(); 
         int initialAddress = curr.value(); 
         writer.addUnconditionalBranch(initialAddress);
-      
-
+        
         // Adding a variable store where counter is equal to initial
         writer.addBlock(); 
         writer.addLabel(curr.inc()); 
@@ -763,8 +765,12 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         writer.addLabel(curr.inc()); 
         var finVal = getImmediate(visit(forList.finalValue())); 
         var mainValue = getImmediate(visit(ctx.variable())); 
-        var forCmp = writer.addComparisonExpressions(mainValue, finVal, CmpOperations.GT, curr.inc());
-        
+
+        CmpOperations cmp_operation = forList.DOWNTO() != null ?  CmpOperations.LTE : CmpOperations.GTE; 
+        MathOperations math_operation = forList.DOWNTO() != null ? MathOperations.SUB : MathOperations.ADD; 
+
+        var forCmp = writer.addComparisonExpressions(mainValue, finVal, cmp_operation, curr.inc());
+     
         // Body
         writer.addBlock();
         int bodyBranchLC = curr.value(); 
@@ -774,16 +780,30 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
 
         // Increment
         writer.addBlock(); 
+        int incLC = curr.value(); 
         writer.addLabel(curr.inc());
         var newVar = getImmediate(visit(ctx.variable())); 
-        var incResult = writer.addBinaryExpression(newVar, new Immediate(TYPE.INT, "1"), MathOperations.ADD, curr.inc()); 
+        var incResult = writer.addBinaryExpression(newVar, new Immediate(TYPE.INT, "1"), math_operation, curr.inc());
         immediateReferenceStack.push(true);
         var grabbedVariable = getImmediate(visit(ctx.variable())); 
         immediateReferenceStack.pop(); 
         writer.addVariableStore(grabbedVariable, incResult);
         writer.addUnconditionalBranch(compBranch);
 
-        writer.addForLoop(forCmp, bodyBranchLC, curr.inc()); 
+        writer.addForLoop(forCmp, bodyBranchLC, incLC, curr.inc()); 
+
+        return new Immediate(); 
+    }
+
+    @Override
+    public GeneratorResult visitControlStatement(DelphiParser.ControlStatementContext ctx){
+        var currIndex = immediateCounts.peek(); 
+        if(ctx.BREAK() != null){
+            writer.addBreakPlaceholder(currIndex.inc());
+        }
+        else{
+            writer.addContinuePlaceholder(currIndex.inc());
+        }   
 
         return new Immediate(); 
     }

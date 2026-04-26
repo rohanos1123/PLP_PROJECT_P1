@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.security.KeyStore.Entry;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
+import java.util.Map;
 
 import Util.CLASS;
 import Util.CallableInfo;
@@ -17,11 +19,13 @@ import Util.TypeInfo;
 import Util.Frame;
 import Util.GenericType;
 
+
 enum MathOperations{
     ADD,
     SUB, 
     MUL, 
     DIV, 
+    MOD, 
 }; 
 
 enum CmpOperations{
@@ -48,10 +52,14 @@ public class IRWriter {
         }
     }
 
+    // Simple pojo that contains loop bounds
+    private record ControlBound(int breakBound, int continueBound) {}; 
+
     private StreamWriter outputFile;
     private ScopeManager<Immediate> sm;
     private Deque<StreamWriter> functionStreams = new ArrayDeque<>();
     private boolean writingClass = false;
+
 
     public IRWriter(String outputFile, ScopeManager<Immediate> sm) throws IOException {
         this.outputFile = new StreamWriter(new FileWriter(outputFile));
@@ -119,6 +127,11 @@ public class IRWriter {
             targetStream.println(tab + s);
             targetStream.flush();
         }
+    }
+
+    private String replaceControlStatements(String bodyString, String breakBranch, String continueBranch){
+        String breakPass = bodyString.replace("BREAK_PLACEHOLDER", breakBranch);
+        return breakPass.replace("CONTINUE_PLACEHOLDER", continueBranch); 
     }
 
     public void writeln(String s, boolean global) {
@@ -210,6 +223,9 @@ public class IRWriter {
             case MUL: 
                 production += "mul "; 
                 break; 
+            case MOD : 
+                production += "srem ";
+                break; 
         }
 
         production += convertType(resType); 
@@ -254,6 +270,16 @@ public class IRWriter {
 
     public void addBlock(){
         functionStreams.push(new StreamWriter(new StringWriter()));
+    }
+
+    public void addContinuePlaceholder(int currIndex){
+        writeln("CONTINUE_PLACEHOLDER"); 
+        addLabel(currIndex);
+    }
+
+    public void addBreakPlaceholder(int currIndex){
+        writeln("BREAK_PLACEHOLDER");
+        addLabel(currIndex);
     }
 
     public void addBranchStatementAndFlush(Immediate target, int thenIndex, int elseIndex, int immediateIndex){
@@ -314,15 +340,20 @@ public class IRWriter {
         var condPart = functionStreams.peek(); 
         functionStreams.pop(); 
 
+        String breakBranch = "br label %" + jumpIndex;
+        String continueBranch = "br label %" + loopBackIndex; 
+
+        
         writeln(condPart.toString());
         String jumpConditional = "br i1 " + condImmediate.id + ", label %" + bodyIndex + ", label %" + jumpIndex; 
         writeln(jumpConditional);
-        writeln(bodyPart.toString());
+        //writeln(bodyPart.toString());
+        writeln(replaceControlStatements(bodyPart.toString(), breakBranch, continueBranch));
         addUnconditionalBranch(loopBackIndex);
         addLabel(jumpIndex); 
     }
 
-    public void addForLoop(Immediate forCmp, int bodyIndex, int currIndex){
+    public void addForLoop(Immediate forCmp, int bodyIndex, int incrementIndex, int currIndex){
         var incrementBlock = functionStreams.peek(); 
         functionStreams.pop(); 
         var bodyBlock = functionStreams.peek(); 
@@ -332,13 +363,20 @@ public class IRWriter {
         var intialBlock = functionStreams.peek(); 
         functionStreams.pop(); 
 
+        String breakBranch = "br label %" + currIndex; 
+        String continueBranch = "br label %" + incrementIndex;
+
+
         writeln(intialBlock.toString());
         writeln(comparisonBlock.toString());
         addConditionalBranch(forCmp, currIndex, bodyIndex);
-        writeln(bodyBlock.toString()); 
+        //writeln(bodyBlock.toString());
+        writeln(replaceControlStatements(bodyBlock.toString(), breakBranch, continueBranch));
         writeln(incrementBlock.toString());
         addLabel(currIndex); 
     }
+
+
 
     public Immediate addString(String literal, int size, int id) {
         var reference = new Immediate(TYPE.STRING, "@.str." + id);
