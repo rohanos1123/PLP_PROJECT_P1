@@ -33,6 +33,9 @@ To run the interpreter against one of the test files, run:
 To run the compiler against one of the test files, run:
 * `java -cp lib/antlr-4.13.2-complete.jar:bin Main compile tests/test{n}.pas`
 
+To compile to wasm with a sample html file, run:
+* `emcc output.ll -o output.html -sEXPORT_ES6=1 -sEXPORTED_FUNCTIONS=_f1,_f2,...`
+
 **Note: some of the test files may require user input before displaying anything.*
 
 **Note: some of the test files may output something like "Delphi Runtime Error: Line: k, Column: l: Msg...", these are not failing test cases but rather successful tests for erroneous behavior in the delphi source file.*
