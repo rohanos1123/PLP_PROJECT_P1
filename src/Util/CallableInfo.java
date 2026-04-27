@@ -1,27 +1,35 @@
-package Interpreter;
+package Util;
 
 import java.util.*;
 
 public class CallableInfo {
-    String name;
-    ArrayList<TYPE> parameterTypes = new ArrayList<>();
-    boolean variadic = false;
+    public String name;
+    public ArrayList<GenericType> parameterTypes = new ArrayList<>();
+    public boolean variadic = false;
     /* not relevant for identification */
-    ArrayList<String> parameterNames = new ArrayList<>();
-    TYPE returnType = TYPE.VOID;
+    public ArrayList<String> parameterNames = new ArrayList<>();
+    public GenericType returnType = TYPE.VOID;
 
     public CallableInfo(String name) {
         this.name = name;
     }
 
-    public CallableInfo(String name, ArrayList<TYPE> parameterTypes) {
+    public CallableInfo(String name, ArrayList<GenericType> parameterTypes) {
         this(name);
         this.parameterTypes = parameterTypes;
     }
 
-    public CallableInfo(String name, ArrayList<TYPE> parameterTypes, boolean variadic) {
+    public CallableInfo(String name, ArrayList<GenericType> parameterTypes, boolean variadic) {
         this(name, parameterTypes);
         this.variadic = variadic;
+    }
+
+    public CallableInfo(CallableInfo ci) {
+        this.name = ci.name;
+        this.parameterTypes.addAll(ci.parameterTypes);
+        this.variadic = ci.variadic;
+        this.parameterNames.addAll(ci.parameterNames);
+        this.returnType = ci.returnType;
     }
 
     @Override
