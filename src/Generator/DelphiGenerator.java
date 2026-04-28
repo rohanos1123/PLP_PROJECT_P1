@@ -1025,6 +1025,14 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     }
 
     @Override
+    public GeneratorResult visitChrLiteral(DelphiParser.ChrLiteralContext ctx){
+        var literal = ctx.CHAR_LITERAL().toString();
+        literal = literal.substring(1, literal.length() - 1); // need to do some extra conversions here if we want escape sequences
+        int charCode = literal.charAt(0);
+        return new Immediate(TYPE.CHAR, String.valueOf(charCode));
+    }
+
+    @Override
     public GeneratorResult visitConstantChr(DelphiParser.ConstantChrContext ctx){
         var charCode = getImmediate(visit(ctx.unsignedInteger()));
         return new Immediate(TYPE.CHAR, charCode.id);

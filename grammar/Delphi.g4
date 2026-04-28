@@ -129,6 +129,7 @@ constant
     | sign unsignedNumber
     | identifier
     | sign identifier
+    | chrLiteral
     | string
     | constantChr
     ;
@@ -154,6 +155,10 @@ sign
 bool_
     : TRUE
     | FALSE
+    ;
+
+chrLiteral
+    : CHAR_LITERAL
     ;
 
 string
@@ -455,6 +460,7 @@ factor
 
 unsignedConstant
     : unsignedNumber
+    | chrLiteral
     | constantChr
     | string
     | NIL
@@ -931,6 +937,10 @@ COMMENT_2
 
 IDENT
     : ('A' .. 'Z') ('A' .. 'Z' | '0' .. '9' | '_')*
+    ;
+
+CHAR_LITERAL
+    : '\'' ~ ('\'') '\''
     ;
 
 STRING_LITERAL
