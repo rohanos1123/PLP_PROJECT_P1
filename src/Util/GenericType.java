@@ -6,6 +6,8 @@ public sealed interface GenericType permits TYPE, CLASS {
             case TYPE tp -> switch (tp) {
                 case INT -> TYPE.INTPTR;
                 case BOOL -> TYPE.BOOLPTR;
+                case REAL -> TYPE.REALPTR;
+                case CHAR-> TYPE.CHARPTR;
                 default -> t;
             };
             case CLASS cp -> new CLASS(cp.name() + "*");
@@ -17,6 +19,8 @@ public sealed interface GenericType permits TYPE, CLASS {
             case TYPE tp -> switch (tp) {
                 case INTPTR -> TYPE.INT;
                 case BOOLPTR -> TYPE.BOOL;
+                case REALPTR -> TYPE.REAL;
+                case CHARPTR -> TYPE.CHAR;
                 default -> t;
             };
             case CLASS cp -> new CLASS(cp.name().substring(0, cp.name().length() - 1));
@@ -28,6 +32,8 @@ public sealed interface GenericType permits TYPE, CLASS {
             case TYPE tp -> switch (tp) {
                 case INTPTR -> true;
                 case BOOLPTR -> true;
+                case REALPTR -> true;
+                case CHARPTR -> true;
                 case STRING -> true;
                 default -> false;
             };

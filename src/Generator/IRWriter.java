@@ -25,9 +25,7 @@ enum MathOperations{
     SUB, 
     MUL, 
     DIV, 
-    MOD, 
-    AND, 
-    OR
+    MOD
 }; 
 
 enum LogicalOperations{
@@ -78,11 +76,15 @@ public class IRWriter {
         return switch (t) {
             case TYPE tp -> switch (tp) {
                 case INT -> "i32";
+                case REAL -> "double";
+                case CHAR -> "i8";
                 case BOOL -> "i1";
                 case STRING -> "i8*";
                 case VOID -> "void";
                 case INTPTR -> "i32*";
                 case BOOLPTR -> "i1*";
+                case REALPTR -> "double*";
+                case CHARPTR -> "i8*";
                 case REFERENCE -> "ptr";
                 default -> "";
             };
@@ -94,7 +96,9 @@ public class IRWriter {
         return switch (t) {
             case TYPE tp -> switch (tp) {
                 case INT -> "0";
+                case REAL -> "0.0";
                 case BOOL -> "0";
+                case CHAR -> "0";
                 case STRING -> "zeroinitializer";
                 default -> "";
             };
@@ -222,19 +226,19 @@ public class IRWriter {
 
         switch(op){
             case ADD: 
-                production += "add "; 
+                production += (resType == TYPE.INT) ? "add " : "fadd ";
                 break; 
             case SUB:
-                production += "sub "; 
+                production += (resType == TYPE.INT) ? "sub " : "fsub ";
                 break; 
             case DIV: 
-                production += "sdiv "; 
+                production += (resType == TYPE.INT) ? "sdiv " : "fdiv ";
                 break; 
             case MUL: 
-                production += "mul "; 
+                production += (resType == TYPE.INT) ? "mul " : "fmul ";
                 break; 
             case MOD : 
-                production += "srem ";
+                production += (resType == TYPE.INT) ? "srem " : "frem ";
                 break; 
         }
 

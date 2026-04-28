@@ -142,11 +142,23 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
                             formatString += "%d ";
                             type = (readAsReference()) ? type : "i32";
                             break;
+
+                        case REAL:
+                        case REALPTR:
+                            formatString += "%f ";
+                            type = (readAsReference()) ? type : "double";
+                            break;
     
                         case BOOL:
                         case BOOLPTR:
                             formatString += "%d ";
                             type = (readAsReference()) ? type : "i1";
+                            break;
+
+                        case CHAR:
+                        case CHARPTR:
+                            formatString += "%c ";
+                            type = (readAsReference()) ? type : "i8";
                             break;
                         
                         case STRING:
@@ -968,16 +980,12 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
 
 	@Override
     public GeneratorResult visitTypeIdentifier(DelphiParser.TypeIdentifierContext ctx) {
-        if (ctx.identifier() != null) {
-            return new Immediate(new CLASS("%" + getIdentifier(visit(ctx.identifier()))), "");
-        }
-        
-        if(ctx.BOOLEAN() != null){
-            return new Immediate(TYPE.BOOL, "");
-        }
-        else{
-            return new Immediate(TYPE.INT, "");
-        }
+        if(ctx.BOOLEAN() != null) return new Immediate(TYPE.BOOL, "");
+        if (ctx.INTEGER() != null)  return new Immediate(TYPE.INT, "");
+        if (ctx.REAL() != null)  return new Immediate(TYPE.REAL, "");
+        if (ctx.CHAR() != null)  return new Immediate(TYPE.CHAR, "");
+        if (ctx.STRING() != null)  return new Immediate(TYPE.STRING, "");
+        return new Immediate(new CLASS("%" + getIdentifier(visit(ctx.identifier()))), "");
     }
 
     @Override
@@ -985,13 +993,9 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         var factor = getImmediate(visit(ctx.factor()));
         if(ctx.MINUS() != null) {
             var count = immediateCounts.peek();
-            return writer.addBinaryExpression(new Immediate(TYPE.INT, "0"), factor, MathOperations.SUB, count.inc());
+            String zero = (factor.type == TYPE.INT) ? "0" : "0.0";
+            return writer.addBinaryExpression(new Immediate(factor.type, zero), factor, MathOperations.SUB, count.inc());
         }
-        else if(ctx.MINUS() != null) {
-            var count = immediateCounts.peek();
-            return writer.addBinaryExpression(new Immediate(TYPE.INT, "0"), factor, MathOperations.SUB, count.inc());
-        }
-
         return factor;
     }
 
@@ -1010,11 +1014,20 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         }
     }
 
-
-
     @Override
     public GeneratorResult visitUnsignedInteger(DelphiParser.UnsignedIntegerContext ctx){
         return new Immediate(TYPE.INT, ctx.NUM_INT().toString());
+    }
+
+    @Override
+    public GeneratorResult visitUnsignedReal(DelphiParser.UnsignedRealContext ctx){
+        return new Immediate(TYPE.REAL, ctx.NUM_REAL().toString());
+    }
+
+    @Override
+    public GeneratorResult visitConstantChr(DelphiParser.ConstantChrContext ctx){
+        var charCode = getImmediate(visit(ctx.unsignedInteger()));
+        return new Immediate(TYPE.CHAR, charCode.id);
     }
 
     @Override
