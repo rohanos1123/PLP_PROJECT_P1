@@ -646,6 +646,10 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         else if(op.MOD() != null){
             return writer.addBinaryExpression(lhs, rhs, MathOperations.MOD, count.inc()); 
         }
+        else if(op.AND() != null){
+            return writer.addLogicalExpression(lhs, rhs, LogicalOperations.AND, count.inc()); 
+        }
+        
     
         return lhs; 
 
@@ -664,9 +668,13 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         else if(op.MINUS() != null){
             return writer.addBinaryExpression(lhs, rhs, MathOperations.SUB, count.inc()); 
         }
+        else if(op.OR() != null){
+            return writer.addLogicalExpression(lhs, rhs, LogicalOperations.OR, count.inc()); 
+        }
+
+
         return lhs; 
     }
-
 
     @Override
     public GeneratorResult visitExpression(DelphiParser.ExpressionContext ctx){
@@ -963,7 +971,13 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         if (ctx.identifier() != null) {
             return new Immediate(new CLASS("%" + getIdentifier(visit(ctx.identifier()))), "");
         }
-        return new Immediate(TYPE.INT, "");
+        
+        if(ctx.BOOLEAN() != null){
+            return new Immediate(TYPE.BOOL, "");
+        }
+        else{
+            return new Immediate(TYPE.INT, "");
+        }
     }
 
     @Override
@@ -973,8 +987,30 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             var count = immediateCounts.peek();
             return writer.addBinaryExpression(new Immediate(TYPE.INT, "0"), factor, MathOperations.SUB, count.inc());
         }
+        else if(ctx.MINUS() != null) {
+            var count = immediateCounts.peek();
+            return writer.addBinaryExpression(new Immediate(TYPE.INT, "0"), factor, MathOperations.SUB, count.inc());
+        }
+
         return factor;
     }
+
+    @Override
+    public GeneratorResult visitFactor(DelphiParser.FactorContext ctx){
+        if(ctx.LPAREN() != null && ctx.RPAREN() != null){
+            return visit(ctx.expression()); 
+        }
+        else if(ctx.NOT() != null){
+            var res = getImmediate(visit(ctx.factor())); 
+            var count = immediateCounts.peek();
+            return writer.addLogicalExpression(new Immediate(TYPE.INT, "1"), res, LogicalOperations.XOR, count.inc());
+        }
+        else{
+            return visitChildren(ctx); 
+        }
+    }
+
+
 
     @Override
     public GeneratorResult visitUnsignedInteger(DelphiParser.UnsignedIntegerContext ctx){
@@ -992,6 +1028,12 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
 
     @Override
     public GeneratorResult visitBool_(DelphiParser.Bool_Context ctx){
-        return new Immediate(TYPE.BOOL, ctx.getText());
+        if(ctx.TRUE() != null){
+            return new Immediate(TYPE.BOOL, "1");
+        }
+        else{
+            return new Immediate(TYPE.BOOL, "0");
+        }
+        
     }
 }

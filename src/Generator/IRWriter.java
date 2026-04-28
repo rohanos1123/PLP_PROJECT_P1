@@ -26,6 +26,14 @@ enum MathOperations{
     MUL, 
     DIV, 
     MOD, 
+    AND, 
+    OR
+}; 
+
+enum LogicalOperations{
+    AND, 
+    OR, 
+    XOR
 }; 
 
 enum CmpOperations{
@@ -206,8 +214,10 @@ public class IRWriter {
         if(lhs.type != rhs.type){
             throw new RuntimeException("Binary expression with mismatched types!"); 
         }
+
        
         var immediate = new Immediate(resType, "%" + immediateIndex); 
+        immediate.type = resType; 
         String production = immediate.id + " = "; 
 
         switch(op){
@@ -234,12 +244,38 @@ public class IRWriter {
         return immediate; 
     }
 
+
+    public Immediate addLogicalExpression(Immediate lhs, Immediate rhs, LogicalOperations op, int immediateIndex){
+        GenericType resType = lhs.type; 
+    
+        var immediate = new Immediate(resType, "%" + immediateIndex); 
+        String production = immediate.id + " = "; 
+        immediate.type = TYPE.BOOL; 
+
+        switch(op){
+            case AND: 
+                production += "and "; 
+                break;
+            case OR: 
+                production += "or "; 
+                break; 
+            case XOR: 
+                production += "xor ";
+                break;  
+        }
+
+        production += " i1 " + lhs.id + ", " + rhs.id; 
+        writeln(production);
+        return immediate; 
+    }
+
     public Immediate addComparisonExpressions(Immediate lhs, Immediate rhs, CmpOperations op, int immediateIndex){
         GenericType resType = lhs.type;
         if(lhs.type != rhs.type){
             throw new RuntimeException("Comparison expression with mismatched types!"); 
         }
         var compRes = new Immediate(resType, "%" + immediateIndex); 
+        compRes.type = TYPE.BOOL; 
         String production = compRes.id + " = icmp"; 
 
         switch(op){
