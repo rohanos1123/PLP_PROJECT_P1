@@ -100,7 +100,7 @@ public class IRWriter {
                 case BOOL -> "0";
                 case CHAR -> "0";
                 case STRING -> "zeroinitializer";
-                default -> "";
+                default -> "null";
             };
             default -> "zeroinitializer";
         };
@@ -432,9 +432,27 @@ public class IRWriter {
         var immediate = new Immediate(GenericType.getPtrType(classMember.type), "%" + immediateIndex); // guaranteed to be local
         String access = immediate.id + " = getelementptr inbounds "
                       + convertType(GenericType.getValueType(object.type)) + ", ptr " + object.id
-                      + ", i32 " + classMember.id.substring(1); // strip 'c' to get idx
+                      + ", i32 0, i32 " + classMember.id.substring(1); // strip 'c' to get idx
         writeln(access);
         return immediate;
+    }
+
+    public int addMemcpy(Immediate dest, Immediate src, int immediateIndex) {
+        int classSize = GenericType.getSize(dest.type);
+        var size = new Immediate(TYPE.INT, String.valueOf(classSize));
+        if (classSize == 0) { // class type, need to compute size manually
+            var sizeTemp = new Immediate(TYPE.REFERENCE, "%" + immediateIndex++);
+            String getSize = sizeTemp.id + " = getelementptr " + convertType(dest.type) + ", " + convertType(dest.type) + " null, i32 1";
+            writeln(getSize);
+            var sizeImmediate = new Immediate(TYPE.INT, "%" + immediateIndex++);
+            String convertSize = sizeImmediate.id + " = ptrtoint " + convertType(dest.type) + " " + sizeTemp.id + " to i32";
+            writeln(convertSize);
+            size.id = sizeImmediate.id;
+        }
+        String memcpy = "call void @llvm.memcpy.p0.p0.i32(ptr " + dest.id
+                      + ", ptr " + src.id + ", i32 " + size.id + ", i1 false)";
+        writeln(memcpy);
+        return immediateIndex;
     }
 
     public void addVariableStore(Immediate variable, Immediate value) {

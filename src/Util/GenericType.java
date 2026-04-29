@@ -40,4 +40,17 @@ public sealed interface GenericType permits TYPE, CLASS {
             case CLASS cp -> cp.name().endsWith("*");
         };
     }
+
+    public static int getSize(GenericType t) {
+        return switch (t) {
+            case TYPE tp -> switch (tp) {
+                case INT -> 4;
+                case BOOL -> 1;
+                case REAL -> 8;
+                case CHAR-> 1;
+                default -> 4;
+            };
+            case @SuppressWarnings("unused") CLASS cp -> 0;
+        };
+    }
 }

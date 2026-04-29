@@ -43,9 +43,6 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     Deque<Boolean> immediateReferenceStack = new ArrayDeque<>();
     Deque<ACCESS_SPECIFIER> accessSpecifierStack = new ArrayDeque<>();
 
-    // stupid ptr hack for constructors
-    Immediate lastObjPtr;
-
     public DelphiGenerator(String outputFile) throws IOException {
         writer = new IRWriter(outputFile, sm);
     }
@@ -567,7 +564,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         String constructorName = getIdentifier(visit(ctx.identifier(1)));
         var tdata = this.typeInfo.get(className);
         var constructorId = createCallableInfo(constructorName, ctx.formalParameterList());
-        // constructorId.returnType = new CLASS("%" + className + "*");
+        constructorId.returnType = new CLASS("%" + className + "*");
 
         if(!tdata.hasMethod(constructorId)){
             throw new DelphiError("Constructor " + constructorName + " not declared in class " + className, ctx);
@@ -575,16 +572,16 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
 
         var qualifiedConstructor = addFrame(tdata, constructorId);
         tdata.registerMethod(constructorId, (args) -> {
-            // var count = immediateCounts.peek();
-            // var newObjectPtr = writer.addVariableDeclaration(new CLASS("%" + args.get(0).id), count.inc());
-            // args.set(0, newObjectPtr);
-            return writer.addCallableCall(qualifiedConstructor, args, 0);
+            var count = immediateCounts.peek();
+            var newObjectPtr = writer.addVariableDeclaration(args.get(0).type, count.inc());
+            args.set(0, newObjectPtr);
+            return writer.addCallableCall(qualifiedConstructor, args, count.inc());
         });
 
         createCallableEntrypoint(qualifiedConstructor);
         visit(ctx.block());
-        // var object = sm.getVariable("Self").get();
-        // writer.addVariableStore(sm.getVariable("Result").get(), object);
+        var object = sm.getVariable("Self").get();
+        writer.addVariableStore(sm.getVariable("Result").get(), object);
         createCallableReturn(qualifiedConstructor);
         popFrame();
 
@@ -622,17 +619,16 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         immediateReferenceStack.push(true);
         var storeTarget = getImmediate(visit(ctx.variable()));
         immediateReferenceStack.pop();
-        this.lastObjPtr = storeTarget; // hack to get around ptr memcpy not working
         var value = getImmediate(visit(ctx.expression()));
-     
-       
-
-        if (value.type != TYPE.VOID) { // for now to account for constructor assignment
-            var targetSt = getImmediate(visit(ctx.variable()));
-            if(value.type != targetSt.type){
-                throw new DelphiError("Invalid assignment of type " + value.type.toString() + " to " + targetSt.type.toString(), ctx); 
+        if (GenericType.isPtr(value.type)) {
+            int newIndex = writer.addMemcpy(storeTarget, value, immediateCounts.pop().value());
+            immediateCounts.push(new MutableInteger(newIndex));
+        }
+        else {
+            var lhsType = GenericType.getValueType(storeTarget.type);
+            if(value.type != lhsType){
+                throw new DelphiError("Invalid assignment of type " + value.type.toString() + " to " + lhsType.toString(), ctx); 
             }
-
             writer.addVariableStore(storeTarget, value);
         }
         return storeTarget;
@@ -912,7 +908,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
                 throw new DelphiError("No such method named: " + methodName, ctx);
             }
             var method = this.typeInfo.get(variableName).getMethod(methodId);
-            args.add(0, this.lastObjPtr); // for now cause the ptr memcpy doesnt work
+            var classImmediate = new Immediate(new CLASS("%" + ti.name), "");
+            args.add(0, classImmediate);
             return method.apply(args);
         }
         else if (variable.isPresent()) {
@@ -945,7 +942,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             if (resolvedVariable.id.startsWith("c")) { // class member (omitted Self)
                 return accessObjectMember.apply(sm.getVariable("Self").get(), resolvedVariable);
             }
-            if (readAsReference()) return resolvedVariable;
+            if (readAsReference() || ctx.AT() != null) return resolvedVariable;
             var count = immediateCounts.peek();
             var result = writer.addVariableAccess(resolvedVariable, count.inc());
             return result;
@@ -971,7 +968,8 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
             if (!ti.hasMethod(methodId)) {
                 throw new DelphiError("No such method named: " + memberName, ctx);
             }
-            return ti.getMethod(methodId).apply(new ArrayList<>(Arrays.asList(this.lastObjPtr))); // for now cause the ptr memcpy doesnt work
+            var classImmediate = new Immediate(new CLASS("%" + ti.name), "");
+            return ti.getMethod(methodId).apply(new ArrayList<>(Arrays.asList(classImmediate)));
         }
         else if (function.isPresent()) { // function application syntax sugar
             return function.get().apply(new ArrayList<>());
@@ -1026,6 +1024,13 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
     @Override
     public GeneratorResult visitIdentifier(DelphiParser.IdentifierContext ctx){
         return new Identifier(ctx.IDENT().toString());
+    }
+
+    @Override
+    public GeneratorResult visitPointerType(DelphiParser.PointerTypeContext ctx) {
+        var valueType = getImmediate(visit(ctx.typeIdentifier())).type;
+        var ptrType = GenericType.getPtrType(valueType);
+        return new Immediate(ptrType, "");
     }
 
 	@Override
