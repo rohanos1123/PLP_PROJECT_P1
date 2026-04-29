@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.KeyStore.Entry;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -68,6 +71,8 @@ public class IRWriter {
 
 
     public IRWriter(String outputFile, ScopeManager<Immediate> sm) throws IOException {
+        Path path = Paths.get(outputFile);
+        Files.createDirectories(path.getParent());
         this.outputFile = new StreamWriter(new FileWriter(outputFile));
         this.sm = sm;
     }
