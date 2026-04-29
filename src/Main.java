@@ -16,7 +16,8 @@ public class Main{
                                        "Please provide the execution mode [compile | interpret] and the target file.");
         }
 
-        CharStream input = CharStreams.fromFileName(args[1]);
+        String filename = args[1];
+        CharStream input = CharStreams.fromFileName(filename);
 
         DelphiLexer lexer = new DelphiLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -34,7 +35,10 @@ public class Main{
         }
         else if (args[0].equals("compile")) {
             try {
-                DelphiGenerator generator = new DelphiGenerator("output.ll");
+                if (filename.startsWith("tests/")) {
+                    filename = filename.replace("tests/", "output/");
+                }
+                DelphiGenerator generator = new DelphiGenerator(filename.replace(".pas", ".ll"));
                 generator.visit(tree);
             } catch (DelphiError e) {
                 System.err.println("Delphi Compilation Error: " + e.getMessage());
