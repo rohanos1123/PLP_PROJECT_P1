@@ -34,7 +34,6 @@ public sealed interface GenericType permits TYPE, CLASS {
                 case BOOLPTR -> true;
                 case REALPTR -> true;
                 case CHARPTR -> true;
-                case STRING -> true;
                 default -> false;
             };
             case CLASS cp -> cp.name().endsWith("*");
