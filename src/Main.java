@@ -5,6 +5,7 @@ import grammar.DelphiParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.runtime.tree.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+import java.io.FileWriter; 
 
 import Generator.DelphiGenerator;
 
@@ -34,14 +35,21 @@ public class Main{
             }
         }
         else if (args[0].equals("compile")) {
+            String outputFN = ""; 
+            if (filename.startsWith("tests/")) {
+                filename = filename.replace("tests/", "output/");
+                outputFN = filename.replace(".pas", ".ll"); 
+            }
+
             try {
-                if (filename.startsWith("tests/")) {
-                    filename = filename.replace("tests/", "output/");
-                }
-                DelphiGenerator generator = new DelphiGenerator(filename.replace(".pas", ".ll"));
+                DelphiGenerator generator = new DelphiGenerator(outputFN);
                 generator.visit(tree);
             } catch (DelphiError e) {
                 System.err.println("Delphi Compilation Error: " + e.getMessage());
+                FileWriter fw = new FileWriter(outputFN); 
+                fw.write("define i32 @main() {ret i32 1}");
+                fw.close(); 
+
             }
         }
         else {
