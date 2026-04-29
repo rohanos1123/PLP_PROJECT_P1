@@ -31,6 +31,7 @@
 ## Compiling and Running the Compiler
 This project was compiled and tested using the OpenJDK implementation of java, version 25.0.2. Other versions should work but if there are any issues, use that version to compile and run.
 To compile all necessary files for the compiler, run:
+* `java -jar lib/antlr-4.13.2-complete.jar -Dlanguage=Java -visitor -o gen -package grammar grammar/Delphi.g4`
 * `javac -d bin/ -cp lib/antlr-4.13.2-complete.jar gen/grammar/*.java src/**/*.java`
 
 To run the compiler against one of the test files, run:
@@ -45,7 +46,7 @@ To run a native binary compiled with llvm, run: (Note that compiled .ll files wh
 
 To compile to wasm with a js glue file, run (ENSURE EMSCRIPTEN IS INSTALLED):
 * `mkdir wasm`
-* `emcc output/test{n}.ll -o wasm/test{n}.js -sEXPORT_ES6=1 -sEXPORTED_FUNCTIONS=_f1,_f2,...`
+* `emcc output/test{n}.ll -o wasm/test{n}.js -sEXPORT_ES6=1 -sINVOKE_RUN=0 --emrun -sEXPORTED_FUNCTIONS=_f1,_f2,...`
 
 **Note: some of the test files may require user input before displaying anything.*
 
