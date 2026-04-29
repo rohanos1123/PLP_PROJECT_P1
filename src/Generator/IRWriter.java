@@ -214,12 +214,7 @@ public class IRWriter {
     }
 
     public Immediate addBinaryExpression(Immediate lhs, Immediate rhs, MathOperations op, int immediateIndex){
-        GenericType resType = lhs.type; 
-        if(lhs.type != rhs.type){
-            throw new RuntimeException("Binary expression with mismatched types!"); 
-        }
-
-       
+        GenericType resType = lhs.type;    
         var immediate = new Immediate(resType, "%" + immediateIndex); 
         immediate.type = resType; 
         String production = immediate.id + " = "; 

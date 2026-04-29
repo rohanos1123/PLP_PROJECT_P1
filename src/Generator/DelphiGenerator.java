@@ -624,7 +624,15 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         immediateReferenceStack.pop();
         this.lastObjPtr = storeTarget; // hack to get around ptr memcpy not working
         var value = getImmediate(visit(ctx.expression()));
+     
+       
+
         if (value.type != TYPE.VOID) { // for now to account for constructor assignment
+            var targetSt = getImmediate(visit(ctx.variable()));
+            if(value.type != targetSt.type){
+                throw new DelphiError("Invalid assignment of type " + value.type.toString() + " to " + targetSt.type.toString(), ctx); 
+            }
+
             writer.addVariableStore(storeTarget, value);
         }
         return storeTarget;
@@ -649,22 +657,32 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         if(op == null) return lhs; 
         var rhs = getImmediate(visit(ctx.term())); 
         MutableInteger count = immediateCounts.peek();
-        if(op.STAR() != null){
-            return writer.addBinaryExpression(lhs, rhs, MathOperations.MUL, count.inc()); 
-        }
-        else if(op.SLASH() != null){
-            return writer.addBinaryExpression(lhs, rhs, MathOperations.DIV, count.inc());
-        }
-        else if(op.MOD() != null){
-            return writer.addBinaryExpression(lhs, rhs, MathOperations.MOD, count.inc()); 
-        }
-        else if(op.AND() != null){
+       
+        if(op.AND() != null){
+            if(lhs.type != TYPE.BOOL || rhs.type != TYPE.BOOL){
+                throw new DelphiError("Arguments to logical operation AND are not of type Boolean. Actual types: " + lhs.type.toString() + " and " + rhs.type.toString(), ctx); 
+            }
             return writer.addLogicalExpression(lhs, rhs, LogicalOperations.AND, count.inc()); 
         }
-        
-    
-        return lhs; 
+        else{               
+            if(!(lhs.type == rhs.type && (lhs.type == TYPE.INT || lhs.type == TYPE.REAL))){
+                throw new DelphiError("Invalid arguments for binary operation of type " + lhs.type.toString() + " and " + rhs.type.toString(), ctx); 
+            }
 
+            if(op.STAR() != null){
+                return writer.addBinaryExpression(lhs, rhs, MathOperations.MUL, count.inc()); 
+            }
+            else if(op.SLASH() != null){
+                return writer.addBinaryExpression(lhs, rhs, MathOperations.DIV, count.inc());
+            }
+            else if(op.MOD() != null){
+                if(lhs.type != TYPE.INT){
+                    throw new DelphiError("Invalid arguments for MOD operation of type " + lhs.type.toString() + " and " + rhs.type.toString(), ctx); 
+                }
+                return writer.addBinaryExpression(lhs, rhs, MathOperations.MOD, count.inc()); 
+            }
+        }
+        return lhs; 
     }
     
     @Override
@@ -674,15 +692,31 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         if(op == null) return lhs; 
         var rhs = getImmediate(visit(ctx.simpleExpression())); 
         var count = immediateCounts.peek(); 
-        if(op.PLUS() != null){
-            return writer.addBinaryExpression(lhs, rhs, MathOperations.ADD, count.inc()); 
-        }
-        else if(op.MINUS() != null){
-            return writer.addBinaryExpression(lhs, rhs, MathOperations.SUB, count.inc()); 
-        }
-        else if(op.OR() != null){
+
+        if(op.OR() != null){
+            if(lhs.type != TYPE.BOOL){
+                throw new DelphiError("Arguments to logical operation OR are not of type Boolean. Actual types: " + lhs.type.toString() + " and " + rhs.type.toString(), ctx); 
+            }
+
             return writer.addLogicalExpression(lhs, rhs, LogicalOperations.OR, count.inc()); 
         }
+        else{
+            if(!(lhs.type == rhs.type && (lhs.type == TYPE.INT || lhs.type == TYPE.REAL ))){
+                throw new DelphiError("Invalid arguments for binary operation of type " + lhs.type.toString() + " and " + rhs.type.toString(), ctx); 
+            }
+
+            if(op.PLUS() != null){
+                return writer.addBinaryExpression(lhs, rhs, MathOperations.ADD, count.inc()); 
+            }
+            else if(op.MINUS() != null){
+                return writer.addBinaryExpression(lhs, rhs, MathOperations.SUB, count.inc()); 
+            }
+      
+        }
+
+
+      
+      
 
 
         return lhs; 
@@ -695,6 +729,10 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         if (op == null) return lhs; 
         var rhs = getImmediate(visit(ctx.expression())); 
         var count = immediateCounts.peek(); 
+
+        if(lhs.type != rhs.type){
+            throw new DelphiError("Invalid comparison operation between types: " + lhs.type.toString() + " and " + rhs.type.toString(), ctx); 
+        }
 
         if(op.EQUAL() != null){
             return writer.addComparisonExpressions(lhs, rhs, CmpOperations.EQ, count.inc());
@@ -739,6 +777,10 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         }
 
         var curr = immediateCounts.peek(); 
+        if(conditionImmediate.type != TYPE.BOOL){
+            throw new DelphiError("If statement condition is not of type BOOLEAN. Actual Type: " + conditionImmediate.type.toString(), ctx); 
+        }
+
         writer.addBranchStatementAndFlush(conditionImmediate, thenLabel, elseLabel, curr.inc());
         return new Immediate();  
     }
@@ -789,8 +831,15 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         CmpOperations cmp_operation = forList.DOWNTO() != null ?  CmpOperations.LT : CmpOperations.GT; 
         MathOperations math_operation = forList.DOWNTO() != null ? MathOperations.SUB : MathOperations.ADD; 
 
+        if(finVal.type != TYPE.INT){
+            throw new DelphiError("Final variable is not of type INT. Actual type: " + finVal.type.toString(), ctx); 
+        }
+        else if(mainValue.type != TYPE.INT){
+            throw new DelphiError("Counter variable is not of type INT. Actual type: " + mainValue.type.toString(), ctx); 
+        }
+
         var forCmp = writer.addComparisonExpressions(mainValue, finVal, cmp_operation, curr.inc());
-     
+        
         // Body
         writer.addBlock();
         int bodyBranchLC = curr.value(); 
@@ -803,6 +852,7 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         int incLC = curr.value(); 
         writer.addLabel(curr.inc());
         var newVar = getImmediate(visit(ctx.variable())); 
+
         var incResult = writer.addBinaryExpression(newVar, new Immediate(TYPE.INT, "1"), math_operation, curr.inc());
         immediateReferenceStack.push(true);
         var grabbedVariable = getImmediate(visit(ctx.variable())); 
@@ -1007,6 +1057,11 @@ public class DelphiGenerator extends DelphiBaseVisitor<GeneratorResult> {
         else if(ctx.NOT() != null){
             var res = getImmediate(visit(ctx.factor())); 
             var count = immediateCounts.peek();
+            if(res.type != TYPE.BOOL){
+                throw new DelphiError("Argument for NOT is not a boolean. Actual Type:  " + res.type.toString(), ctx); 
+            }
+
+
             return writer.addLogicalExpression(new Immediate(TYPE.INT, "1"), res, LogicalOperations.XOR, count.inc());
         }
         else{
