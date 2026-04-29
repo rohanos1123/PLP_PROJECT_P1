@@ -6,6 +6,7 @@
 * Delphi grammar implementation is found under `grammar/Delphi.g4`.
 * All source files for the Java compiler are found under `src/Generator/`, the entrypoint/driver program is found under `src/Main.java`.
 * All test example files are in the `tests/` directory, each named `test{n}.pas` *(test files range from test0.pas to test28.pas)*.
+* All generated llvm ir (`.ll`) files are in the `output/` directory, each named `test{n}.ll`.
 
 ## Working Features
 * Classes and Objects
@@ -34,7 +35,7 @@ To compile all necessary files for the compiler, run:
 * `java -jar lib/antlr-4.13.2-complete.jar -Dlanguage=Java -visitor -o gen -package grammar grammar/Delphi.g4`
 * `javac -d bin/ -cp lib/antlr-4.13.2-complete.jar gen/grammar/*.java src/**/*.java`
 
-To run the compiler against one of the test files, run:
+To run the compiler against one of the test files to generate the ir, run:
 * `java -cp lib/antlr-4.13.2-complete.jar:bin Main compile tests/test{n}.pas`
 * The output file llvm ir file will be located under `output/test{n}.ll`
 
@@ -47,6 +48,13 @@ To run a native binary compiled with llvm, run: (Note that compiled .ll files wh
 To compile to wasm with a js glue file, run (ENSURE EMSCRIPTEN IS INSTALLED):
 * `mkdir wasm`
 * `emcc output/test{n}.ll -o wasm/test{n}.js -sEXPORT_ES6=1 -sINVOKE_RUN=0 --emrun -sEXPORTED_FUNCTIONS=_f1,_f2,...`
+
+To run the wasm code with the js glue files, start a web server to host `playground.html`. The UI will have 3 text input boxes that do the following:
+* First one requests a path to the js glue file to run ie. `./wasm/test16.js`
+* Second one requests an exported function to run ie. `_main`
+* Third requests a comma separated list of arguments to the function provided ie. `1,2,3` (Note `_main` takes no arguments)
+* Finally, to execute, click the `Run Delphi Function` button
+
 
 **Note: some of the test files may require user input before displaying anything.*
 
